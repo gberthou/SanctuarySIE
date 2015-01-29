@@ -22,6 +22,6 @@ $(CLEAN):
 	rm -f $(BIN) $(OBJABS)
 
 
-$(OBJDIR)/%.o: %.c
+$(OBJDIR)/%.o: %.cpp
 	$(GPP) $(CFLAGS) -c -o $@ $<
 
