@@ -14,7 +14,7 @@ RELEASE=release
 GPP=g++
 CFLAGS=-Wall
 
-CPPFILES=main.cpp
+CPPFILES=main.cpp Level.cpp LevelFactory.cpp Map.cpp
 
 OBJ=$(CPPFILES:.cpp=.o)
 OBJABS=$(addprefix $(OBJDIR)/,$(OBJ))
