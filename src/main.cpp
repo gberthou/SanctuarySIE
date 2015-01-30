@@ -1,9 +1,18 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 
+#include "Resources.h"
+#include "Map.h"
+
 int main(void)
 {
 	sf::RenderWindow window(sf::VideoMode(800, 600), "Sample");
+
+	Map map;
+
+	Resources::Load();
+
+	map.Load();
 
 	while(window.isOpen())
 	{
@@ -15,6 +24,9 @@ int main(void)
 		}
 
 		window.clear(sf::Color::Black);
+		
+		window.draw(map);
+		
 		window.display();
 	}
 
