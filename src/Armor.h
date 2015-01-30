@@ -1,14 +1,15 @@
 #ifndef ARMOR_H
 #define ARMOR_H
 
-#include "Item.h"
+#include "Stuff.h"
 #include "Stats.h"
 
-class Armor : public Item
+class Armor : public Stuff
 {
     public:
-        Armor(Stats *stats1);
+        Armor(Stats *stats1, unsigned int buyPrice1, unsigned int sellPrice1, sf::String description1);
         virtual ~Armor();
+        virtual void PickUp() const;
     protected:
     private:
 };

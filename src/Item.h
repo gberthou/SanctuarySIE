@@ -2,19 +2,15 @@
 #ifndef ITEM_H
 #define ITEM_H
 
-#include "Stats.h"
-
 class Item
 {
     public:
-        Item(Stats *stats1);
+        Item();
         virtual ~Item();
+        virtual void PickUp() const = 0;
     protected:
-        Stats *stats;
+
     private:
-
-
-
 };
 
 

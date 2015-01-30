@@ -5,6 +5,11 @@ ItemFactory::ItemFactory()
     //ctor
 }
 
+ItemFactory::~ItemFactory()
+{
+    //dtor
+}
+
 Weapon* ItemFactory::CreateWeapon(WeaponType type)
 {
     switch(type)
@@ -18,15 +23,22 @@ Weapon* ItemFactory::CreateWeapon(WeaponType type)
 
 Armor* ItemFactory::CreateArmor(ArmorType type)
 {
-
+    switch(type)
+    {
+        //case :
+        //    return new ;
+        default:
+            return 0;
+    }
 }
 
 Accessory* ItemFactory::CreateAccessory(AccessoryType type)
 {
-
-}
-
-ItemFactory::~ItemFactory()
-{
-    //dtor
+    switch(type)
+    {
+        //case :
+        //    return new ;
+        default:
+            return 0;
+    }
 }

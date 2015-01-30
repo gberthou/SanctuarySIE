@@ -1,14 +1,15 @@
 #ifndef ACCESSORY_H
 #define ACCESSORY_H
 
-#include "Item.h"
+#include "Stuff.h"
 #include "Stats.h"
 
-class Accessory : public Item
+class Accessory : public Stuff
 {
     public:
-        Accessory(Stats *stats1);
+        Accessory(Stats *stats1, unsigned int buyPrice1, unsigned int sellPrice1, sf::String description1);
         virtual ~Accessory();
+        virtual void PickUp() const;
     protected:
     private:
 };
