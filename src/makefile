@@ -1,9 +1,15 @@
-BINDIR=./bin
-OBJDIR=./obj
+BINDIR=bin
+OBJDIR=obj
 
 BINNAME=SanctuarySIE
 BIN=$(BINDIR)/$(BINNAME)
 CLEAN=clean
+
+DEBUGDIR=Debug
+RELEASEDIR=Release
+
+DEBUG=debug
+RELEASE=release
 
 GPP=g++
 CFLAGS=-Wall
@@ -13,15 +19,29 @@ CPPFILES=main.cpp
 OBJ=$(CPPFILES:.cpp=.o)
 OBJABS=$(addprefix $(OBJDIR)/,$(OBJ))
 
+OBJDEBUG=$(addprefix $(DEBUGDIR)/,$(OBJABS))
+OBJRELEASE=$(addprefix $(RELEASEDIR)/,$(OBJABS))
+
+BINDEBUG=$(addprefix $(DEBUGDIR)/,$(BIN))
+BINRELEASE=$(addprefix $(RELEASEDIR)/,$(BIN))
+
+FLAGSDEBUG=-g -pg
+FLAGSRELEASE=-O2
+
 LIBS=-lsfml-system -lsfml-window -lsfml-graphics
 
-$(BIN): $(OBJABS)
-	$(GPP) $(CFLAGS) $(LIBS) -o $(BIN) $(OBJABS)
+$(DEBUG): $(OBJDEBUG)
+	$(GPP) $(CFLAGS) $(FLAGSDEBUG) $(LIBS) -o $(BINDEBUG) $(OBJDEBUG)
+
+$(RELEASE): $(OBJRELEASE)
+	$(GPP) $(CFLAGS) $(FLAGSRELEASE) $(LIBS) -o $(BINRELEASE) $(OBJRELEASE)
 
 $(CLEAN):
-	rm -f $(BIN) $(OBJABS)
+	rm -f $(BINDEBUG) $(BINRELEASE) $(OBJDEBUG) $(OBJRELEASE)
 
+$(DEBUGDIR)/$(OBJDIR)/%.o: %.cpp
+	$(GPP) $(CFLAGS) $(FLAGSDEBUG) -c -o $@ $<
 
-$(OBJDIR)/%.o: %.cpp
-	$(GPP) $(CFLAGS) -c -o $@ $<
+$(RELEASEDIR)/$(OBJDIR)/%.o: %.cpp
+	$(GPP) $(CFLAGS) $(FLAGSRELEASE) -c -o $@ $<
 
