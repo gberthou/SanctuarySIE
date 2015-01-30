@@ -13,10 +13,12 @@ class Map : public sf::Drawable
 		Map();
 		virtual ~Map();
 	
-		virtual void draw(sf::RenderTarget &target, sf::RenderStates states);
+		void Load(void);
+
+		virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 	private:
-		void load(void);
 		
+		// data
 		std::vector<Level*> levels;
 };
 
