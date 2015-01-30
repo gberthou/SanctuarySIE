@@ -11,7 +11,7 @@ Weapon::~Weapon()
 
 }
 
-void Weapon::PickUp() const
+void Weapon::PickUp(Character *character) const
 {
     // Empty on purpose : cannot pick up weapon
 }

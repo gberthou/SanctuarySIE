@@ -11,7 +11,7 @@ Accessory::~Accessory()
     //dtor
 }
 
-void Accessory::PickUp() const
+void Accessory::PickUp(Character *character) const
 {
     // Empty on purpose : cannot pick up accessory
 }
