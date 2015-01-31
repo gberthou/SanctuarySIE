@@ -17,15 +17,6 @@ Character::~Character()
     delete inventory;
 }
 
-void Character::draw(sf::RenderTarget &target, sf::RenderStates states) const
-{
-    sf::Sprite chara = sf::Sprite(sprite);
-
-    chara.setPosition(128,128);
-
-    target.draw(chara,states);
-}
-
 void Character::AddGold(int amount)
 {
     inventory->AddGold(amount);

@@ -16,6 +16,19 @@ int main(void)
 	Character* chara = new Character();
 
 	sanctuaryMap.Load();
+	Physics physics;
+	physics.AddEntity(chara);
+
+    sf::Image bitmap;
+	bitmap.loadFromFile("img/bitmap.png");
+
+	sf::Sprite spriteBitmap;
+	sf::Texture texmap;
+	texmap.loadFromImage(bitmap);
+	spriteBitmap.setTexture(texmap);
+
+	physics.AddCollisionMap(&bitmap);
+
 
 	while(window.isOpen())
 	{
@@ -26,10 +39,13 @@ int main(void)
 				window.close();
 		}
 
-		window.clear(sf::Color::Black);
+		physics.Update();
 
-		window.draw(sanctuaryMap);
+		window.clear(sf::Color::Black);
+        window.draw(spriteBitmap);
+		//window.draw(sanctuaryMap);
 		window.draw(*chara);
+
 
 		window.display();
 	}
