@@ -1,11 +1,20 @@
 #include "Mob.h"
 
-Mob::Mob()
+Mob::Mob():
+	path(0)
 {
-    //ctor
 }
 
 Mob::~Mob()
 {
     delete stats;
+
+    if(path != 0)
+	    delete path;
 }
+
+void Mob::SetPath(Path *path1)
+{
+	path = path1;
+}
+
