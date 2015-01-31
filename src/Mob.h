@@ -6,6 +6,7 @@
 #include "Status.h"
 #include "Stats.h"
 #include "Path.h"
+#include "Entity.h"
 
 enum MobBehavior
 {
@@ -13,10 +14,10 @@ enum MobBehavior
 	ATTACKING
 };
 
-class Mob
+class Mob : public Entity
 {
     public:
-        Mob();
+        Mob(const sf::Texture &texture);
         virtual ~Mob();
         unsigned int getPower();
         bool Hurt(unsigned int damage);
@@ -33,9 +34,6 @@ class Mob
         Stats *stats;               // Basic stats
         MobBehavior behavior;       // Behavior
         Path *path;                 // Predefined path
-
-        // "Hidden" attributes
-        sf::Sprite sprite;          // Sprite?
 };
 
 #endif // MOB_H

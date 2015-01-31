@@ -1,8 +1,9 @@
 #include "Mob.h"
 
-Mob::Mob():
+Mob::Mob(const sf::Texture &texture):
 	path(0)
 {
+	sprite.setTexture(texture);
 }
 
 Mob::~Mob()

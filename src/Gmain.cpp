@@ -5,6 +5,7 @@
 #include "Map.h"
 #include "Character.h"
 #include "LevelBg.h"
+#include "MobFactory.h"
 
 int main(void)
 {
@@ -13,7 +14,11 @@ int main(void)
 
 	sf::RenderWindow window(sf::VideoMode(W, H), "Sample");
 
+	Mob *mob;
+	
 	Resources::Load();
+
+	mob = MobFactory::CreateGiantBat();
 
 	while(window.isOpen())
 	{
@@ -25,6 +30,8 @@ int main(void)
 		}
 
 		window.clear(sf::Color::Black);
+
+		window.draw(*mob);
 
 		window.display();
 	}
