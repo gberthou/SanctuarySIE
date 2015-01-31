@@ -1,8 +1,7 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
-#include <SFML/Graphics.hpp>
-
+#include "Entity.h"
 #include "Inventory.h"
 #include "Stats.h"
 #include "CharacterState.h"
@@ -10,12 +9,11 @@
 #include "Resources.h"
 #include "Gameplay.h"
 
-class Character : public sf::Drawable
+class Character : public Entity
 {
     public:
         Character();
         virtual ~Character();
-        virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
         void AddGold(int amount);
         void AddMana(int amount);
         unsigned int DealDamage(unsigned int power, Status ownStatus, unsigned int defense, Status enemyStatus);
@@ -35,7 +33,6 @@ class Character : public sf::Drawable
         Inventory *inventory;       // Inventory
 
         // "Hidden" attributes
-        sf::Sprite sprite;          // Sprite?
         CharacterState state;       // State
 };
 
