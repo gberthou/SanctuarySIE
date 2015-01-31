@@ -8,7 +8,7 @@
 class Weapon : public Stuff
 {
     public:
-        Weapon(Stats *stats1, unsigned int buyPrice1, unsigned int sellPrice1, sf::String description1);
+        Weapon(Stats *stats1, sf::String name1, sf::String description1, bool trade1, unsigned int sellPrice1, unsigned int buyPrice1);
         virtual ~Weapon();
         virtual void PickUp(Character *character) const;
     protected:

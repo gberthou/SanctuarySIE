@@ -8,12 +8,15 @@ class Weapon;
 class Accessory;
 class Consumable;
 class Permanent;
+class Item;
 
 class Inventory
 {
     public:
         Inventory();
         virtual ~Inventory();
+        void AddGold(int amount);
+        void Sell(Item* toSell);
     protected:
     private:
         unsigned int gold;

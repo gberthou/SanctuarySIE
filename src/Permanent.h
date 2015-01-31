@@ -1,13 +1,13 @@
 #ifndef PERMANENT_H
 #define PERMANENT_H
 
-#include "Item.h"
+#include "Tradable.h"
 
 
-class Permanent : public Item
+class Permanent : public Tradable
 {
     public:
-        Permanent();
+        Permanent(sf::String name1, sf::String description1, bool trade1, unsigned int sellPrice1, unsigned int buyPrice1);
         virtual ~Permanent();
     protected:
     private:

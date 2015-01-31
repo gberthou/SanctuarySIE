@@ -25,3 +25,13 @@ void Character::draw(sf::RenderTarget &target, sf::RenderStates states) const
 
     target.draw(chara,states);
 }
+
+void Character::AddGold(int amount)
+{
+    inventory->AddGold(amount);
+}
+
+void Character::AddMana(int amount)
+{
+    mp = ((mp + amount) < maxMP) ? ((mp + amount > 0) ? mp + amount : 0) : maxMP;
+}
