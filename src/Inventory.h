@@ -8,7 +8,7 @@ class Weapon;
 class Accessory;
 class Consumable;
 class Permanent;
-class Item;
+class Tradable;
 
 class Inventory
 {
@@ -16,13 +16,28 @@ class Inventory
         Inventory();
         virtual ~Inventory();
         void AddGold(int amount);
-        void Sell(Item* toSell);
+
+        void Sell(std::vector<Armor*>::iterator armorIt);
+        void Sell(std::vector<Weapon*>::iterator weaponIt);
+        void Sell(std::vector<Accessory*>::iterator accessoryIt);
+        void Sell(std::vector<Consumable*>::iterator consumableIt);
+
+        void Buy(std::vector<Armor*>::iterator armorIt);
+        void Buy(std::vector<Weapon*>::iterator weaponIt);
+        void Buy(std::vector<Accessory*>::iterator accessoryIt);
+        void Buy(std::vector<Consumable*>::iterator consumableIt);
+        void Buy(std::vector<Permanent*>::iterator permanentIt);
+
+        Weapon* GetWeapon();
     protected:
     private:
+        void sellItem(Tradable* toSell);
+        bool buyItem(Tradable* toBuy);
+
         unsigned int gold;
-        Armor *armor; // Equipped
-        Weapon *weapon; // Equipped
-        Accessory *accessory; // Equipped
+        Armor *armor;           // Equipped
+        Weapon *weapon;         // Equipped
+        Accessory *accessory;   // Equipped
 
         std::vector<Armor*> armors;
         std::vector<Weapon*> weapons;

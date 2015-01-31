@@ -4,6 +4,7 @@
 #include "Resources.h"
 #include "Map.h"
 #include "Character.h"
+#include "LevelBg.h"
 
 int main(void)
 {
@@ -41,11 +42,11 @@ int main(void)
 
 		physics.Update();
 
+
 		window.clear(sf::Color::Black);
         window.draw(spriteBitmap);
 		//window.draw(sanctuaryMap);
 		window.draw(*chara);
-
 
 		window.display();
 	}

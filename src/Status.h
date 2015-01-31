@@ -1,14 +1,12 @@
 #ifndef STATUS_H
 #define STATUS_H
 
-
-class Status
+enum Status
 {
-    public:
-        Status();
-        virtual ~Status();
-    protected:
-    private:
+    POISONED,
+    PETRIFIED,
+    CURSED,
+    GOOD
 };
 
 #endif // STATUS_H

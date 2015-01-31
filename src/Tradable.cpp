@@ -12,3 +12,18 @@ Tradable::~Tradable()
 {
     //dtor
 }
+
+bool Tradable::IsTradable()
+{
+    return trade;
+}
+
+unsigned int Tradable::GetSellPrice()
+{
+    return sellPrice;
+}
+
+unsigned int Tradable::GetBuyPrice()
+{
+    return buyPrice;
+}
