@@ -29,10 +29,9 @@ class Map : public sf::Drawable
 
 		virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 	private:
-		void drawDoors(sf::RenderTarget &target, sf::RenderStates states) const;
+		void drawLevelDoors(Level *level, sf::RenderTarget &target, sf::RenderStates states) const;
 
 		std::vector<Level*> levels;
-		std::vector<LevelConnection*> connections;
 };
 
 #endif
