@@ -11,6 +11,9 @@ class Mob
     public:
         Mob();
         virtual ~Mob();
+        unsigned int getPower();
+        bool Hurt(unsigned int damage);
+        unsigned int DealDamage(unsigned int power, Status ownStatus, unsigned int defense, Status enemyStatus);
     protected:
     private:
         // "Apparent" attributes

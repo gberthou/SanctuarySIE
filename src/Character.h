@@ -18,6 +18,8 @@ class Character : public sf::Drawable
         virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
         void AddGold(int amount);
         void AddMana(int amount);
+        void EarnExp(int amount);
+        bool Hurt(unsigned int damage);
         unsigned int DealDamage(unsigned int power, Status ownStatus, unsigned int defense, Status enemyStatus);
     protected:
     private:
@@ -27,8 +29,12 @@ class Character : public sf::Drawable
         unsigned int lvl;           // Level
         unsigned int hp;            // Current HP
         unsigned int mp;            // Current MP
+        unsigned int exp;
+
         unsigned int maxHP;         // Max HP
         unsigned int maxMP;         // Max MP
+        unsigned int expToNextLvl;  // Experience required to level up
+
         Status status;              // Status : buff or debuff
         Stats *baseStats;           // Basic stats
         Stats *effectiveStats;      // Effective stats

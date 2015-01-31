@@ -1,7 +1,7 @@
 #include "Character.h"
-
 #include "Weapon.h"
 #include "ItemAttribute.h"
+#include "Gameplay.h"
 
 Character::Character()
 {
@@ -38,6 +38,17 @@ void Character::AddMana(int amount)
     mp = ((mp + amount) < maxMP) ? ((mp + amount > 0) ? mp + amount : 0) : maxMP;
 }
 
+void Character::EarnExp(int amount)
+{
+    unsigned int xp = exp + amount;
+    if(xp > expToNextLvl)
+    {
+        xp -= expToNextLvl;
+        lvl++;
+        expToNextLvl = a_EXP*(lvl+1)*(lvl+1) + b_EXP*(lvl+1) + c_EXP;
+    }
+}
+
 // Attack
 // Change state
 // Update
@@ -48,8 +59,21 @@ unsigned int Character::getPower()
 {
     unsigned int power = 0;
     power = effectiveStats->GetAtt();
-    power = (inventory->GetWeapon()->GetEffect() == HALF_DAMAGE) ? power/2 : power;
     return power;
+}
+
+bool Character::Hurt(unsigned int damage)
+{
+    if(hp - damage <= 0)
+    {
+        hp = 0;
+        return true;
+    }
+    else
+    {
+        hp -= damage;
+        return false;
+    }
 }
 
 unsigned int Character::DealDamage(unsigned int power, Status ownStatus, unsigned int defense, Status enemyStatus)
@@ -57,7 +81,8 @@ unsigned int Character::DealDamage(unsigned int power, Status ownStatus, unsigne
     unsigned int damage = 0;
     damage = (power - defense/2)*(MAX_STAT - defense)/MAX_STAT;
     damage = (enemyStatus == PETRIFIED) ? damage*2 : damage;
-    damage = (damage < 1) ? 1 : damage;
-    damage = (ownStatus == POISONED) ? 0 : damage;
+    damage = (damage < 1 || ownStatus == POISONED) ? 1 : damage;
     return damage;
 }
+
+
