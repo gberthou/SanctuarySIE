@@ -10,6 +10,13 @@ Level::Level(unsigned int x1, unsigned int y1, unsigned int width1, unsigned int
 
 Level::~Level()
 {
+	for(unsigned int i = 0; i < doors.size(); ++i)
+		delete doors[i];
+}
+
+void Level::AddDoor(Level *target, unsigned int lx, unsigned int ly, DoorDirection direction)
+{
+	doors.push_back(new LevelDoor(target, lx, ly, direction));
 }
 
 unsigned int Level::GetX(void) const
@@ -30,5 +37,10 @@ unsigned int Level::GetWidth(void) const
 unsigned int Level::GetHeight(void) const
 {
 	return height;
+}
+
+const std::vector<LevelDoor*> &Level::GetDoors(void) const
+{
+	return doors;
 }
 

@@ -17,6 +17,8 @@ Map::Map()
 
 Map::~Map()
 {
+	for(unsigned int i = 0; i < levels.size(); ++i)
+		delete levels[i];
 }
 
 void Map::Load(void)
@@ -29,9 +31,16 @@ void Map::Load(void)
 	levels.push_back(new Level(10,9,1,2));
 	levels.push_back(new Level(11,10,4,1));
 	levels.push_back(new Level(10,11,4,5));
+	levels.push_back(new Level(9,14,1,1));
 
-	connections.push_back(new LevelConnection(levels[1],levels[0]));
-	connections.push_back(new LevelConnection(levels[1],levels[2]));
+	levels[0]->AddDoor(levels[1], 0, 1, RIGHT);
+	levels[1]->AddDoor(levels[0], 0, 0, LEFT);
+
+	levels[1]->AddDoor(levels[2], 2, 0, DOWN);
+	levels[2]->AddDoor(levels[1], 3, 0, UP);
+
+	levels[2]->AddDoor(levels[3], 0, 3, LEFT);
+	levels[3]->AddDoor(levels[2], 0, 0, RIGHT);
 }
 
 void Map::draw(sf::RenderTarget &target, sf::RenderStates states) const
@@ -139,91 +148,44 @@ void Map::draw(sf::RenderTarget &target, sf::RenderStates states) const
 					target.draw(center, states);
 				}
 		}
+		
+		drawLevelDoors(level, target, states);
 	}
-
-	drawDoors(target, states);
 }
 
-void Map::drawDoors(sf::RenderTarget &target, sf::RenderStates states) const
+void Map::drawLevelDoors(Level *level, sf::RenderTarget &target, sf::RenderStates states) const
 {
-	// The following constants define the 4 neighbours (left, up, down, right)
-	const int DX[4] = {-1, 0, 0, 1};
-	const int DY[4] = {0, -1, 1, 0};
+	const std::vector<LevelDoor*> &doors = level->GetDoors();
+	unsigned int x = level->GetX();
+	unsigned int y = level->GetY();
 
 	sf::Sprite verticalDoor(Resources::texMap, sf::IntRect(0,BLOCK_SIZE,VDOOR_WIDTH,VDOOR_HEIGHT));
 	sf::Sprite horizontalDoor(Resources::texMap, sf::IntRect(0,2*BLOCK_SIZE-HDOOR_HEIGHT,HDOOR_WIDTH,HDOOR_HEIGHT));
-
-	for(unsigned int i = 0; i < connections.size(); ++i)
+	
+	for(unsigned int i = 0; i < doors.size(); ++i)
 	{
-		bool done = false;
-		Level *level1 = connections[i]->level1;
-		Level *level2 = connections[i]->level2;
+		switch(doors[i]->direction)
+		{
+			case UP:
+				horizontalDoor.setPosition((x+doors[i]->lx) * BLOCK_SIZE, (y+doors[i]->ly) * BLOCK_SIZE);
+				target.draw(horizontalDoor, states);
+				break;
 
-		// For each block unit in level1
-		for(unsigned int x = 0; x < level1->GetWidth() && !done; ++x)
-			for(unsigned int y = 0; y < level1->GetHeight() && !done; ++y)
-			{
-				// Test all neighbours
-				for(unsigned int j = 0; j < 4; ++j) 
-				{
-					int tmpX = level1->GetX() + x + DX[j];
-					int tmpY = level1->GetY() + y + DY[j];
+			case DOWN:
+				horizontalDoor.setPosition((x+doors[i]->lx) * BLOCK_SIZE, (y+doors[i]->ly+1) * BLOCK_SIZE - HDOOR_HEIGHT);
+				target.draw(horizontalDoor, states);
+				break;
 
-					int x2 = level2->GetX();
-					int y2 = level2->GetY();
+			case RIGHT:
+				verticalDoor.setPosition((x+doors[i]->lx+1) * BLOCK_SIZE - VDOOR_WIDTH, (y+doors[i]->ly) * BLOCK_SIZE);
+				target.draw(verticalDoor, states);
+				break;
 
-					// If the neighbour is inside the second level
-					if(tmpX >= x2 && tmpX < x2 + (int) level2->GetWidth()
-				        && tmpY >= y2 && tmpY < y2 + (int) level2->GetHeight())
-					{
-						// Test the side of the connection
-						switch(j)
-						{
-							case 1: // Up
-								// Draw the door upwards
-								horizontalDoor.setPosition(tmpX * BLOCK_SIZE, (tmpY+1) * BLOCK_SIZE - HDOOR_HEIGHT);
-								target.draw(horizontalDoor, states);
-							
-								// Draw the door downwards	
-								horizontalDoor.setPosition(tmpX * BLOCK_SIZE, (tmpY+1) * BLOCK_SIZE);
-								target.draw(horizontalDoor, states);
-								
-								break;
-
-							case 2: // Down
-								// Draw the door upwards
-								horizontalDoor.setPosition(tmpX * BLOCK_SIZE, tmpY * BLOCK_SIZE - HDOOR_HEIGHT);
-								target.draw(horizontalDoor, states);
-								
-								//Draw the door downwards
-								horizontalDoor.setPosition(tmpX * BLOCK_SIZE, tmpY * BLOCK_SIZE);
-								target.draw(horizontalDoor, states);
-								break;
-
-							case 3: // Right
-								// Draw the door on the right
-								verticalDoor.setPosition(tmpX * BLOCK_SIZE, tmpY * BLOCK_SIZE);
-								target.draw(verticalDoor, states);
-
-								// Draw the door on the left
-								verticalDoor.setPosition(tmpX * BLOCK_SIZE - VDOOR_WIDTH, tmpY * BLOCK_SIZE);
-								target.draw(verticalDoor, states);
-								break;
-
-							default: // Left
-								// Draw the door on the right
-								verticalDoor.setPosition((tmpX+1) * BLOCK_SIZE, tmpY * BLOCK_SIZE);
-								target.draw(verticalDoor, states);
-
-								// Draw the door on the left
-								verticalDoor.setPosition((tmpX+1) * BLOCK_SIZE - VDOOR_WIDTH, tmpY * BLOCK_SIZE);
-								target.draw(verticalDoor, states);
-								break;
-						}
-						done = true;
-					}
-				}
-			}
+			default: // LEFT
+				verticalDoor.setPosition((x+doors[i]->lx) * BLOCK_SIZE, (y+doors[i]->ly) * BLOCK_SIZE);
+				target.draw(verticalDoor, states);
+				break;
+		}
 	}
 }
 
