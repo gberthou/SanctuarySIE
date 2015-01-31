@@ -3,16 +3,19 @@
 
 #include "Resources.h"
 #include "Map.h"
+#include "Character.h"
 
 int main(void)
 {
 	sf::RenderWindow window(sf::VideoMode(800, 600), "Sample");
 
-	Map map;
+	Map sanctuaryMap;
 
 	Resources::Load();
 
-	map.Load();
+	Character* chara = new Character();
+
+	sanctuaryMap.Load();
 
 	while(window.isOpen())
 	{
@@ -24,9 +27,10 @@ int main(void)
 		}
 
 		window.clear(sf::Color::Black);
-		
-		window.draw(map);
-		
+
+		window.draw(sanctuaryMap);
+		window.draw(*chara);
+
 		window.display();
 	}
 

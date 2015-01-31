@@ -9,7 +9,8 @@ class Resources
 		static void Load(void);
 
 		static sf::Texture texMap;
-	
+		static sf::Texture texCharacter;
+
 	private:
 		Resources();
 		virtual ~Resources();

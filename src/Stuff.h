@@ -6,6 +6,7 @@
 #include "Stats.h"
 #include "ItemAttribute.h"
 #include "Item.h"
+#include "Character.h"
 
 
 class Stuff : public Item
@@ -14,7 +15,7 @@ class Stuff : public Item
         Stuff(Stats *stats1, unsigned int buyPrice1, unsigned int sellPrice1, sf::String description1);
         virtual ~Stuff();
         void AddAttribute(ItemAttribute attribute1);
-        virtual void PickUp() const = 0;
+        virtual void PickUp(Character *character) const = 0;
     protected:
         Stats *stats;
         unsigned int buyPrice;
