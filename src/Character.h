@@ -19,6 +19,7 @@ class Character : public Entity
         void EarnExp(int amount);
         bool Hurt(unsigned int damage);
         unsigned int DealDamage(unsigned int power, Status ownStatus, unsigned int defense, Status enemyStatus);
+        void Walk(sf::Vector2f direction);
     protected:
     private:
         unsigned int getPower();

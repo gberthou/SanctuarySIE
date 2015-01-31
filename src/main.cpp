@@ -5,6 +5,7 @@
 #include "Map.h"
 #include "Character.h"
 #include "LevelBg.h"
+#include "InputController.h"
 
 int main(void)
 {
@@ -29,7 +30,7 @@ int main(void)
 	spriteBitmap.setTexture(texmap);
 
 	physics.AddCollisionMap(&bitmap);
-
+    InputController inputController(chara);
 
 	while(window.isOpen())
 	{
@@ -38,8 +39,13 @@ int main(void)
 		{
 			if(event.type == sf::Event::Closed)
 				window.close();
+            if(event.type == sf::Event::KeyPressed)
+            {
+                if (event.key.code == sf::Keyboard::Escape)
+                    window.close();
+            }
 		}
-
+        inputController.Update(event);
 		physics.Update();
 
 

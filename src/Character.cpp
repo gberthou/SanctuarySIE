@@ -76,4 +76,7 @@ unsigned int Character::DealDamage(unsigned int power, Status ownStatus, unsigne
     return damage;
 }
 
-
+ void Character::Walk(sf::Vector2f direction)
+ {
+     pos += (direction*2.f*DT);
+ }
