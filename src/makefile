@@ -14,7 +14,7 @@ RELEASE=release
 GPP=g++
 CFLAGS=-Wall
 
-CPPFILES=main.cpp Accessory.cpp Armor.cpp Item.cpp Tradable.cpp PickUpItem.cpp Stuff.cpp ItemFactory.cpp Weapon.cpp Consumable.cpp Permanent.cpp Inventory.cpp Stats.cpp Level.cpp LevelBg.cpp LevelFactory.cpp Map.cpp Character.cpp Status.cpp Gold.cpp Mana.cpp Resources.cpp Physics.cpp Entity.cpp
+CPPFILES=Gmain.cpp Accessory.cpp Armor.cpp Item.cpp Tradable.cpp PickUpItem.cpp Stuff.cpp ItemFactory.cpp Weapon.cpp Consumable.cpp Permanent.cpp Inventory.cpp Stats.cpp Level.cpp LevelBg.cpp LevelFactory.cpp Map.cpp Character.cpp Merchant.cpp Mob.cpp Path.cpp Gold.cpp Mana.cpp Resources.cpp Physics.cpp Entity.cpp InputController.cpp
 
 OBJ=$(CPPFILES:.cpp=.o)
 OBJABS=$(addprefix $(OBJDIR)/,$(OBJ))

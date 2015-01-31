@@ -2,20 +2,31 @@
 #define ENTITY_H
 
 #include <SFML/System.hpp>
+#include <SFML/Graphics.hpp>
 #include "Physics.h"
 
-class Entity
+class Entity : public sf::Drawable
 {
     public:
+        Entity();
+        virtual ~Entity();
         void Update();
 
-    private:
+        virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+        sf::Sprite const& GetSprite() const;
+
+    protected:
         float mass;
         sf::Vector2f pos;
         sf::Vector2f v;
         sf::Vector2f a;
         sf::Vector2f forces;
-        sf::Vector2f fun;
+
+        sf::Sprite sprite;
+
+    private:
+
+        friend class Physics;
 };
 
 #endif

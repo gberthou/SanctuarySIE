@@ -1,13 +1,16 @@
 #include "Mob.h"
 
-Mob::Mob()
+Mob::Mob():
+	path(0)
 {
-    //ctor
 }
 
 Mob::~Mob()
 {
     delete stats;
+
+    if(path != 0)
+	    delete path;
 }
 
 unsigned int Mob::getPower()
@@ -35,3 +38,9 @@ unsigned int Mob::DealDamage(unsigned int power, Status ownStatus, unsigned int 
     unsigned int damage = 0;
     return damage;
 }
+
+void Mob::SetPath(Path *path1)
+{
+	path = path1;
+}
+
