@@ -15,3 +15,8 @@ void Stuff::AddAttribute(ItemAttribute attribute1)
 {
     attributes.insert(attribute1);
 }
+
+ItemEffect Stuff::GetEffect()
+{
+    return effect;
+}

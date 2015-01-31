@@ -10,7 +10,7 @@ enum ItemAttribute
 
 enum ItemEffect
 {
-    // Insert some effects name here
+    HALF_DAMAGE// Insert some effects name here
 };
 
 #endif // ITEMATTRIBUTE_H
