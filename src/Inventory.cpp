@@ -1,4 +1,7 @@
 #include "Inventory.h"
+#include "Armor.h"
+#include "Weapon.h"
+#include "Accessory.h"
 
 Inventory::Inventory()
 {
