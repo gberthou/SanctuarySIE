@@ -16,8 +16,10 @@ class Stuff : public Tradable
         virtual ~Stuff();
         void AddAttribute(ItemAttribute attribute1);
         virtual void PickUp(Character *character) const = 0;
+        ItemEffect GetEffect();
     protected:
         Stats *stats;
+        ItemEffect effect;
         std::set<ItemAttribute> attributes;
     private:
 };
