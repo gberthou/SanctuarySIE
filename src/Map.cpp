@@ -30,7 +30,8 @@ void Map::Load(void)
 	levels.push_back(new Level(11,10,1,1));
 	levels.push_back(new Level(11,11,1,1));
 
-	connections.push_back(new LevelConnection(levels[0],levels[1]));
+	connections.push_back(new LevelConnection(levels[1],levels[0]));
+	connections.push_back(new LevelConnection(levels[1],levels[2]));
 }
 
 void Map::draw(sf::RenderTarget &target, sf::RenderStates states) const
@@ -63,7 +64,7 @@ void Map::drawDoors(sf::RenderTarget &target, sf::RenderStates states) const
 	const int DY[4] = {0, -1, 1, 0};
 
 	sf::Sprite verticalDoor(Resources::texMap, sf::IntRect(0,BLOCK_SIZE,VDOOR_WIDTH,VDOOR_HEIGHT));
-	sf::Sprite horizontalDoor(Resources::texMap, sf::IntRect(0,BLOCK_SIZE+VDOOR_HEIGHT-VDOOR_HEIGHT,HDOOR_WIDTH,HDOOR_HEIGHT));
+	sf::Sprite horizontalDoor(Resources::texMap, sf::IntRect(0,2*BLOCK_SIZE-HDOOR_HEIGHT,HDOOR_WIDTH,HDOOR_HEIGHT));
 
 	for(unsigned int i = 0; i < connections.size(); ++i)
 	{
@@ -92,9 +93,26 @@ void Map::drawDoors(sf::RenderTarget &target, sf::RenderStates states) const
 						switch(j)
 						{
 							case 1: // Up
+								// Draw the door upwards
+								horizontalDoor.setPosition(tmpX * BLOCK_SIZE, (tmpY+1) * BLOCK_SIZE - HDOOR_HEIGHT);
+								target.draw(horizontalDoor, states);
+							
+								// Draw the door downwards	
+								horizontalDoor.setPosition(tmpX * BLOCK_SIZE, (tmpY+1) * BLOCK_SIZE);
+								target.draw(horizontalDoor, states);
+								
 								break;
+
 							case 2: // Down
+								// Draw the door upwards
+								horizontalDoor.setPosition(tmpX * BLOCK_SIZE, tmpY * BLOCK_SIZE - HDOOR_HEIGHT);
+								target.draw(horizontalDoor, states);
+								
+								//Draw the door downwards
+								horizontalDoor.setPosition(tmpX * BLOCK_SIZE, tmpY * BLOCK_SIZE);
+								target.draw(horizontalDoor, states);
 								break;
+
 							case 3: // Right
 								// Draw the door on the right
 								verticalDoor.setPosition(tmpX * BLOCK_SIZE, tmpY * BLOCK_SIZE);
@@ -104,7 +122,15 @@ void Map::drawDoors(sf::RenderTarget &target, sf::RenderStates states) const
 								verticalDoor.setPosition(tmpX * BLOCK_SIZE - VDOOR_WIDTH, tmpY * BLOCK_SIZE);
 								target.draw(verticalDoor, states);
 								break;
+
 							default: // Left
+								// Draw the door on the right
+								verticalDoor.setPosition((tmpX+1) * BLOCK_SIZE, tmpY * BLOCK_SIZE);
+								target.draw(verticalDoor, states);
+
+								// Draw the door on the left
+								verticalDoor.setPosition((tmpX+1) * BLOCK_SIZE - VDOOR_WIDTH, tmpY * BLOCK_SIZE);
+								target.draw(verticalDoor, states);
 								break;
 						}
 						done = true;
