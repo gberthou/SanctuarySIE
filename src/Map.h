@@ -7,6 +7,18 @@
 
 #include "Level.h"
 
+struct LevelConnection
+{
+	LevelConnection(Level *l1, Level *l2):
+		level1(l1),
+		level2(l2)
+	{
+	}
+
+	Level *level1;
+	Level *level2;
+};
+
 class Map : public sf::Drawable
 {
 	public:
@@ -17,9 +29,10 @@ class Map : public sf::Drawable
 
 		virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 	private:
-		
-		// data
+		void drawDoors(sf::RenderTarget &target, sf::RenderStates states) const;
+
 		std::vector<Level*> levels;
+		std::vector<LevelConnection*> connections;
 };
 
 #endif

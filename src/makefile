@@ -14,7 +14,7 @@ RELEASE=release
 GPP=g++
 CFLAGS=-Wall
 
-CPPFILES=main.cpp Accessory.cpp Armor.cpp Item.cpp ItemFactory.cpp Weapon.cpp Stats.cpp Level.cpp LevelFactory.cpp Map.cpp Resources.cpp
+CPPFILES=main.cpp Accessory.cpp Armor.cpp Item.cpp PickUpItem.cpp Stuff.cpp ItemFactory.cpp Weapon.cpp Stats.cpp Level.cpp LevelFactory.cpp Map.cpp Resources.cpp
 
 OBJ=$(CPPFILES:.cpp=.o)
 OBJABS=$(addprefix $(OBJDIR)/,$(OBJ))
