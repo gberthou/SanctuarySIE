@@ -7,7 +7,7 @@ Character::Character()
 {
     sprite = sf::Sprite(Resources::texCharacter);
     lvl = 1;
-    baseStats = new Stats(1,2,3,4,5,6);
+    baseStats = new Stats(10,6,10,12,11,9);
     inventory = NULL;
     state = WAIT;
 }
@@ -36,8 +36,25 @@ void Character::EarnExp(int amount)
     {
         xp -= expToNextLvl;
         lvl++;
-        expToNextLvl = a_EXP*(lvl+1)*(lvl+1) + b_EXP*(lvl+1) + c_EXP;
+        expToNextLvl = (unsigned int)(a_EXP*(lvl+1)*(lvl+1) + b_EXP*(lvl+1) + c_EXP);
+        LvlUpStats();
     }
+}
+
+// Redefine One for each character
+void Character::LvlUpStats()
+{
+    baseStats->ModifyStats(new Stats(1,(lvl %2 != 0) ? 1 : 0,1,1,1,1));
+    maxHP += 12;
+    maxMP = (unsigned int)(a_MANA*(lvl+1)*(lvl+1) + b_MANA*(lvl+1) + c_MANA);
+    updateStats();
+}
+
+
+void Character::updateStats()
+{
+    effectiveStats = baseStats;
+    effectiveStats->ModifyStats(inventory->GetAllStatsModifiers());
 }
 
 // Attack

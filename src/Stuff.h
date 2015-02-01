@@ -17,6 +17,7 @@ class Stuff : public Tradable
         void AddAttribute(ItemAttribute attribute1);
         virtual void PickUp(Character *character) const = 0;
         ItemEffect GetEffect();
+        Stats* GetStats();
     protected:
         Stats *stats;
         ItemEffect effect;

@@ -19,6 +19,7 @@ Mob::~Mob()
 unsigned int Mob::getPower()
 {
     unsigned int power = 0;
+    power = stats->GetAtt();
     return power;
 }
 
@@ -39,6 +40,7 @@ bool Mob::Hurt(unsigned int damage)
 unsigned int Mob::DealDamage(unsigned int power, Status ownStatus, unsigned int defense, Status enemyStatus)
 {
     unsigned int damage = 0;
+    damage = (power - defense/2)*(MAX_STAT - defense)/MAX_STAT;
     return damage;
 }
 

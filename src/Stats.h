@@ -3,10 +3,13 @@
 
 #include <SFML/System.hpp>
 
+#include "Gameplay.h"
+
 class Stats
 {
     public:
         Stats(int att1, int def1, int str1, int con1, int intel1, int luck1);
+        Stats();
         virtual ~Stats();
         void ModifyStats(Stats *stats1);
         int GetAtt();
