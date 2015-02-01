@@ -8,9 +8,21 @@ Level *LevelFactory::CreateLevel(TypeLevel typeLevel)
 	{
 		case CORRIDOR0:
 		{
+			Path *path;
 			level = new Level(0, 0, 1, 1);
-			level->AddMobDesc(new MobDesc(GIANT_BAT, sf::Vector2f(10, 20), 0));
-			level->AddMobDesc(new MobDesc(GIANT_BAT, sf::Vector2f(100, 100), 0));
+
+			path = new Path();
+			path->AddPosition(sf::Vector2f(10, 20));
+			path->AddPosition(sf::Vector2f(200, 20));
+			path->MakeReady();
+			level->AddMobDesc(new MobDesc(GIANT_BAT, sf::Vector2f(10, 20), path));
+
+
+			path = new Path();
+			path->AddPosition(sf::Vector2f(100, 100));
+			path->AddPosition(sf::Vector2f(0, 100));
+			path->MakeReady();
+			level->AddMobDesc(new MobDesc(GIANT_BAT, sf::Vector2f(100, 100), path));
 			break;
 		}
 

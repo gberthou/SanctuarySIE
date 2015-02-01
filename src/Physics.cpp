@@ -4,7 +4,7 @@
 using namespace std;
 
 const float DT = 0.015625f; // 1/64 s
-const sf::Vector2f GRAVITY(0,9.81f*0.1f);
+const sf::Vector2f GRAVITY(0,9.81f*100.f);
 
 Physics::Physics()
 {
@@ -54,7 +54,6 @@ void Physics::manageStaticCollisions(Entity* e)
                 }
             }
         }
-        cout<<endl;
     }
     e->forces = GRAVITY;
 }

@@ -46,6 +46,14 @@ void Level::AddDoor(Level *target, unsigned int lx, unsigned int ly, DoorDirecti
 	doors.push_back(new LevelDoor(target, lx, ly, direction));
 }
 
+void Level::Update(void)
+{
+		for(unsigned int i = 0; i < mobs.size(); ++i)
+		{
+				mobs[i]->UpdateAI();
+		}
+}
+
 void Level::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
 	// Draw mobs

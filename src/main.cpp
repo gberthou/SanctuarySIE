@@ -31,6 +31,8 @@ int main(void)
 
 	physics.AddCollisionMap(&bitmap);
     InputController inputController(chara);
+    sf::Joystick::update();
+    window.setFramerateLimit(64);
 
 	while(window.isOpen())
 	{
@@ -43,9 +45,9 @@ int main(void)
             {
                 if (event.key.code == sf::Keyboard::Escape)
                     window.close();
-            }
+            } inputController.Update(event);
 		}
-        inputController.Update(event);
+
 		physics.Update();
 
 
