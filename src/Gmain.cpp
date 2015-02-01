@@ -36,6 +36,8 @@ int main(void)
 		window.draw(*level);
 
 		window.display();
+
+		level->Update();
 	}
 
 	return 0;

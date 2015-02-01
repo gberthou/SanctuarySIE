@@ -13,9 +13,10 @@ class Path
 		Path();
 		virtual ~Path();
 
-		void AddPosition(sf::Vector2f position);
-		void Ready(void);
+		void AddPosition(const sf::Vector2f &position);
+		void MakeReady(void);
 		sf::Vector2f GetNextPosition(void) const;
+		void PositionReached(void);
 
 	private:
 		PathMarker positions;

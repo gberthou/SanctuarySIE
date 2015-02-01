@@ -43,11 +43,12 @@ class Mob : public Entity
         bool Hurt(unsigned int damage);
         unsigned int DealDamage(unsigned int power, Status ownStatus, unsigned int defense, Status enemyStatus);
         void SetPath(Path *path);
+		void UpdateAI(void);
     protected:
     private:
         // "Apparent" attributes
-	MobType type;
-        unsigned int hp;            // Current HP
+		MobType type;
+       	unsigned int hp;            // Current HP
         unsigned int mp;            // Current MP
         unsigned int maxHP;         // Max HP
         unsigned int maxMP;         // Max MP
