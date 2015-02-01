@@ -190,3 +190,14 @@ Weapon* Inventory::GetWeapon()
 {
     return weapon;
 }
+
+Stats* Inventory::GetAllStatsModifiers()
+{
+    Stats* allModifiers = new Stats();
+    allModifiers->ModifyStats(weapon->GetStats());
+    allModifiers->ModifyStats(armor->GetStats());
+    allModifiers->ModifyStats(accessory->GetStats());
+    return allModifiers;
+}
+
+

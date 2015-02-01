@@ -20,11 +20,13 @@ class Character : public Entity
         bool Hurt(unsigned int damage);
         unsigned int DealDamage(unsigned int power, Status ownStatus, unsigned int defense, Status enemyStatus);
         void Walk(sf::Vector2f direction);
+        virtual void LvlUpStats();
     protected:
     private:
         unsigned int getPower();
+        void updateStats();
 
-        // "Apparent" attributes
+        // "Gameplay" attributes
         unsigned int lvl;           // Level
         unsigned int hp;            // Current HP
         unsigned int mp;            // Current MP

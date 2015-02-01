@@ -2,6 +2,7 @@
 #define INVENTORY_H
 
 #include <vector>
+#include "Stats.h"
 
 class Armor;
 class Weapon;
@@ -29,6 +30,7 @@ class Inventory
         void Buy(std::vector<Permanent*>::iterator permanentIt);
 
         Weapon* GetWeapon();
+        Stats* GetAllStatsModifiers();
     protected:
     private:
         void sellItem(Tradable* toSell);

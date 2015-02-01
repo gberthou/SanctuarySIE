@@ -20,3 +20,8 @@ ItemEffect Stuff::GetEffect()
 {
     return effect;
 }
+
+Stats* Stuff::GetStats()
+{
+    return stats;
+}
