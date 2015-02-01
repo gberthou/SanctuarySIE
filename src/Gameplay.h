@@ -6,6 +6,8 @@
 #define b_MANA 6.440
 #define c_MANA 53.44
 
+#define NB_SAVE 5
+
 namespace Gameplay
 {
 

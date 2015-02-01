@@ -3,14 +3,7 @@
 #include <iostream>
 using namespace std;
 
-enum KeyMapping
-{
-    KEY_LEFT, KEY_UP, KEY_DOWN, KEY_RIGHT,
-    KEY_A, KEY_B,
-    KEY_L, KEY_R,
-    KEY_START, KEY_SELECT,
-    KEY_COUNT // must be the last
-};
+
 sf::Keyboard::Key keys_mapping[] =
 {
     sf::Keyboard::Left,sf::Keyboard::Up, sf::Keyboard::Down,sf::Keyboard::Right,
