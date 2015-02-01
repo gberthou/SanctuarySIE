@@ -1,4 +1,8 @@
 #include "InputController.h"
+
+#include <iostream>
+using namespace std;
+
 enum KeyMapping
 {
     KEY_LEFT, KEY_UP, KEY_DOWN, KEY_RIGHT,
