@@ -6,6 +6,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "Mob.h"
+#include "LevelBg.h"
 
 class Level;
 
@@ -28,9 +29,9 @@ struct LevelDoor
 	}
 
 	Level *target;
-	unsigned int lx;         // local X position of the room unit (belongs to [0, w-1])
-	unsigned int ly;         // local Y position of the room unit (belongs to [0, h-1])
-	DoorDirection direction; // door direction (local position in the room unit space)
+	unsigned int lx;         // Local X position of the room unit (belongs to [0, w-1])
+	unsigned int ly;         // Local Y position of the room unit (belongs to [0, h-1])
+	DoorDirection direction; // Door direction (local position in the room unit space)
 };
 
 class Level : public sf::Drawable
@@ -39,6 +40,7 @@ class Level : public sf::Drawable
 		Level(unsigned int x, unsigned int y, unsigned int width, unsigned int height);
 		virtual ~Level();
 
+		void SetBgDesc(const BgDesc &bgDesc);
 		void AddMobDesc(const MobDesc *mobDesc);
 		void MakeReady(void);
 
@@ -59,6 +61,9 @@ class Level : public sf::Drawable
 		unsigned int y;
 		unsigned int width;
 		unsigned int height;
+
+		BgDesc bgDesc;
+		LevelBg *bg;
 
 		std::vector<const MobDesc*> mobDescs; // Contains the descriptions of all mobs in the level
 		std::vector<Mob*> mobs;               // Mobs that are in the room (when the player is inside)

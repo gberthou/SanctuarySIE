@@ -5,6 +5,11 @@
 
 #define BG_LAYERS 4
 
+struct BgDesc
+{
+	sf::String names[BG_LAYERS];
+};
+
 class LevelBg : public sf::Drawable
 {
 	public:

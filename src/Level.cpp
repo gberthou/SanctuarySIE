@@ -5,7 +5,8 @@ Level::Level(unsigned int x1, unsigned int y1, unsigned int width1, unsigned int
 	x(x1),
 	y(y1),
 	width(width1),
-	height(height1)
+	height(height1),
+	bg(0)
 {
 }
 
@@ -21,6 +22,12 @@ Level::~Level()
 		delete doors[i];
 }
 
+void Level::SetBgDesc(const BgDesc &desc)
+{
+	for(unsigned int i = 0; i < BG_LAYERS; ++i)
+		bgDesc.names[i] = desc.names[i];
+}
+
 void Level::AddMobDesc(const MobDesc *mobDesc)
 {
 	mobDescs.push_back(mobDesc);
@@ -31,6 +38,16 @@ void Level::MakeReady(void)
 	for(unsigned int i = 0; i < mobs.size(); ++i)
 		delete mobs[i];
 	mobs.clear();
+	
+	if(bg != 0)
+		delete bg;
+
+	bg = new LevelBg();
+	for(unsigned int i = 0; i < BG_LAYERS; ++i)
+	{
+		if(!bgDesc.names[i].isEmpty())
+			bg->SetLayer(i, bgDesc.names[i]);
+	}
 
 	for(unsigned int i = 0; i < mobDescs.size(); ++i)
 	{
@@ -56,6 +73,9 @@ void Level::Update(void)
 
 void Level::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
+	// Draw background
+	target.draw(*bg, states);
+
 	// Draw mobs
 	for(unsigned int i = 0; i < mobs.size(); ++i)
 	{
