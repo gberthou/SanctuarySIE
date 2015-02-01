@@ -8,12 +8,27 @@ Mob::Mob(MobType type1, const sf::Texture &texture):
 	sprite.setTexture(texture);
 }
 
+Mob::Mob()
+{
+
+}
+
 Mob::~Mob()
 {
     delete stats;
 
     if(path != 0)
 	    delete path;
+}
+
+Status Mob::GetStatus()
+{
+    return status;
+}
+
+Stats* Mob::GetStats()
+{
+    return stats;
 }
 
 unsigned int Mob::getPower()
@@ -42,6 +57,16 @@ unsigned int Mob::DealDamage(unsigned int power, Status ownStatus, unsigned int 
     unsigned int damage = 0;
     damage = (power - defense/2)*(MAX_STAT - defense)/MAX_STAT;
     return damage;
+}
+
+void Mob::Drop(unsigned int lck)
+{
+
+}
+
+unsigned int Mob::GiveXP()
+{
+    return xpDrop;
 }
 
 void Mob::SetPath(Path *path1)
