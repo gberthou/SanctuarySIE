@@ -18,6 +18,12 @@ void Entity::Update()
     sprite.setPosition(pos);
 }
 
+void Entity::SetPosition(const sf::Vector2f &position)
+{
+	pos = position;
+	sprite.setPosition(pos);
+}
+
 void Entity::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
     target.draw(sprite, states);

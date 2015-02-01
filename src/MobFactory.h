@@ -6,6 +6,7 @@
 class MobFactory
 {
 	public:
+		static Mob *CreateMob(MobType type);
 		static Mob *CreateGiantBat(void);
 	private:
 		MobFactory();

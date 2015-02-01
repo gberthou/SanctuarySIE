@@ -5,7 +5,7 @@
 
 enum TypeLevel
 {
-	LEVEL_CORRIDOR,
+	CORRIDOR0,
 
 	LEVEL_NUMBER
 };

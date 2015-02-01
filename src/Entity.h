@@ -12,6 +12,8 @@ class Entity : public sf::Drawable
         virtual ~Entity();
         void Update();
 
+	void SetPosition(const sf::Vector2f &pos);
+
         virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
         sf::Sprite const& GetSprite() const;
 

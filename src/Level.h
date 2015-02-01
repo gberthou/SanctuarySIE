@@ -3,6 +3,10 @@
 
 #include <vector>
 
+#include <SFML/Graphics.hpp>
+
+#include "Mob.h"
+
 class Level;
 
 enum DoorDirection
@@ -29,14 +33,19 @@ struct LevelDoor
 	DoorDirection direction; // door direction (local position in the room unit space)
 };
 
-class Level
+class Level : public sf::Drawable
 {
 	public:
 		Level(unsigned int x, unsigned int y, unsigned int width, unsigned int height);
 		virtual ~Level();
 
-		void AddDoor(Level *target, unsigned int lx, unsigned int ly, DoorDirection direction);
+		void AddMobDesc(const MobDesc *mobDesc);
+		void MakeReady(void);
 
+		void AddDoor(Level *target, unsigned int lx, unsigned int ly, DoorDirection direction);
+		
+		virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+		
 		unsigned int GetX(void) const;
 		unsigned int GetY(void) const;
 		unsigned int GetWidth(void) const;
@@ -48,6 +57,9 @@ class Level
 		unsigned int y;
 		unsigned int width;
 		unsigned int height;
+
+		std::vector<const MobDesc*> mobDescs; // Contains the descriptions of all mobs in the level
+		std::vector<Mob*> mobs;               // Mobs that are in the room (when the player is inside)
 
 		// Map display purpose
 		std::vector<LevelDoor*> doors;

@@ -6,6 +6,7 @@
 #include "Character.h"
 #include "LevelBg.h"
 #include "MobFactory.h"
+#include "LevelFactory.h"
 
 int main(void)
 {
@@ -14,11 +15,12 @@ int main(void)
 
 	sf::RenderWindow window(sf::VideoMode(W, H), "Sample");
 
-	Mob *mob;
+	Level *level = LevelFactory::CreateLevel(CORRIDOR0);
 	
 	Resources::Load();
 
-	mob = MobFactory::CreateGiantBat();
+	// Simulate the arrival of the player in the level
+	level->MakeReady();
 
 	while(window.isOpen())
 	{
@@ -31,7 +33,7 @@ int main(void)
 
 		window.clear(sf::Color::Black);
 
-		window.draw(*mob);
+		window.draw(*level);
 
 		window.display();
 	}
