@@ -25,8 +25,7 @@ sf::Vector2f Path::GetNextPosition(void) const
 
 void Path::PositionReached(void)
 {
-	next++;
-	if(next == positions.end())
+	if(++next == positions.end())
 			next = positions.begin();
 }
 
