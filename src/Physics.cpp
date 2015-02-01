@@ -9,12 +9,10 @@ const sf::Vector2f GRAVITY(0,9.81f*100.f);
 Physics::Physics(CollisionMap cm):
 	collisionMap(cm)
 {
-
 }
 
 Physics::~Physics()
 {
-
 }
 
 void Physics::AddEntity(Entity* entity)
@@ -27,9 +25,14 @@ void Physics::CleanEntities()
     entities.clear();
 }
 
-void Physics::AddCollisionMap(CollisionMap cm)
+void Physics::SetCollisionMap(CollisionMap cm)
 {
     collisionMap = cm;
+}
+
+void Physics::AddCollisionMap(CollisionMap cm)
+{
+    SetCollisionMap(cm);
 }
 
 void Physics::manageStaticCollisions(Entity* e)

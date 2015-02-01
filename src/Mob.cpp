@@ -76,7 +76,9 @@ void Mob::SetPath(Path *path1)
 
 void Mob::UpdateAI(void)
 {
-	const float EPSILON = 1;
+	const float EPSILON = 1; // Warning : may be capricious if the initial mob position is not adapted to the
+							 // collision map (ie. if the mob is a few pixels above the local floor)
+	
 	if(behavior == NORMAL)
 	{
 		sf::Vector2f objective = path->GetNextPosition();

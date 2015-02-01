@@ -20,7 +20,15 @@ class Physics
         void Update();
         void AddEntity(Entity* entity);
         void CleanEntities();
-        void AddCollisionMap(CollisionMap bitmap);
+		
+		// Is the following method useful as you already specify the collision
+		// map to the constructor, and there's no reason to change it while
+		// playing in the same level? (Actually there's a Physics instance in
+		// each level)
+        void SetCollisionMap(CollisionMap bitmap);
+        
+		// Please delete the following method, and replace it with SetCollisionMap
+		void AddCollisionMap(CollisionMap bitmap);
 
     protected:
         void manageStaticCollisions(Entity* e);
@@ -31,3 +39,4 @@ class Physics
 };
 
 #endif // PHYSICS_H
+

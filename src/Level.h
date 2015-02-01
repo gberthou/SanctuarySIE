@@ -75,6 +75,8 @@ class Level : public sf::Drawable
 		sf::String collisionMapFilename;
 		CollisionMap collisionMap;
 
+		Physics *physics;
+
 		// Map display purpose
 		std::vector<LevelDoor*> doors;
 };
