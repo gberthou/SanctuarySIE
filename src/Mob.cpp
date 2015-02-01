@@ -97,7 +97,5 @@ void Mob::UpdateAI(void)
 			pos.x -= 1;
 		}
 	}
-
-	sprite.setPosition(pos);
 }
 
