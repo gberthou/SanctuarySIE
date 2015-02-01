@@ -1,12 +1,15 @@
 #include "Level.h"
 #include "MobFactory.h"
 
+#define DEBUG_PHYSICS
+
 Level::Level(unsigned int x1, unsigned int y1, unsigned int width1, unsigned int height1):
 	x(x1),
 	y(y1),
 	width(width1),
 	height(height1),
-	bg(0)
+	bg(0),
+	collisionMap(0)
 {
 }
 
@@ -17,6 +20,8 @@ Level::~Level()
 	
 	for(unsigned int i = 0; i < mobs.size(); ++i)
 		delete mobs[i];
+
+	delete collisionMap;
 
 	for(unsigned int i = 0; i < doors.size(); ++i)
 		delete doors[i];
@@ -33,14 +38,14 @@ void Level::AddMobDesc(const MobDesc *mobDesc)
 	mobDescs.push_back(mobDesc);
 }
 
+void Level::SetCollisionMap(const sf::String &filename)
+{
+	collisionMapFilename = filename;
+}
+
 void Level::MakeReady(void)
 {
-	for(unsigned int i = 0; i < mobs.size(); ++i)
-		delete mobs[i];
-	mobs.clear();
-	
-	if(bg != 0)
-		delete bg;
+	Leave();
 
 	bg = new LevelBg();
 	for(unsigned int i = 0; i < BG_LAYERS; ++i)
@@ -56,6 +61,22 @@ void Level::MakeReady(void)
 		mob->SetPath(mobDescs[i]->path);
 		mobs.push_back(mob);
 	}
+
+	collisionMap = new sf::Image();
+	collisionMap->loadFromFile(collisionMapFilename);
+}
+
+void Level::Leave(void)
+{
+	for(unsigned int i = 0; i < mobs.size(); ++i)
+		delete mobs[i];
+	mobs.clear();
+	
+	if(bg != 0)
+		delete bg;
+	
+	if(collisionMap != 0)
+		delete collisionMap;
 }
 
 void Level::AddDoor(Level *target, unsigned int lx, unsigned int ly, DoorDirection direction)
@@ -75,6 +96,16 @@ void Level::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
 	// Draw background
 	target.draw(*bg, states);
+
+#ifdef DEBUG_PHYSICS
+	sf::Texture tex;
+	sf::Sprite sprPhysics;
+
+	tex.loadFromImage(*collisionMap);
+	sprPhysics.setTexture(tex);
+
+	target.draw(sprPhysics, states);
+#endif
 
 	// Draw mobs
 	for(unsigned int i = 0; i < mobs.size(); ++i)

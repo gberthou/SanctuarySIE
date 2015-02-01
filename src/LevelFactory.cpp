@@ -13,12 +13,13 @@ Level *LevelFactory::CreateLevel(TypeLevel typeLevel)
 
 			level = new Level(0, 0, 1, 1);
 
-			bgDesc.names[0] = "img/levels/sample/layer0.png";
-			bgDesc.names[1] = "img/levels/sample/layer1.png";
-			bgDesc.names[2] = "img/levels/sample/layer2.png";
-			bgDesc.names[3] = "img/levels/sample/layer3.png";
+			bgDesc.names[0] = sf::String("img/levels/sample/layer0.png");
+			bgDesc.names[1] = sf::String("img/levels/sample/layer1.png");
+			bgDesc.names[2] = sf::String("img/levels/sample/layer2.png");
+			bgDesc.names[3] = sf::String("img/levels/sample/layer3.png");
 
 			level->SetBgDesc(bgDesc);
+			level->SetCollisionMap(sf::String("img/levels/sample/collision.png"));
 
 			path = new Path();
 			path->AddPosition(sf::Vector2f(10, 20));
@@ -27,10 +28,10 @@ Level *LevelFactory::CreateLevel(TypeLevel typeLevel)
 			level->AddMobDesc(new MobDesc(GIANT_BAT, sf::Vector2f(10, 20), path));
 
 			path = new Path();
-			path->AddPosition(sf::Vector2f(100, 100));
-			path->AddPosition(sf::Vector2f(0, 100));
+			path->AddPosition(sf::Vector2f(100, 300));
+			path->AddPosition(sf::Vector2f(0, 300));
 			path->MakeReady();
-			level->AddMobDesc(new MobDesc(GIANT_BAT, sf::Vector2f(100, 100), path));
+			level->AddMobDesc(new MobDesc(GIANT_BAT, sf::Vector2f(100, 300), path));
 			break;
 		}
 

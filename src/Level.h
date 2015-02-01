@@ -7,6 +7,7 @@
 
 #include "Mob.h"
 #include "LevelBg.h"
+#include "Physics.h"
 
 class Level;
 
@@ -42,7 +43,10 @@ class Level : public sf::Drawable
 
 		void SetBgDesc(const BgDesc &bgDesc);
 		void AddMobDesc(const MobDesc *mobDesc);
+		void SetCollisionMap(const sf::String &filename);
+
 		void MakeReady(void);
+		void Leave(void);
 
 		void AddDoor(Level *target, unsigned int lx, unsigned int ly, DoorDirection direction);
 		
@@ -67,6 +71,9 @@ class Level : public sf::Drawable
 
 		std::vector<const MobDesc*> mobDescs; // Contains the descriptions of all mobs in the level
 		std::vector<Mob*> mobs;               // Mobs that are in the room (when the player is inside)
+
+		sf::String collisionMapFilename;
+		CollisionMap collisionMap;
 
 		// Map display purpose
 		std::vector<LevelDoor*> doors;
