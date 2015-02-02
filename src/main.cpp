@@ -18,18 +18,19 @@ int main(void)
 	Character* chara = new Character();
 
 	sanctuaryMap.Load();
-	Physics physics;
-	physics.AddEntity(chara);
 
     sf::Image bitmap;
 	bitmap.loadFromFile("img/bitmap.png");
+
+	Physics physics = Physics(&bitmap);
+	physics.AddEntity(chara);
+
 
 	sf::Sprite spriteBitmap;
 	sf::Texture texmap;
 	texmap.loadFromImage(bitmap);
 	spriteBitmap.setTexture(texmap);
 
-	physics.AddCollisionMap(&bitmap);
     InputController inputController(chara);
     sf::Joystick::update();
     window.setFramerateLimit(64);

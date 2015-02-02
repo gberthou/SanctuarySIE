@@ -18,13 +18,17 @@ class Character : public Entity
         void AddMana(int amount);
         void EarnExp(int amount);
         bool Hurt(unsigned int damage);
-        unsigned int DealDamage(unsigned int power, Status ownStatus, unsigned int defense, Status enemyStatus);
         void Walk(sf::Vector2f direction);
+        virtual void LvlUpStats();
+        void Attack();
     protected:
     private:
         unsigned int getPower();
+        void updateStats();
+        unsigned int dealDamage(unsigned int power, Status ownStatus, unsigned int defense, Status enemyStatus);
 
-        // "Apparent" attributes
+
+        // "Gameplay" attributes
         unsigned int lvl;           // Level
         unsigned int hp;            // Current HP
         unsigned int mp;            // Current MP

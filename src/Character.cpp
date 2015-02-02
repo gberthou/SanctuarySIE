@@ -2,12 +2,19 @@
 #include "Weapon.h"
 #include "ItemAttribute.h"
 #include "Gameplay.h"
+#include "Mob.h"
 
 Character::Character()
 {
+    // Redefine this in
     sprite = sf::Sprite(Resources::texCharacter);
     lvl = 1;
-    baseStats = new Stats(1,2,3,4,5,6);
+    baseStats = new Stats(10,6,10,12,11,9);
+    maxHP = 320;
+    hp = maxHP;
+    maxMP = (unsigned int)(a_EXP + b_EXP + c_EXP);
+    mp = maxMP;
+
     inventory = NULL;
     state = WAIT;
 }
@@ -36,15 +43,30 @@ void Character::EarnExp(int amount)
     {
         xp -= expToNextLvl;
         lvl++;
-        expToNextLvl = a_EXP*(lvl+1)*(lvl+1) + b_EXP*(lvl+1) + c_EXP;
+        expToNextLvl = (unsigned int)(a_EXP*(lvl+1)*(lvl+1) + b_EXP*(lvl+1) + c_EXP);
+        LvlUpStats();
     }
+}
+
+// Redefine One for each character
+void Character::LvlUpStats()
+{
+    baseStats->ModifyStats(new Stats(1,(lvl %2 != 0) ? 1 : 0,1,1,1,1));
+    maxHP += 12;
+    maxMP = (unsigned int)(a_MANA*lvl*lvl + b_MANA*lvl + c_MANA);
+    updateStats();
+}
+
+
+void Character::updateStats()
+{
+    effectiveStats = baseStats;
+    effectiveStats->ModifyStats(inventory->GetAllStatsModifiers());
 }
 
 // Attack
 // Change state
 // Update
-// Dealdamage (power, defense)
-// hurt
 
 unsigned int Character::getPower()
 {
@@ -67,7 +89,7 @@ bool Character::Hurt(unsigned int damage)
     }
 }
 
-unsigned int Character::DealDamage(unsigned int power, Status ownStatus, unsigned int defense, Status enemyStatus)
+unsigned int Character::dealDamage(unsigned int power, Status ownStatus, unsigned int defense, Status enemyStatus)
 {
     unsigned int damage = 0;
     damage = (power - defense/2)*(MAX_STAT - defense)/MAX_STAT;
@@ -76,7 +98,21 @@ unsigned int Character::DealDamage(unsigned int power, Status ownStatus, unsigne
     return damage;
 }
 
- void Character::Walk(sf::Vector2f direction)
- {
-     pos += (direction*200.f*DT);
- }
+void Character::Attack()
+{
+    // Collision -> get mob
+    Mob* mob = new Mob();
+    updateStats();
+    unsigned int dmg = dealDamage(getPower(), status, mob->GetStats()->GetDef(), mob->GetStatus());
+    if(mob->Hurt(dmg))
+    {
+        // Mob is dead
+        mob->Drop((unsigned int)effectiveStats->GetLck());
+        EarnExp(mob->GiveXP());
+    }
+}
+
+void Character::Walk(sf::Vector2f direction)
+{
+    pos += (direction*200.f*DT);
+}

@@ -19,7 +19,8 @@ enum AccessoryType
 
 enum PickUpItemType
 {
-    // insert some accessory name here
+    GOLD,
+    MANA
 };
 
 #endif // ITEMTYPE_H

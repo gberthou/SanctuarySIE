@@ -17,15 +17,15 @@ Inventory::~Inventory()
     delete weapon;
     delete accessory;
 
-    for(unsigned int i; i < armors.size(); ++i)
+    for(unsigned int i = 0; i < armors.size(); ++i)
         delete armors[i];
-    for(unsigned int i; i < weapons.size(); ++i)
+    for(unsigned int i = 0; i < weapons.size(); ++i)
         delete weapons[i];
-    for(unsigned int i; i < accessories.size(); ++i)
+    for(unsigned int i = 0; i < accessories.size(); ++i)
         delete accessories[i];
-    for(unsigned int i; i < consumables.size(); ++i)
+    for(unsigned int i = 0; i < consumables.size(); ++i)
         delete consumables[i];
-    for(unsigned int i; i < permanents.size(); ++i)
+    for(unsigned int i = 0; i < permanents.size(); ++i)
         delete permanents[i];
 }
 
@@ -190,3 +190,14 @@ Weapon* Inventory::GetWeapon()
 {
     return weapon;
 }
+
+Stats* Inventory::GetAllStatsModifiers()
+{
+    Stats* allModifiers = new Stats();
+    allModifiers->ModifyStats(weapon->GetStats());
+    allModifiers->ModifyStats(armor->GetStats());
+    allModifiers->ModifyStats(accessory->GetStats());
+    return allModifiers;
+}
+
+

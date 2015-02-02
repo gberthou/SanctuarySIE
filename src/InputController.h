@@ -5,6 +5,16 @@
 #include <SFML/Window.hpp>
 #include "Character.h"
 
+enum KeyMapping
+{
+    KEY_LEFT, KEY_UP, KEY_DOWN, KEY_RIGHT,
+    KEY_A, KEY_B,
+    KEY_L, KEY_R,
+    KEY_START, KEY_SELECT,
+    KEY_COUNT // must be the last
+};
+extern sf::Keyboard::Key keys_mapping[];
+
 class InputController
 {
     public:

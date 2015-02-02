@@ -13,8 +13,10 @@ RELEASE=release
 
 GPP=g++
 CFLAGS=-Wall
+INCLUDE=./
 
-CPPFILES=main.cpp Accessory.cpp Armor.cpp Item.cpp Tradable.cpp PickUpItem.cpp Stuff.cpp ItemFactory.cpp Weapon.cpp Consumable.cpp Permanent.cpp Inventory.cpp Stats.cpp Level.cpp LevelBg.cpp LevelFactory.cpp Map.cpp Character.cpp Merchant.cpp Mob.cpp MobFactory.cpp Path.cpp Gold.cpp Mana.cpp Resources.cpp Physics.cpp Entity.cpp InputController.cpp RedSoul.cpp BlueSoul.cpp YellowSoul.cpp Soul.cpp SoulManager.cpp SoulSet.cpp
+CPPFILES=SerGUI/main.cpp Accessory.cpp Armor.cpp Item.cpp Tradable.cpp PickUpItem.cpp Stuff.cpp ItemFactory.cpp Weapon.cpp Consumable.cpp Permanent.cpp Inventory.cpp Stats.cpp Level.cpp LevelBg.cpp LevelFactory.cpp Map.cpp Character.cpp Merchant.cpp Mob.cpp MobFactory.cpp Path.cpp Gold.cpp Mana.cpp Resources.cpp Physics.cpp Entity.cpp InputController.cpp RedSoul.cpp BlueSoul.cpp YellowSoul.cpp Soul.cpp SoulManager.cpp SoulSet.cpp Animation.cpp SerGUI/Button.cpp SerGUI/MenuSelectSave.cpp SerGUI/MenuTitle.cpp SerGUI/MenuTitle1.cpp SerGUI/SerGUI.cpp SerGUI/Bat.cpp
+
 
 OBJ=$(CPPFILES:.cpp=.o)
 OBJABS=$(addprefix $(OBJDIR)/,$(OBJ))
@@ -40,8 +42,8 @@ $(CLEAN):
 	rm -f $(BINDEBUG) $(BINRELEASE) $(OBJDEBUG) $(OBJRELEASE)
 
 $(DEBUGDIR)/$(OBJDIR)/%.o: %.cpp
-	$(GPP) $(CFLAGS) $(FLAGSDEBUG) -c -o $@ $<
+	$(GPP) $(CFLAGS) $(FLAGSDEBUG) -I"$(INCLUDE)" -c -o $@ $<
 
 $(RELEASEDIR)/$(OBJDIR)/%.o: %.cpp
-	$(GPP) $(CFLAGS) $(FLAGSRELEASE) -c -o $@ $<
+	$(GPP) $(CFLAGS) $(FLAGSRELEASE) -I"$(INCLUDE)" -c -o $@ $<
 
