@@ -22,6 +22,7 @@ namespace SerGUI
     sf::RenderWindow window;
 
     sf::Texture texMenuTitleBG;
+    sf::Texture texMenuTitle1BG;
     sf::Texture texMenuSelectSaveButtonNbSave;
     sf::Texture texMenuSelectSaveButtonNbSaveSelected;
     sf::Texture texMenuSelectSaveButtonAction;
@@ -31,6 +32,13 @@ namespace SerGUI
     bool Load()
     {
         if(!texMenuTitleBG.loadFromFile("img/sergui/title.png"))
+        {
+            #ifdef DEBUG
+            std::cout<<"Fail while loading resource"<<std::endl;
+            #endif
+            return false;
+        }
+        if(!texMenuTitle1BG.loadFromFile("img/sergui/title1.png"))
         {
             #ifdef DEBUG
             std::cout<<"Fail while loading resource"<<std::endl;

@@ -26,11 +26,8 @@ void MenuTitle::Run()
             {
                 if (event.key.code == sf::Keyboard::Escape)
                     SerGUI::window.close();
-            }
-            if (event.type == sf::Event::KeyPressed)
-            {
-                if (event.key.code == keys_mapping[KEY_A]
-                    || event.key.code == keys_mapping[KEY_START])
+				else if (event.key.code == keys_mapping[KEY_A]
+                     || event.key.code == keys_mapping[KEY_START])
                 {
                     goToNextScreen();
                 }

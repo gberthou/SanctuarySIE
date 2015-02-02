@@ -25,16 +25,6 @@ void Physics::CleanEntities()
     entities.clear();
 }
 
-void Physics::SetCollisionMap(CollisionMap cm)
-{
-    collisionMap = cm;
-}
-
-void Physics::AddCollisionMap(CollisionMap cm)
-{
-    SetCollisionMap(cm);
-}
-
 void Physics::manageStaticCollisions(Entity* e)
 {
     if( !(e->pos.x < 0 || e->pos.x+e->GetSprite().getGlobalBounds().width > collisionMap->getSize().x

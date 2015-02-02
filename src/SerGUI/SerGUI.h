@@ -5,6 +5,7 @@
 
 namespace SerGUI
 {
+	// The following constants might be placed in the adequate files as well
     extern const std::string TXT_TITLE_SCREEN;
     extern const std::string TXT_MENU_TITLE_SAVE;
     extern const std::string TXT_MENU_TITLE_PLAY;
@@ -12,6 +13,7 @@ namespace SerGUI
     extern const std::string TXT_MENU_TITLE_COPY;
 
     extern sf::Texture texMenuTitleBG;
+	extern sf::Texture texMenuTitle1BG;
     extern sf::Texture texMenuSelectSaveButtonNbSave;
     extern sf::Texture texMenuSelectSaveButtonNbSaveSelected;
     extern sf::Texture texMenuSelectSaveButtonAction;
