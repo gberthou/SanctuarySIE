@@ -17,7 +17,9 @@ enum MobBehavior
 
 enum MobType
 {
-	GIANT_BAT
+	GIANT_BAT,
+    
+    MOB_COUNT
 };
 
 struct MobDesc
