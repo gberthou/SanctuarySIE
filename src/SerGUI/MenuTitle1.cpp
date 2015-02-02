@@ -3,7 +3,7 @@
 #include "SerGUI.h"
 #include "Bat.h"
 
-const unsigned int NBATS = 2;
+const unsigned int NBATS = 333;
 
 MenuTitle1::MenuTitle1()
 {
@@ -18,8 +18,6 @@ MenuTitle1::MenuTitle1()
 
 void MenuTitle1::Run()
 {
-	bool nextScreen = false;
-
 	sf::Texture batTexture;
 	Bat *bats[NBATS];
 
@@ -44,7 +42,7 @@ void MenuTitle1::Run()
 				else if (event.key.code == keys_mapping[KEY_A]
                      || event.key.code == keys_mapping[KEY_START])
                 {
-					nextScreen = true;
+					goToNextScreen();
                 }
             }
 		}
@@ -65,9 +63,6 @@ void MenuTitle1::Run()
 
 	for(unsigned int i = 0; i < NBATS; ++i)
 		delete bats[i];
-
-	if(nextScreen)
-		goToNextScreen();
 }
 
 void MenuTitle1::goToNextScreen()

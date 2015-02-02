@@ -5,6 +5,9 @@
 
 namespace SerGUI
 {
+    extern unsigned int SCREEN_WIDTH;
+    extern unsigned int SCREEN_HEIGHT;
+	
 	// The following constants might be placed in the adequate files as well
     extern const std::string TXT_TITLE_SCREEN;
     extern const std::string TXT_MENU_TITLE_SAVE;
