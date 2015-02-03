@@ -16,9 +16,13 @@ class Bat : public sf::Drawable
 
 		virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 	private:
+		bool isBorn(void) const;
+
 		sf::Sprite sprite;
 		sf::Vector2f pos;
 		sf::Vector2f objective;
+		sf::Int32 birth;
+		sf::Clock clock;
 		Animation animation;
 		float scale;
 };
