@@ -5,31 +5,38 @@
 #include "SerGUI.h"
 #include "Bat.h"
 
-const sf::String S_BACKGROUND("img/sergui/title1.png");
-const sf::String S_COVER("img/sergui/title1cover.png");
-const sf::String S_BAT("img/sergui/bat.png");
+static const char* S_BACKGROUND("img/sergui/title1.png");
+static const char* S_COVER("img/sergui/title1cover.png");
+static const char* S_BAT("img/sergui/bat.png");
+static const char* S_TEXT = "img/sergui/title_press_enter.png";
 
 const unsigned int NBATS = 333;
 
 MenuTitle1::MenuTitle1()
 {
-    text.setFont(SerGUI::fontMenu1);
-    text.setCharacterSize(24);
-    text.setString(SerGUI::TXT_TITLE_SCREEN);
-    text.setOrigin(text.getGlobalBounds().width/2.f,
-                   text.getGlobalBounds().height*2.f);
-    text.setPosition(SerGUI::window.getSize().x/2.f,SerGUI::window.getSize().y-10.f);
+
+    if (!shader.loadFromFile("shaders/base.vert", "shaders/SerGUI1.frag"))
+    {
+    }
 }
 
 bool MenuTitle1::Load(void)
 {
 	return texBackground.loadFromFile(S_BACKGROUND)
 		&& texCover.loadFromFile(S_COVER)
-		&& texBat.loadFromFile(S_BAT);
+		&& texBat.loadFromFile(S_BAT)
+		&& texText.loadFromFile(S_TEXT);
 }
 
 MenuTitle1Code MenuTitle1::Run(void)
 {
+        text.setTexture(texText);
+    text.setOrigin(text.getGlobalBounds().width/2.f,
+                   text.getGlobalBounds().height*1.0f);
+    text.setPosition(SerGUI::window.getSize().x/2.f,SerGUI::window.getSize().y-0.f);
+    shader.setParameter("texture", sf::Shader::CurrentTexture);
+
+    sf::Clock time;
 	MenuTitle1Code ret = EXIT;
 
 	sf::Sprite background(texBackground);
@@ -62,6 +69,7 @@ MenuTitle1Code MenuTitle1::Run(void)
             }
 		}
 
+
 		// Make the bats pass from the inside collection to the outside collection
 		for(std::vector<Bat*>::iterator it = inside.begin(); it != inside.end();)
 		{
@@ -80,10 +88,10 @@ MenuTitle1Code MenuTitle1::Run(void)
 			outside[i]->Update();
 
 		SerGUI::window.clear(sf::Color::Black);
-		
+
 		// First draw the background
 		SerGUI::window.draw(background);
-		
+
 		// Then the "inside" bats
 		for(unsigned int i = 0; i < inside.size(); ++i)
 			SerGUI::window.draw(*inside[i]);
@@ -96,7 +104,9 @@ MenuTitle1Code MenuTitle1::Run(void)
 		for(unsigned int i = 0; i < outside.size(); ++i)
 			SerGUI::window.draw(*outside[i]);
 
-		SerGUI::window.draw(text);
+        // the bottom text
+		shader.setParameter("time", time.getElapsedTime().asSeconds());
+		SerGUI::window.draw(text,&shader);
 
 		SerGUI::window.display();
 	}

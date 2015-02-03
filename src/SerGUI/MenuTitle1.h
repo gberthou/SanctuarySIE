@@ -20,7 +20,9 @@ class MenuTitle1
 		sf::Texture texBackground;
 		sf::Texture texCover;
 		sf::Texture texBat;
-        sf::Text text;
+        sf::Texture texText;
+        sf::Shader shader;
+        sf::Sprite text;
 };
 
 #endif // MENUTITLE1_H
