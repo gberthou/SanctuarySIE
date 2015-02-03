@@ -12,7 +12,7 @@ class Bat : public sf::Drawable
 		Bat(const sf::Texture &texture);
 		virtual ~Bat();
 
-		void Update(void);
+		void Update(unsigned int frameCount);
 
 		virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 	

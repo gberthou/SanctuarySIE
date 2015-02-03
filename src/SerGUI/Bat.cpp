@@ -28,6 +28,16 @@ const float VELOCITY = 1.5f;
 
 const unsigned int OUT_Y = 388;
 
+static float max(float x, float y)
+{
+	return x > y ? x : y;
+}
+
+static float min(float x, float y)
+{
+	return x < y ? x : y;
+}
+
 Bat::Bat(const sf::Texture &texture):
 	sf::Drawable(),
 	sprite(texture),
@@ -56,7 +66,7 @@ Bat::~Bat()
 {
 }
 
-void Bat::Update(void)
+void Bat::Update(unsigned int frameCount)
 {
 
 	if(!animation.IsPlaying())
@@ -92,22 +102,22 @@ void Bat::Update(void)
 		{
 			if(diff.x > 0) // Objective on the right
 			{
-				pos.x += diff.x > speed ? speed : diff.x;
+				pos.x += min(diff.x, speed * frameCount);
 				sprite.setScale(scale, scale);
 			}
 			else if(diff.x < 0)
 			{
-				pos.x += diff.x < -speed ? -speed : diff.x;
+				pos.x += max(diff.x, -speed * frameCount);
 				sprite.setScale(-scale, scale);
 			}
 
 			if(diff.y > 0) // Objective below
 			{
-				pos.y += diff.y > speed ? speed : diff.y;
+				pos.y += min(diff.y, speed * frameCount);
 			}
 			else if(diff.y < 0)
 			{
-				pos.y += diff.y < -speed ? -speed : diff.y;
+				pos.y += max(diff.y, -speed * frameCount);
 			}
 		}
 

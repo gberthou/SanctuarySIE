@@ -4,7 +4,10 @@
 #include "MenuTitle1.h"
 #include "SerGUI.h"
 #include "Bat.h"
+#include "FPSClock.h"
 
+static const char* S_VERT_SHADER("shaders/base.vert");
+static const char* S_FRAG_SHADER("shaders/SerGUI1.frag");
 static const char* S_BACKGROUND("img/sergui/title1.png");
 static const char* S_COVER("img/sergui/title1cover.png");
 static const char* S_BAT("img/sergui/bat.png");
@@ -14,15 +17,12 @@ const unsigned int NBATS = 333;
 
 MenuTitle1::MenuTitle1()
 {
-
-    if (!shader.loadFromFile("shaders/base.vert", "shaders/SerGUI1.frag"))
-    {
-    }
 }
 
 bool MenuTitle1::Load(void)
 {
-	return texBackground.loadFromFile(S_BACKGROUND)
+	return shader.loadFromFile(S_VERT_SHADER, S_FRAG_SHADER)
+		&& texBackground.loadFromFile(S_BACKGROUND)
 		&& texCover.loadFromFile(S_COVER)
 		&& texBat.loadFromFile(S_BAT)
 		&& texText.loadFromFile(S_TEXT);
@@ -36,7 +36,6 @@ MenuTitle1Code MenuTitle1::Run(void)
     text.setPosition(SerGUI::window.getSize().x/2.f,SerGUI::window.getSize().y-0.f);
     shader.setParameter("texture", sf::Shader::CurrentTexture);
 
-    sf::Clock time;
 	MenuTitle1Code ret = EXIT;
 
 	sf::Sprite background(texBackground);
@@ -45,14 +44,21 @@ MenuTitle1Code MenuTitle1::Run(void)
 	std::vector<Bat*> inside(NBATS);
 	std::vector<Bat*> outside;
 
+	sf::Clock timer;
+	FPSClock clock(60);
+	
 	for(unsigned int i = 0; i < NBATS; ++i)
 	{
 		inside[i] = new Bat(texBat);
 	}
 
+	clock.restart();
+
     while(SerGUI::window.isOpen() && ret == EXIT)
 	{
 		sf::Event event;
+		unsigned int nframes;
+		
 		while(SerGUI::window.pollEvent(event))
 		{
 			if(event.type == sf::Event::Closed)
@@ -68,12 +74,15 @@ MenuTitle1Code MenuTitle1::Run(void)
                 }
             }
 		}
-
+		
+		nframes = clock.GetElapsedFrames();
+		if(nframes > 0) // Important
+			clock.restart();
 
 		// Make the bats pass from the inside collection to the outside collection
 		for(std::vector<Bat*>::iterator it = inside.begin(); it != inside.end();)
 		{
-			(*it)->Update();
+			(*it)->Update(nframes);
 			if((*it)->IsOutside())
 			{
 				std::vector<Bat*>::iterator tmp = it;
@@ -85,7 +94,7 @@ MenuTitle1Code MenuTitle1::Run(void)
 		}
 
 		for(unsigned int i = 0; i < outside.size(); ++i)
-			outside[i]->Update();
+			outside[i]->Update(nframes);
 
 		SerGUI::window.clear(sf::Color::Black);
 
@@ -105,7 +114,7 @@ MenuTitle1Code MenuTitle1::Run(void)
 			SerGUI::window.draw(*outside[i]);
 
         // the bottom text
-		shader.setParameter("time", time.getElapsedTime().asSeconds());
+		shader.setParameter("time", timer.getElapsedTime().asSeconds());
 		SerGUI::window.draw(text,&shader);
 
 		SerGUI::window.display();

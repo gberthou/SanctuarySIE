@@ -3,6 +3,8 @@
 
 #include <SFML/System.hpp>
 
+#include "FPSClock.h"
+
 class Animation
 {
 	public:
@@ -20,10 +22,8 @@ class Animation
 		unsigned int currentFrame;
 		unsigned int startFrame;
 		unsigned int endFrame;
-		unsigned int fps;
 		bool playing;
-		sf::Clock clock;
-		sf::Int32 timeCarry;
+		FPSClock clock;
 };
 
 #endif
