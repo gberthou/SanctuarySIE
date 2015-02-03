@@ -11,18 +11,28 @@
 
 int main()
 {
+	MenuTitle1Code code;
+
 	srand(time(0));
 
 	Resources::Load();
     SerGUI::Load();
-    MenuTitle1 menu;
-    menu.Load();
-	
-	while(menu.Run() != EXIT)
+
+	do
 	{
-		MenuSelectSave menuSelectSave;
-		menuSelectSave.Run();
-	}
+		MenuTitle1 *menuTitle = new MenuTitle1();
+		MenuSelectSave *menuSelectSave;
+		
+		menuTitle->Load();
+		code = menuTitle->Run();
+		delete menuTitle;
+
+		menuSelectSave = new MenuSelectSave();
+		menuSelectSave->Run();
+		delete menuSelectSave;
+
+	}while(code != EXIT);
+	
 	return 0;
 }
 
