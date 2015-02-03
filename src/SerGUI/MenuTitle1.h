@@ -3,15 +3,20 @@
 
 #include <SFML/Graphics.hpp>
 
+enum MenuTitle1Code
+{
+	EXIT,
+	MENU_SELECT_SAVE
+};
+
 class MenuTitle1
 {
 
     public:
         MenuTitle1();
 		bool Load(void);		
-        void Run(void);
+        MenuTitle1Code Run(void);
     protected:
-        void goToNextScreen(void);
 		sf::Texture texBackground;
 		sf::Texture texCover;
 		sf::Texture texBat;

@@ -5,6 +5,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "MenuTitle1.h"
+#include "MenuSelectSave.h"
 #include "SerGUI.h"
 #include "Resources.h"
 
@@ -16,7 +17,12 @@ int main()
     SerGUI::Load();
     MenuTitle1 menu;
     menu.Load();
-	menu.Run();
+	
+	while(menu.Run() != EXIT)
+	{
+		MenuSelectSave menuSelectSave;
+		menuSelectSave.Run();
+	}
 	return 0;
 }
 

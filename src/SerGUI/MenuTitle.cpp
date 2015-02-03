@@ -1,3 +1,4 @@
+#include "InputController.h"
 #include "MenuTitle.h"
 #include "MenuSelectSave.h"
 #include "SerGUI.h"

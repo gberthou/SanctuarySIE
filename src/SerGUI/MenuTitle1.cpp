@@ -1,7 +1,7 @@
 #include <vector>
 
+#include "InputController.h"
 #include "MenuTitle1.h"
-#include "MenuSelectSave.h"
 #include "SerGUI.h"
 #include "Bat.h"
 
@@ -28,8 +28,10 @@ bool MenuTitle1::Load(void)
 		&& texBat.loadFromFile(S_BAT);
 }
 
-void MenuTitle1::Run(void)
+MenuTitle1Code MenuTitle1::Run(void)
 {
+	MenuTitle1Code ret = EXIT;
+
 	sf::Sprite background(texBackground);
 	sf::Sprite cover(texCover);
 
@@ -41,7 +43,7 @@ void MenuTitle1::Run(void)
 		inside[i] = new Bat(texBat);
 	}
 
-    while(SerGUI::window.isOpen())
+    while(SerGUI::window.isOpen() && ret == EXIT)
 	{
 		sf::Event event;
 		while(SerGUI::window.pollEvent(event))
@@ -55,11 +57,12 @@ void MenuTitle1::Run(void)
 				else if (event.key.code == keys_mapping[KEY_A]
                      || event.key.code == keys_mapping[KEY_START])
                 {
-					goToNextScreen();
+					ret = MENU_SELECT_SAVE;
                 }
             }
 		}
 
+		// Make the bats pass from the inside collection to the outside collection
 		for(std::vector<Bat*>::iterator it = inside.begin(); it != inside.end();)
 		{
 			(*it)->Update();
@@ -77,13 +80,19 @@ void MenuTitle1::Run(void)
 			outside[i]->Update();
 
 		SerGUI::window.clear(sf::Color::Black);
+		
+		// First draw the background
 		SerGUI::window.draw(background);
 		
+		// Then the "inside" bats
 		for(unsigned int i = 0; i < inside.size(); ++i)
 			SerGUI::window.draw(*inside[i]);
 
-		SerGUI::window.draw(cover);
+		// Then the cover
+		if(inside.size() != 0)
+			SerGUI::window.draw(cover);
 
+		// Then the "outside" bats
 		for(unsigned int i = 0; i < outside.size(); ++i)
 			SerGUI::window.draw(*outside[i]);
 
@@ -97,10 +106,7 @@ void MenuTitle1::Run(void)
 
 	for(unsigned int i = 0; i < outside.size(); ++i)
 		delete outside[i];
+
+	return ret;
 }
 
-void MenuTitle1::goToNextScreen(void)
-{
-    MenuSelectSave menu;
-    menu.Run();
-}
