@@ -5,12 +5,17 @@
 
 SoulManager::SoulManager()
 {
+    int i;
+    for (i=0; i<MOB_COUNT; i++)
+    {
+        souls[i] = (Soul*)0;
+    }
     souls[GIANT_BAT] = new RedSoul();
 }
 
 SoulManager::~SoulManager()
 {
-    // dtor
+    delete souls[GIANT_BAT];
 }
 
 Soul *SoulManager::GetSoul(MobType type)

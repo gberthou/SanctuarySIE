@@ -3,6 +3,7 @@
 
 #include "Entity.h"
 #include "Inventory.h"
+#include "SoulSet.h"
 #include "Stats.h"
 #include "CharacterState.h"
 #include "Status.h"
@@ -42,6 +43,7 @@ class Character : public Entity
         Stats *baseStats;           // Basic stats
         Stats *effectiveStats;      // Effective stats
         Inventory *inventory;       // Inventory
+        SoulSet *soulSet;           // SoulSet
 
         // "Hidden" attributes
         CharacterState state;       // State

@@ -16,6 +16,7 @@ Character::Character()
     mp = maxMP;
 
     inventory = NULL;
+    soulSet = new SoulSet();
     state = WAIT;
 }
 
