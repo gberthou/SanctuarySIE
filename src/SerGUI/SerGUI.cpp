@@ -38,13 +38,6 @@ namespace SerGUI
             #endif
             return false;
         }
-        if(!texMenuTitle1BG.loadFromFile("img/sergui/title1.png"))
-        {
-            #ifdef DEBUG
-            std::cout<<"Fail while loading resource"<<std::endl;
-            #endif
-            return false;
-        }
         if(!texMenuSelectSaveButtonNbSave
                 .loadFromFile("img/sergui/maimenu_element1.png"))
         {

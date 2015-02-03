@@ -13,20 +13,26 @@ const unsigned int BIRTH_MAX = 4000;
 const float SCALE_MIN = 0.2f;
 const float SCALE_MAX = 0.6f;
 
+const float SPEED_MIN = 1.f;
+const float SPEED_MAX = 3.f;
+
 const float ROTATION_MIN = -10;
 const float ROTATION_MAX = 10;
 
 const float OBJECTIVE_EPSILON = 4;
 const unsigned int OBJECTIVE_SPAWN_DIST = 100;
 
-const sf::IntRect SPAWN_AREA(100, 400, 600, 100);
+const sf::IntRect SPAWN_AREA(125, 458, 627-125, 100);
 
-const float VELOCITY = 4;
+const float VELOCITY = 1.5f;
+
+const unsigned int OUT_Y = 388;
 
 Bat::Bat(const sf::Texture &texture):
 	sf::Drawable(),
 	sprite(texture),
-	animation(0, FRAME_NUMBER-1, FPS)
+	animation(0, FRAME_NUMBER-1, FPS),
+	outside(false)
 {
 	int x = SPAWN_AREA.left + (rand() % (SPAWN_AREA.width + 1));
 	int y = SPAWN_AREA.top + (rand() % (SPAWN_AREA.height + 1));
@@ -34,7 +40,7 @@ Bat::Bat(const sf::Texture &texture):
 	float rotation = ROTATION_MIN + rand() * (ROTATION_MAX - ROTATION_MIN) / RAND_MAX;
 
 	pos = sf::Vector2f(x, y);
-	objective = pos;
+	objective = sf::Vector2f(x, y - 200);
 	
 	scale = SCALE_MIN + rand() * (SCALE_MAX - SCALE_MIN) / RAND_MAX;
 	sprite.setOrigin(sf::Vector2f(FRAME_WIDTH, FRAME_HEIGHT) * scale/2.f);
@@ -42,6 +48,8 @@ Bat::Bat(const sf::Texture &texture):
 	sprite.setScale(scale, scale);
 
 	birth = rand() % BIRTH_MAX;
+	
+	speed = (SPEED_MIN + rand() * (SPEED_MAX-SPEED_MIN) / RAND_MAX) * VELOCITY;
 }
 
 Bat::~Bat()
@@ -61,7 +69,10 @@ void Bat::Update(void)
 	{
 		sf::Vector2f diff = objective - pos;
 
-		if(diff.x * diff.x + diff.y * diff.y < OBJECTIVE_EPSILON)
+		if(pos.y <= OUT_Y)
+			outside = true;
+
+		if(diff.x * diff.x + diff.y * diff.y <= 1)
 		{
 			int dx = (rand() % (2 * OBJECTIVE_SPAWN_DIST + 1)) - OBJECTIVE_SPAWN_DIST;
 			int dy = (rand() % (2 * OBJECTIVE_SPAWN_DIST + 1)) - OBJECTIVE_SPAWN_DIST;
@@ -81,22 +92,22 @@ void Bat::Update(void)
 		{
 			if(diff.x > 0) // Objective on the right
 			{
-				pos.x += 1.f;
+				pos.x += diff.x > speed ? speed : diff.x;
 				sprite.setScale(scale, scale);
 			}
 			else if(diff.x < 0)
 			{
-				pos.x -= 1.f;
+				pos.x += diff.x < -speed ? -speed : diff.x;
 				sprite.setScale(-scale, scale);
 			}
 
 			if(diff.y > 0) // Objective below
 			{
-				pos.y += 1.f;
+				pos.y += diff.y > speed ? speed : diff.y;
 			}
 			else if(diff.y < 0)
 			{
-				pos.y -= 1.f;
+				pos.y += diff.y < -speed ? -speed : diff.y;
 			}
 		}
 
@@ -111,6 +122,11 @@ void Bat::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
 	if(isBorn())
 		target.draw(sprite, states);
+}
+
+bool Bat::IsOutside(void) const
+{
+	return outside;
 }
 
 bool Bat::isBorn(void) const

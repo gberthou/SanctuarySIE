@@ -15,7 +15,8 @@ int main()
 	Resources::Load();
     SerGUI::Load();
     MenuTitle1 menu;
-    menu.Run();
+    menu.Load();
+	menu.Run();
 	return 0;
 }
 

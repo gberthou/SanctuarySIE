@@ -16,7 +16,6 @@ namespace SerGUI
     extern const std::string TXT_MENU_TITLE_COPY;
 
     extern sf::Texture texMenuTitleBG;
-	extern sf::Texture texMenuTitle1BG;
     extern sf::Texture texMenuSelectSaveButtonNbSave;
     extern sf::Texture texMenuSelectSaveButtonNbSaveSelected;
     extern sf::Texture texMenuSelectSaveButtonAction;

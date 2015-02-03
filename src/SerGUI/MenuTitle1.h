@@ -8,10 +8,13 @@ class MenuTitle1
 
     public:
         MenuTitle1();
-        void Run();
+		bool Load(void);		
+        void Run(void);
     protected:
-        void goToNextScreen();
-        sf::Sprite background;
+        void goToNextScreen(void);
+		sf::Texture texBackground;
+		sf::Texture texCover;
+		sf::Texture texBat;
         sf::Text text;
 };
 

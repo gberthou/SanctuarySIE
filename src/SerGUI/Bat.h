@@ -15,6 +15,9 @@ class Bat : public sf::Drawable
 		void Update(void);
 
 		virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+	
+		bool IsOutside(void) const;
+	
 	private:
 		bool isBorn(void) const;
 
@@ -24,7 +27,9 @@ class Bat : public sf::Drawable
 		sf::Int32 birth;
 		sf::Clock clock;
 		Animation animation;
+		bool outside;
 		float scale;
+		float speed;
 };
 
 #endif

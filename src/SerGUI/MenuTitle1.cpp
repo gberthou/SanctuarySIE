@@ -1,13 +1,18 @@
+#include <vector>
+
 #include "MenuTitle1.h"
 #include "MenuSelectSave.h"
 #include "SerGUI.h"
 #include "Bat.h"
 
+const sf::String S_BACKGROUND("img/sergui/title1.png");
+const sf::String S_COVER("img/sergui/title1cover.png");
+const sf::String S_BAT("img/sergui/bat.png");
+
 const unsigned int NBATS = 333;
 
 MenuTitle1::MenuTitle1()
 {
-    background.setTexture(SerGUI::texMenuTitle1BG);
     text.setFont(SerGUI::fontMenu1);
     text.setCharacterSize(24);
     text.setString(SerGUI::TXT_TITLE_SCREEN);
@@ -16,16 +21,24 @@ MenuTitle1::MenuTitle1()
     text.setPosition(SerGUI::window.getSize().x/2.f,SerGUI::window.getSize().y-10.f);
 }
 
-void MenuTitle1::Run()
+bool MenuTitle1::Load(void)
 {
-	sf::Texture batTexture;
-	Bat *bats[NBATS];
+	return texBackground.loadFromFile(S_BACKGROUND)
+		&& texCover.loadFromFile(S_COVER)
+		&& texBat.loadFromFile(S_BAT);
+}
 
-	batTexture.loadFromFile("img/sergui/bat.png");
+void MenuTitle1::Run(void)
+{
+	sf::Sprite background(texBackground);
+	sf::Sprite cover(texCover);
+
+	std::vector<Bat*> inside(NBATS);
+	std::vector<Bat*> outside;
 
 	for(unsigned int i = 0; i < NBATS; ++i)
 	{
-		bats[i] = new Bat(batTexture);
+		inside[i] = new Bat(texBat);
 	}
 
     while(SerGUI::window.isOpen())
@@ -47,25 +60,46 @@ void MenuTitle1::Run()
             }
 		}
 
-		for(unsigned int i = 0; i < NBATS; ++i)
-			bats[i]->Update();
+		for(std::vector<Bat*>::iterator it = inside.begin(); it != inside.end();)
+		{
+			(*it)->Update();
+			if((*it)->IsOutside())
+			{
+				std::vector<Bat*>::iterator tmp = it;
+				outside.push_back(*tmp);
+				it = inside.erase(tmp);
+			}
+			else
+				++it;
+		}
+
+		for(unsigned int i = 0; i < outside.size(); ++i)
+			outside[i]->Update();
 
 		SerGUI::window.clear(sf::Color::Black);
 		SerGUI::window.draw(background);
 		
-		for(unsigned int i = 0; i < NBATS; ++i)
-			SerGUI::window.draw(*bats[i]);
-		
+		for(unsigned int i = 0; i < inside.size(); ++i)
+			SerGUI::window.draw(*inside[i]);
+
+		SerGUI::window.draw(cover);
+
+		for(unsigned int i = 0; i < outside.size(); ++i)
+			SerGUI::window.draw(*outside[i]);
+
 		SerGUI::window.draw(text);
 
 		SerGUI::window.display();
 	}
 
-	for(unsigned int i = 0; i < NBATS; ++i)
-		delete bats[i];
+	for(unsigned int i = 0; i < inside.size(); ++i)
+		delete inside[i];
+
+	for(unsigned int i = 0; i < outside.size(); ++i)
+		delete outside[i];
 }
 
-void MenuTitle1::goToNextScreen()
+void MenuTitle1::goToNextScreen(void)
 {
     MenuSelectSave menu;
     menu.Run();
