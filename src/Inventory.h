@@ -32,8 +32,11 @@ class Inventory
 
         void LootItem(Item *item);
 
-        Weapon* GetWeapon();
-        Stats* GetAllStatsModifiers();
+		void SetWeapon(std::vector<Weapon*>::const_iterator it);
+        Weapon* GetWeapon() const;
+		const std::vector<Weapon*> &GetWeapons() const;
+        
+		Stats* GetAllStatsModifiers() const;
     protected:
     private:
         void sellItem(Tradable* toSell);

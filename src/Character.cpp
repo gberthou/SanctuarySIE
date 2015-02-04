@@ -20,7 +20,7 @@ Character::Character():
     mp = maxMP;
 
 	effectiveStats = 0;
-    inventory = 0;
+    inventory = new Inventory();
     soulSet = new SoulSet();
 
 	stateJump = NOJUMP;
@@ -109,11 +109,6 @@ unsigned int Character::dealDamage(unsigned int power, Status ownStatus, unsigne
     return damage;
 }
 
-void Character::LootItem(Item *item)
-{
-    inventory->LootItem(item);
-}
-
 void Character::Attack()
 {
 	if(stateRedSoul == NORSOUL)
@@ -138,6 +133,11 @@ void Character::UpdateStates()
 	}
 
 	std::cout << "Attack: " << stateAttack << std::endl;
+}
+
+Inventory *Character::GetInventory() const
+{
+	return inventory;
 }
 
 void Character::attackBehavior(void)
