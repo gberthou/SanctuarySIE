@@ -1,4 +1,7 @@
+#include <cstdlib>
+
 #include "Mob.h"
+
 
 Mob::Mob(MobType type1, const sf::Texture &texture):
 	type(type1),
@@ -61,9 +64,30 @@ unsigned int Mob::DealDamage(unsigned int power, Status ownStatus, unsigned int 
     return damage;
 }
 
-void Mob::Drop(unsigned int lck)
+void Mob::LootMob(unsigned int lck)
 {
+    // Home-made algorithm for loot-%age
+    unsigned int realDropRate = 0;
+    std::vector<Item*> itemsToDrop;
 
+    for(unsigned int i=0; i<loot.size(); ++i)
+    {
+        srand(time(NULL));
+        realDropRate = loot[i]->dropRate + (int)((float)lck/(float)MAX_STAT)*MAX_ADD_DROP_RATE;
+        realDropRate = (realDropRate > 100) ? 100 : realDropRate;
+
+        if((unsigned int)(rand() % 100) > realDropRate)
+        {
+            itemsToDrop.push_back(loot[i]->item);
+        }
+    }
+    if(itemsToDrop.size() > 0)
+        dropItems(itemsToDrop);
+}
+
+void Mob::dropItems(std::vector<Item*> itemsToDrop)
+{
+    // Drop items on the floor ?
 }
 
 unsigned int Mob::GiveXP()

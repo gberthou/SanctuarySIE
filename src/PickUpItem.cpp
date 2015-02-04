@@ -3,7 +3,7 @@
 PickUpItem::PickUpItem():
     Item()
 {
-    //ctor
+    type = PICKUP;
 }
 
 PickUpItem::~PickUpItem()

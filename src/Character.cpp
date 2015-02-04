@@ -3,6 +3,7 @@
 #include "ItemAttribute.h"
 #include "Gameplay.h"
 #include "Mob.h"
+#include "Item.h"
 
 Character::Character()
 {
@@ -100,6 +101,11 @@ unsigned int Character::dealDamage(unsigned int power, Status ownStatus, unsigne
     return damage;
 }
 
+void Character::LootItem(Item *item)
+{
+    inventory->LootItem(item);
+}
+
 void Character::Attack()
 {
     // Collision -> get mob
@@ -109,7 +115,7 @@ void Character::Attack()
     if(mob->Hurt(dmg))
     {
         // Mob is dead
-        mob->Drop((unsigned int)effectiveStats->GetLck());
+        mob->LootMob((unsigned int)effectiveStats->GetLck());
         EarnExp(mob->GiveXP());
     }
 }

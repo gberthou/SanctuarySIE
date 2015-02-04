@@ -10,6 +10,7 @@ class Accessory;
 class Consumable;
 class Permanent;
 class Tradable;
+class Item;
 
 class Inventory
 {
@@ -28,6 +29,8 @@ class Inventory
         void Buy(std::vector<Accessory*>::iterator accessoryIt);
         void Buy(std::vector<Consumable*>::iterator consumableIt);
         void Buy(std::vector<Permanent*>::iterator permanentIt);
+
+        void LootItem(Item *item);
 
         Weapon* GetWeapon();
         Stats* GetAllStatsModifiers();
