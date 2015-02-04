@@ -11,7 +11,7 @@ Mob::Mob(MobType type1, const sf::Texture &texture):
 
 Mob::Mob()
 {
-
+    stats = 0;
 }
 
 Mob::~Mob()
@@ -80,7 +80,7 @@ void Mob::UpdateAI(void)
 {
 	const float EPSILON = 1; // Warning : may be capricious if the initial mob position is not adapted to the
 							 // collision map (ie. if the mob is a few pixels above the local floor)
-	
+
 	if(behavior == NORMAL)
 	{
 		sf::Vector2f objective = path->GetNextPosition();

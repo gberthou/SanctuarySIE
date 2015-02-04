@@ -9,6 +9,9 @@
 Inventory::Inventory()
 {
     //ctor
+    weapon = 0;
+    armor = 0;
+    accessory = 0;
 }
 
 Inventory::~Inventory()
