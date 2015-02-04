@@ -124,3 +124,5 @@ void Character::Walk(sf::Vector2f direction)
 {
     pos += (direction*200.f*DT);
 }
+
+

@@ -85,7 +85,7 @@ void Mob::LootMob(unsigned int lck)
         dropItems(itemsToDrop);
 }
 
-void Mob::dropItems(std::vector<Item*> itemsToDrop)
+void Mob::dropItems(std::vector<Item*> &itemsToDrop)
 {
     // Drop items on the floor ?
 }
