@@ -1,10 +1,13 @@
+#include <iostream>
+
 #include "Character.h"
 #include "Weapon.h"
 #include "ItemAttribute.h"
 #include "Gameplay.h"
 #include "Mob.h"
 
-Character::Character()
+Character::Character():
+	Entity()
 {
     // Redefine this in
     sprite = sf::Sprite(Resources::texCharacter);
@@ -18,7 +21,12 @@ Character::Character()
 	effectiveStats = 0;
     inventory = 0;
     soulSet = new SoulSet();
-    state = WAIT;
+    
+	stateJump = NOJUMP;
+	stateWalk = IDLE;
+	stateAttack = NOATTACK;
+	stateRedSoul = NORSOUL;
+	stateBlueSoul = NOBSOUL;
 }
 
 Character::~Character()
@@ -102,7 +110,35 @@ unsigned int Character::dealDamage(unsigned int power, Status ownStatus, unsigne
 
 void Character::Attack()
 {
+	if(stateRedSoul == NORSOUL)
+	{
+		stateAttack = ATTACK;
+		clAttack.restart();
+	}
+}
+
+void Character::Walk(sf::Vector2f direction)
+{
+    pos += (direction*200.f*DT);
+}
+
+void Character::UpdateStates()
+{
+	if(stateAttack == ATTACK)
+	{
+		attackBehavior();
+		if(clAttack.getElapsedTime().asMilliseconds() > inventory->GetWeapon()->GetCooldown()) // Cooldown is over
+			stateAttack = NOATTACK;
+	}
+
+	std::cout << "Attack: " << stateAttack << std::endl;
+}
+
+void Character::attackBehavior(void)
+{
     // Collision -> get mob
+	
+	/*
     Mob* mob = new Mob();
     updateStats();
     unsigned int dmg = dealDamage(getPower(), status, mob->GetStats()->GetDef(), mob->GetStatus());
@@ -112,9 +148,6 @@ void Character::Attack()
         mob->Drop((unsigned int)effectiveStats->GetLck());
         EarnExp(mob->GiveXP());
     }
+	*/
 }
 
-void Character::Walk(sf::Vector2f direction)
-{
-    pos += (direction*200.f*DT);
-}

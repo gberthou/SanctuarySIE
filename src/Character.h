@@ -22,12 +22,16 @@ class Character : public Entity
         void Walk(sf::Vector2f direction);
         virtual void LvlUpStats();
         void Attack();
+
+		void UpdateStates();
     protected:
     private:
         unsigned int getPower();
         void updateStats();
         unsigned int dealDamage(unsigned int power, Status ownStatus, unsigned int defense, Status enemyStatus);
 
+		// State methods
+		void attackBehavior(void);
 
         // "Gameplay" attributes
         unsigned int lvl;           // Level
@@ -46,7 +50,13 @@ class Character : public Entity
         SoulSet *soulSet;           // SoulSet
 
         // "Hidden" attributes
-        CharacterState state;       // State
+        CharacterStateJump stateJump;
+		CharacterStateWalk stateWalk;
+		CharacterStateAttack stateAttack;
+		CharacterStateRedSoul stateRedSoul;
+		CharacterStateBlueSoul stateBlueSoul;
+
+		sf::Clock clAttack;
 };
 
 #endif // CHARACTER_H

@@ -32,6 +32,9 @@ void InputController::Update(sf::Event const& event)
 
         if(sf::Keyboard::isKeyPressed(keys_mapping[KEY_A]))
             actionA();
+        
+		if(sf::Keyboard::isKeyPressed(keys_mapping[KEY_B]))
+            actionB();
     }
 }
 
@@ -60,4 +63,5 @@ void InputController::actionA()
 
 void InputController::actionB()
 {
+	character->Attack();
 }

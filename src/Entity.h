@@ -10,7 +10,7 @@ class Entity : public sf::Drawable
     public:
         Entity();
         virtual ~Entity();
-        void Update();
+        virtual void Update();
 
 	void SetPosition(const sf::Vector2f &pos);
 

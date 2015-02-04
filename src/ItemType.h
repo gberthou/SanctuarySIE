@@ -4,7 +4,7 @@
 
 enum WeaponType
 {
-    // insert some weapon name here
+	DAGGER
 };
 
 enum ArmorType
