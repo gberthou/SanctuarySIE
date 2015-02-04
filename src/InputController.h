@@ -13,6 +13,7 @@ enum KeyMapping
     KEY_START, KEY_SELECT,
     KEY_COUNT // must be the last
 };
+
 extern sf::Keyboard::Key keys_mapping[];
 
 class InputController

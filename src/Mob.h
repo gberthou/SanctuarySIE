@@ -62,7 +62,7 @@ class Mob : public Entity
         Stats* GetStats();
     protected:
     private:
-        void dropItems(std::vector<Item*> itemsToDrop);
+        void dropItems(std::vector<Item*> &itemsToDrop);
 
         // "Apparent" attributes
 		MobType type;

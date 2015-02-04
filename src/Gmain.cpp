@@ -47,15 +47,17 @@ int main(void)
 
 		frameCount = clock.GetElapsedFrames();
 		if(frameCount > 0)
+		{
 			clock.restart();
 
-		window.clear(sf::Color::Black);
+			window.clear(sf::Color::Black);
 
-		window.draw(*level);
+			window.draw(*level);
 
-		window.display();
+			window.display();
 
-		level->Update(frameCount);
+			level->Update(frameCount);
+		}
 	}
 
 	delete level;

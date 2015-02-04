@@ -102,6 +102,8 @@ void Level::Update(unsigned int frameCount)
 				mobs[i]->UpdateAI();
 		}
 
+		character->UpdateStates();
+
 		physics->Update();
 }
 

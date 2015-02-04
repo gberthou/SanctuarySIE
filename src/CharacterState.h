@@ -1,14 +1,38 @@
 #ifndef CHARACTERSTATE_H
 #define CHARACTERSTATE_H
 
-enum CharacterState
+enum CharacterStateJump
 {
-    WAIT = 0,
-    RUNN = 1,
-    JUMP = 2,
-    ATTACK = 4,
-    ATTACK_SOUL_1 = 8,
-    ATTACK_SOUL_2 = 16
+	NOJUMP,
+	JUMP,
+	JUMP2,
+	FALL
+};
+
+enum CharacterStateWalk
+{
+	IDLE,
+	WALK,
+	BACKDASH
+};
+
+enum CharacterStateAttack
+{
+	NOATTACK,
+	ATTACK
+};
+
+enum CharacterStateRedSoul
+{
+	NORSOUL,
+	RSOUL
+};
+
+enum CharacterStateBlueSoul
+{
+	NOBSOUL,
+	BSOUL
 };
 
 #endif // CHARACTERSTATE_H
+

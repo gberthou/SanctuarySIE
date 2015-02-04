@@ -15,7 +15,7 @@ enum ItemType
 
 enum WeaponType
 {
-    // insert some weapon name here
+	DAGGER
 };
 
 enum ArmorType
@@ -25,7 +25,7 @@ enum ArmorType
 
 enum AccessoryType
 {
-    // insert some accessory name here
+    BATFANG
 };
 
 enum PickUpItemType
