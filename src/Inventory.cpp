@@ -220,13 +220,22 @@ void Inventory::LootItem(Item *item)
 }
 
 
+void Inventory::SetWeapon(std::vector<Weapon*>::const_iterator it)
+{
+	weapon = *it;
+}
 
-Weapon* Inventory::GetWeapon()
+Weapon* Inventory::GetWeapon() const
 {
     return weapon;
 }
 
-Stats* Inventory::GetAllStatsModifiers()
+const std::vector<Weapon*> &Inventory::GetWeapons() const
+{
+	return weapons;
+}
+
+Stats* Inventory::GetAllStatsModifiers() const
 {
     Stats* allModifiers = new Stats();
     allModifiers->ModifyStats(weapon->GetStats());

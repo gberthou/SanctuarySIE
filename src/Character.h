@@ -22,10 +22,11 @@ class Character : public Entity
         bool Hurt(unsigned int damage);
         void Walk(sf::Vector2f direction);
         virtual void LvlUpStats();
-        void LootItem(Item *item);
         void Attack();
 
 		void UpdateStates();
+		
+		Inventory *GetInventory() const;
     protected:
     private:
         unsigned int getPower();

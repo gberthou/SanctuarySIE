@@ -9,6 +9,8 @@
 #include "LevelFactory.h"
 #include "FPSClock.h"
 #include "InputController.h"
+#include "ItemFactory.h"
+#include "ItemType.h"
 
 int main(void)
 {
@@ -19,7 +21,9 @@ int main(void)
 	FPSClock clock(60);
 	Level *level;
 	Character *character;
+	Inventory *inventory;
 	InputController *inputController;
+	Weapon *dagger = ItemFactory::CreateWeapon(DAGGER);
 
 	Resources::Load();
 
@@ -31,6 +35,10 @@ int main(void)
 
 	// Simulate the arrival of the player in the level
 	level->MakeReady(character);
+
+	inventory = character->GetInventory();
+	inventory->LootItem(dagger);
+	inventory->SetWeapon(inventory->GetWeapons().begin());
 
 	while(window.isOpen())
 	{
@@ -63,6 +71,7 @@ int main(void)
 	delete level;
 	delete character;
 	delete inputController;
+	delete dagger;
 
 	return 0;
 }

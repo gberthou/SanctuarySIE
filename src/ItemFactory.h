@@ -13,10 +13,10 @@
 class ItemFactory
 {
     public:
-        Weapon* CreateWeapon(WeaponType type);
-        Armor* CreateArmor(ArmorType type);
-        Accessory* CreateAccessory(AccessoryType type);
-        PickUpItem* CreatePickUpItem(PickUpItemType type);
+        static Weapon* CreateWeapon(WeaponType type);
+        static Armor* CreateArmor(ArmorType type);
+        static Accessory* CreateAccessory(AccessoryType type);
+        static PickUpItem* CreatePickUpItem(PickUpItemType type);
     protected:
     private:
         ItemFactory();
