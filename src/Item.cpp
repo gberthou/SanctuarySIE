@@ -8,4 +8,8 @@ Item::~Item()
 {
 }
 
+ItemType Item::GetType()
+{
+    return type;
+}
 

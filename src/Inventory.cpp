@@ -37,6 +37,8 @@ void Inventory::AddGold(int amount)
     gold += amount;
 }
 
+
+
 void Inventory::sellItem(Tradable *toSell)
 {
     unsigned int price = toSell->GetSellPrice();
@@ -94,6 +96,8 @@ void Inventory::Sell(std::vector<Consumable*>::iterator consumableIt)
         // Play a "bip"
     }
 }
+
+
 
 bool Inventory::buyItem(Tradable *toBuy)
 {
@@ -188,6 +192,34 @@ void Inventory::Buy(std::vector<Permanent*>::iterator permanentIt)
         // Play a "bip"
     }
 }
+
+
+
+void Inventory::LootItem(Item *item)
+{
+    switch(item->GetType())
+    {
+        case ARMOR:
+            armors.push_back((Armor*)item);
+            break;
+        case WEAPON:
+            weapons.push_back((Weapon*)item);
+            break;
+        case ACCESSORY:
+            accessories.push_back((Accessory*)item);
+            break;
+        case CONSUMABLE:
+            consumables.push_back((Consumable*)item);
+            break;
+        case PERMANENT:
+            permanents.push_back((Permanent*)item);
+            break;
+        default:
+            break;
+    }
+}
+
+
 
 Weapon* Inventory::GetWeapon()
 {

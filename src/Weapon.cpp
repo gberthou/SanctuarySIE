@@ -4,6 +4,7 @@ Weapon::Weapon(Stats *stats1, sf::String name1, sf::String description1, bool tr
     Stuff(stats1, name1, description1, trade1, sellPrice1, buyPrice1),
 	cooldown(cooldown1)
 {
+    type = WEAPON;
 }
 
 Weapon::~Weapon()

@@ -5,6 +5,7 @@
 #include "ItemAttribute.h"
 #include "Gameplay.h"
 #include "Mob.h"
+#include "Item.h"
 
 Character::Character():
 	Entity()
@@ -108,6 +109,11 @@ unsigned int Character::dealDamage(unsigned int power, Status ownStatus, unsigne
     return damage;
 }
 
+void Character::LootItem(Item *item)
+{
+    inventory->LootItem(item);
+}
+
 void Character::Attack()
 {
 	if(stateRedSoul == NORSOUL)
@@ -145,7 +151,7 @@ void Character::attackBehavior(void)
     if(mob->Hurt(dmg))
     {
         // Mob is dead
-        mob->Drop((unsigned int)effectiveStats->GetLck());
+        mob->LootMob((unsigned int)effectiveStats->GetLck());
         EarnExp(mob->GiveXP());
     }
 	*/

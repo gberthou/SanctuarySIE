@@ -1,6 +1,17 @@
 #ifndef ITEMTYPE_H
 #define ITEMTYPE_H
 
+enum ItemType
+{
+    PICKUP,
+    TRADABLE,
+    PERMANENT,
+    WEAPON,
+    ARMOR,
+    ACCESSORY,
+    STUFF,
+    CONSUMABLE
+};
 
 enum WeaponType
 {
