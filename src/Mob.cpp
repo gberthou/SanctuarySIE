@@ -2,6 +2,7 @@
 
 Mob::Mob(MobType type1, const sf::Texture &texture):
 	type(type1),
+	stats(0),
 	behavior(NORMAL),
 	path(0)
 {
@@ -15,7 +16,8 @@ Mob::Mob()
 
 Mob::~Mob()
 {
-    delete stats;
+	if(stats != 0)
+		delete stats;
 
     if(path != 0)
 	    delete path;

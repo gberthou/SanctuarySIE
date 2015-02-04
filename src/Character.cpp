@@ -15,7 +15,8 @@ Character::Character()
     maxMP = (unsigned int)(a_EXP + b_EXP + c_EXP);
     mp = maxMP;
 
-    inventory = NULL;
+	effectiveStats = 0;
+    inventory = 0;
     soulSet = new SoulSet();
     state = WAIT;
 }

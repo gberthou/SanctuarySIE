@@ -44,7 +44,7 @@ void Level::SetCollisionMap(const sf::String &filename)
 	collisionMapFilename = filename;
 }
 
-void Level::MakeReady(void)
+void Level::MakeReady(Character *character1)
 {
 	Leave();
 	
@@ -52,6 +52,9 @@ void Level::MakeReady(void)
 	collisionMap->loadFromFile(collisionMapFilename);
 	
 	physics = new Physics(collisionMap);
+	
+	character = character1;
+	physics->AddEntity(character);
 
 	bg = new LevelBg();
 	for(unsigned int i = 0; i < BG_LAYERS; ++i)
@@ -92,7 +95,7 @@ void Level::AddDoor(Level *target, unsigned int lx, unsigned int ly, DoorDirecti
 	doors.push_back(new LevelDoor(target, lx, ly, direction));
 }
 
-void Level::Update(void)
+void Level::Update(unsigned int frameCount)
 {
 		for(unsigned int i = 0; i < mobs.size(); ++i)
 		{
@@ -122,6 +125,9 @@ void Level::draw(sf::RenderTarget &target, sf::RenderStates states) const
 	{
 		target.draw(*mobs[i], states);
 	}
+
+	// Draw character
+	target.draw(*character, states);
 }
 
 unsigned int Level::GetX(void) const

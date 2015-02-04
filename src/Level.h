@@ -8,6 +8,7 @@
 #include "Mob.h"
 #include "LevelBg.h"
 #include "Physics.h"
+#include "Character.h"
 
 class Level;
 
@@ -45,12 +46,12 @@ class Level : public sf::Drawable
 		void AddMobDesc(const MobDesc *mobDesc);
 		void SetCollisionMap(const sf::String &filename);
 
-		void MakeReady(void);
+		void MakeReady(Character *character);
 		void Leave(void);
 
 		void AddDoor(Level *target, unsigned int lx, unsigned int ly, DoorDirection direction);
 		
-		void Update(void);
+		void Update(unsigned int frameCount);
 
 		virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
@@ -75,6 +76,7 @@ class Level : public sf::Drawable
 		sf::String collisionMapFilename;
 		CollisionMap collisionMap;
 
+		Character *character;
 		Physics *physics;
 
 		// Map display purpose

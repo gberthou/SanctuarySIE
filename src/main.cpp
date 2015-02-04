@@ -46,7 +46,8 @@ int main(void)
             {
                 if (event.key.code == sf::Keyboard::Escape)
                     window.close();
-            } inputController.Update(event);
+            }
+			inputController.Update(event);
 		}
 
 		physics.Update();
