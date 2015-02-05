@@ -71,7 +71,6 @@ int main(void)
 	delete level;
 	delete character;
 	delete inputController;
-	delete dagger;
 
 	return 0;
 }

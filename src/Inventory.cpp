@@ -16,10 +16,6 @@ Inventory::Inventory()
 
 Inventory::~Inventory()
 {
-    delete armor;
-    delete weapon;
-    delete accessory;
-
     for(unsigned int i = 0; i < armors.size(); ++i)
         delete armors[i];
     for(unsigned int i = 0; i < weapons.size(); ++i)
@@ -43,6 +39,7 @@ void Inventory::sellItem(Tradable *toSell)
 {
     unsigned int price = toSell->GetSellPrice();
     gold += price;
+	delete toSell;
 }
 
 void Inventory::Sell(std::vector<Armor*>::iterator armorIt)
