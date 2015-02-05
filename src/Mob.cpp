@@ -140,5 +140,25 @@ unsigned int Mob::dealDamage(unsigned int power, Status ownStatus, unsigned int 
 void Mob::dropItems(std::vector<Item*> &itemsToDrop)
 {
     // Drop items on the floor ?
+    if(itemsToDrop.size() == 0)
+    {
+        return;
+    }
+    else
+    {
+        srand(time(NULL));
+        itemsToDrop[0]->Drop(pos);
+        sf::Vector2f newPos = pos;
+        for(unsigned int i=1; i<itemsToDrop.size(); ++i)
+        {
+            // random offset between -X_SIZE_ITEM and +X_SIZE_ITEM
+            newPos.x = pos.x + ((i%2 == 0) ? 2*X_SIZE_ITEM - (rand()%100)/100*0.7*X_SIZE_ITEM : -X_SIZE_ITEM + (rand()%100)/100*0.7*X_SIZE_ITEM);
+            newPos.y = pos.y;
+            itemsToDrop[i]->Drop(newPos);
+            // UPDATE THE FORCE REQUIRED AT SOME POINT
+            // ADD EACH ITEM TO THE PHYSICS ENTITIES
+        }
+    }
+
 }
 

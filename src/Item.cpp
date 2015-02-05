@@ -1,11 +1,18 @@
 #include "Item.h"
 
-Item::Item()
+Item::Item():
+    Entity()
 {
 }
 
 Item::~Item()
 {
+}
+
+void Item::Drop(sf::Vector2f posToDrop)
+{
+    pos = posToDrop;
+    // autre chose ?
 }
 
 ItemType Item::GetType()

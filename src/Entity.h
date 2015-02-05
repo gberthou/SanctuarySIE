@@ -12,12 +12,12 @@ class Entity : public sf::Drawable
         virtual ~Entity();
         virtual void Update();
 
-		void SetPosition(const sf::Vector2f &pos);
-		void AddAcceleration(const sf::Vector2f &acceleration);
+        void SetPosition(const sf::Vector2f &pos);
+        void AddAcceleration(const sf::Vector2f &acceleration);
 
         virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
         sf::Sprite const& GetSprite() const;
-
+        sf::Vector2f GetPos() const;
     protected:
         float mass;
         sf::Vector2f pos;

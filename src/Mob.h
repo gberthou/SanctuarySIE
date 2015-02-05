@@ -11,6 +11,7 @@
 #include "Path.h"
 #include "Entity.h"
 #include "Item.h"
+#include "Gameplay.h"
 
 enum MobBehavior
 {
