@@ -23,8 +23,10 @@ class InputController
         void Update(sf::Event const& event);
 
     protected:
-        void actionLeft();
-        void actionRight();
+        void actionLeftPressed();
+        void actionLeftReleased();
+        void actionRightPressed();
+        void actionRightReleased();
         void actionUp();
         void actionDown();
         void actionA();
