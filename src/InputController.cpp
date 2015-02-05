@@ -1,8 +1,9 @@
-#include "InputController.h"
-
 #include <iostream>
-using namespace std;
 
+#include "InputController.h"
+#include "Orientation.h"
+
+using namespace std;
 
 sf::Keyboard::Key keys_mapping[] =
 {
@@ -22,9 +23,15 @@ void InputController::Update(sf::Event const& event)
     for(int i=0;i<KEY_COUNT;++i)
     {
         if(sf::Keyboard::isKeyPressed(keys_mapping[KEY_LEFT]))
-            actionLeft();
-        if(sf::Keyboard::isKeyPressed(keys_mapping[KEY_RIGHT]))
-            actionRight();
+            actionLeftPressed();
+		else
+			actionLeftReleased();
+        
+		if(sf::Keyboard::isKeyPressed(keys_mapping[KEY_RIGHT]))
+            actionRightPressed();
+		else
+			actionRightReleased();
+
         if(sf::Keyboard::isKeyPressed(keys_mapping[KEY_UP]))
             actionUp();
         if(sf::Keyboard::isKeyPressed(keys_mapping[KEY_DOWN]))
@@ -38,14 +45,24 @@ void InputController::Update(sf::Event const& event)
     }
 }
 
-void InputController::actionLeft()
+void InputController::actionLeftPressed()
 {
-    character->Walk(sf::Vector2f(-1.f,0.f));
+    character->Walk(ORIENTATION_LEFT);
 }
 
-void InputController::actionRight()
+void InputController::actionLeftReleased()
 {
-    character->Walk(sf::Vector2f(1.f,0.f));
+    character->StopWalking(ORIENTATION_LEFT);
+}
+
+void InputController::actionRightPressed()
+{
+    character->Walk(ORIENTATION_RIGHT);
+}
+
+void InputController::actionRightReleased()
+{
+    character->StopWalking(ORIENTATION_RIGHT);
 }
 
 void InputController::actionUp()
@@ -58,7 +75,7 @@ void InputController::actionDown()
 
 void InputController::actionA()
 {
-     character->Walk(sf::Vector2f(0.f,-1.f));
+	character->Jump();
 }
 
 void InputController::actionB()

@@ -7,8 +7,14 @@
 #include "Mob.h"
 #include "Item.h"
 
+const float HVELOCITY = 4;
+
+const sf::Int32 JUMP_COOLDOWN = 500;
+const sf::Int32 JUMP_TIMEOUT = 200;
+
 Character::Character():
-	Entity()
+	Entity(),
+	clWalk(60)
 {
     // Redefine this in
     sprite = sf::Sprite(Resources::texCharacter);
@@ -111,16 +117,44 @@ unsigned int Character::dealDamage(unsigned int power, Status ownStatus, unsigne
 
 void Character::Attack()
 {
-	if(stateRedSoul == NORSOUL)
+	if(stateWalk != BACKDASH && stateRedSoul == NORSOUL)
 	{
 		stateAttack = ATTACK;
 		clAttack.restart();
 	}
 }
 
-void Character::Walk(sf::Vector2f direction)
+void Character::Jump()
 {
-    pos += (direction*200.f*DT);
+	if(stateWalk != BACKDASH && stateAttack == NOATTACK && stateRedSoul == NORSOUL)
+	{
+		if(stateJump == NOJUMP) // -> Jump
+		{
+			stateJump = JUMP;
+			clJump.restart();
+			clJumpTimeout.restart();
+		}
+		else if((stateJump == JUMP && clJump.getElapsedTime().asMilliseconds() > JUMP_COOLDOWN) || stateJump == FALL) // -> Jump2
+		{
+			stateJump = JUMP2;
+		}	
+	}
+}
+
+void Character::Walk(Orientation orientation1)
+{
+	if(stateAttack == NOATTACK && stateWalk == IDLE && stateRedSoul == NORSOUL)
+	{
+		orientation = orientation1;
+		stateWalk = WALK;
+		clWalk.restart();
+	}
+}
+
+void Character::StopWalking(Orientation orientation1)
+{
+	if(orientation == orientation1) // Do not stop walking if it's not the right direction
+		stateWalk = IDLE;
 }
 
 void Character::UpdateStates()
@@ -132,7 +166,29 @@ void Character::UpdateStates()
 			stateAttack = NOATTACK;
 	}
 
+	if(stateJump == JUMP || stateJump == JUMP2)
+	{
+		AddAcceleration(sf::Vector2f(0, -100));
+		if(clJumpTimeout.getElapsedTime().asMilliseconds() > JUMP_TIMEOUT)
+			stateJump = (stateJump == JUMP ? FALL : FALL2);
+	}
+
+	if(stateWalk == WALK)
+	{
+		unsigned int frameCount = clWalk.GetElapsedFrames();
+		if(frameCount > 0)
+		{
+			clWalk.restart();
+			
+			pos.x += (orientation == ORIENTATION_LEFT ? -HVELOCITY * frameCount : HVELOCITY * frameCount);
+		}
+	}
+
 	std::cout << "Attack: " << stateAttack << std::endl;
+	std::cout << "Jump: " << stateJump << std::endl;
+	std::cout << "Walk: " << stateWalk << std::endl;
+
+	std:: cout << std::endl;
 }
 
 Inventory *Character::GetInventory() const

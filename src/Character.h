@@ -9,6 +9,9 @@
 #include "Status.h"
 #include "Resources.h"
 #include "Gameplay.h"
+#include "Orientation.h"
+#include "FPSClock.h"
+
 class Item;
 
 class Character : public Entity
@@ -20,9 +23,11 @@ class Character : public Entity
         void AddMana(int amount);
         void EarnExp(int amount);
         bool Hurt(unsigned int damage);
-        void Walk(sf::Vector2f direction);
-        virtual void LvlUpStats();
+        void Walk(Orientation orientation);
+        void StopWalking(Orientation orientation);
+		virtual void LvlUpStats();
         void Attack();
+		void Jump();
 
 		void UpdateStates();
 		
@@ -52,6 +57,8 @@ class Character : public Entity
         Inventory *inventory;       // Inventory
         SoulSet *soulSet;           // SoulSet
 
+		Orientation orientation;
+
         // "Hidden" attributes
         CharacterStateJump stateJump;
 		CharacterStateWalk stateWalk;
@@ -59,7 +66,11 @@ class Character : public Entity
 		CharacterStateRedSoul stateRedSoul;
 		CharacterStateBlueSoul stateBlueSoul;
 
+		FPSClock clWalk;
 		sf::Clock clAttack;
+		sf::Clock clJump;
+		sf::Clock clJumpTimeout;
+		sf::Clock clBackDash;
 };
 
 #endif // CHARACTER_H

@@ -6,7 +6,8 @@ enum CharacterStateJump
 	NOJUMP,
 	JUMP,
 	JUMP2,
-	FALL
+	FALL,
+	FALL2
 };
 
 enum CharacterStateWalk
