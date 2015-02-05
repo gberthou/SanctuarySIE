@@ -6,6 +6,8 @@
 #include "Permanent.h"
 #include "Tradable.h"
 
+// ---- PUBLIC ----
+
 Inventory::Inventory()
 {
     //ctor
@@ -32,18 +34,14 @@ Inventory::~Inventory()
         delete permanents[i];
 }
 
+// #### GOLD METHODS ####
+
 void Inventory::AddGold(int amount)
 {
     gold += amount;
 }
 
-
-
-void Inventory::sellItem(Tradable *toSell)
-{
-    unsigned int price = toSell->GetSellPrice();
-    gold += price;
-}
+// #### SELL METHODS ####
 
 void Inventory::Sell(std::vector<Armor*>::iterator armorIt)
 {
@@ -97,21 +95,7 @@ void Inventory::Sell(std::vector<Consumable*>::iterator consumableIt)
     }
 }
 
-
-
-bool Inventory::buyItem(Tradable *toBuy)
-{
-    unsigned int price = toBuy->GetBuyPrice();
-    if(gold < price)
-    {
-        return false;
-    }
-    else
-    {
-        gold -= price;
-        return true;
-    }
-}
+// #### BUY METHODS ####
 
 void Inventory::Buy(std::vector<Armor*>::iterator armorIt)
 {
@@ -193,7 +177,7 @@ void Inventory::Buy(std::vector<Permanent*>::iterator permanentIt)
     }
 }
 
-
+// #### LOOT METHODS ####
 
 void Inventory::LootItem(Item *item)
 {
@@ -219,11 +203,25 @@ void Inventory::LootItem(Item *item)
     }
 }
 
+// #### STATS METHODS ####
+
+Stats* Inventory::GetAllStatsModifiers() const
+{
+    Stats* allModifiers = new Stats();
+    allModifiers->ModifyStats(weapon->GetStats());
+    allModifiers->ModifyStats(armor->GetStats());
+    allModifiers->ModifyStats(accessory->GetStats());
+    return allModifiers;
+}
+
+// #### SETTERS ####
 
 void Inventory::SetWeapon(std::vector<Weapon*>::const_iterator it)
 {
 	weapon = *it;
 }
+
+// #### GETTERS ####
 
 Weapon* Inventory::GetWeapon() const
 {
@@ -235,13 +233,27 @@ const std::vector<Weapon*> &Inventory::GetWeapons() const
 	return weapons;
 }
 
-Stats* Inventory::GetAllStatsModifiers() const
+// ---- PRIVATE ----
+
+void Inventory::sellItem(Tradable *toSell)
 {
-    Stats* allModifiers = new Stats();
-    allModifiers->ModifyStats(weapon->GetStats());
-    allModifiers->ModifyStats(armor->GetStats());
-    allModifiers->ModifyStats(accessory->GetStats());
-    return allModifiers;
+    unsigned int price = toSell->GetSellPrice();
+    gold += price;
 }
+
+bool Inventory::buyItem(Tradable *toBuy)
+{
+    unsigned int price = toBuy->GetBuyPrice();
+    if(gold < price)
+    {
+        return false;
+    }
+    else
+    {
+        gold -= price;
+        return true;
+    }
+}
+
 
 

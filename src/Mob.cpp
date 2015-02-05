@@ -2,6 +2,7 @@
 
 #include "Mob.h"
 
+// ---- PUBLIC ----
 
 Mob::Mob(MobType type1, const sf::Texture &texture):
 	type(type1),
@@ -26,22 +27,7 @@ Mob::~Mob()
 	    delete path;
 }
 
-Status Mob::GetStatus()
-{
-    return status;
-}
-
-Stats* Mob::GetStats()
-{
-    return stats;
-}
-
-unsigned int Mob::getPower()
-{
-    unsigned int power = 0;
-    power = stats->GetAtt();
-    return power;
-}
+// #### DAMAGE METHODS ####
 
 bool Mob::Hurt(unsigned int damage)
 {
@@ -57,12 +43,7 @@ bool Mob::Hurt(unsigned int damage)
     }
 }
 
-unsigned int Mob::DealDamage(unsigned int power, Status ownStatus, unsigned int defense, Status enemyStatus)
-{
-    unsigned int damage = 0;
-    damage = (power - defense/2)*(MAX_STAT - defense)/MAX_STAT;
-    return damage;
-}
+// #### LOOT METHODS ####
 
 void Mob::LootMob(unsigned int lck)
 {
@@ -85,20 +66,7 @@ void Mob::LootMob(unsigned int lck)
         dropItems(itemsToDrop);
 }
 
-void Mob::dropItems(std::vector<Item*> &itemsToDrop)
-{
-    // Drop items on the floor ?
-}
-
-unsigned int Mob::GiveXP()
-{
-    return xpDrop;
-}
-
-void Mob::SetPath(Path *path1)
-{
-	path = path1;
-}
+// #### IA METHODS ####
 
 void Mob::UpdateAI(void)
 {
@@ -123,5 +91,54 @@ void Mob::UpdateAI(void)
 			pos.x -= 1;
 		}
 	}
+}
+
+// #### SETTERS ####
+
+void Mob::SetPath(Path *path1)
+{
+	path = path1;
+}
+
+// #### GETTERS ####
+
+Status Mob::GetStatus()
+{
+    return status;
+}
+
+Stats* Mob::GetStats()
+{
+    return stats;
+}
+
+unsigned int Mob::GiveXP()
+{
+    return xpDrop;
+}
+
+// ---- PUBLIC ----
+
+// #### DAMAGE METHODS ####
+
+unsigned int Mob::getPower()
+{
+    unsigned int power = 0;
+    power = stats->GetAtt();
+    return power;
+}
+
+unsigned int Mob::dealDamage(unsigned int power, Status ownStatus, unsigned int defense, Status enemyStatus)
+{
+    unsigned int damage = 0;
+    damage = (power - defense/2)*(MAX_STAT - defense)/MAX_STAT;
+    return damage;
+}
+
+// #### LOOT METHODS ####
+
+void Mob::dropItems(std::vector<Item*> &itemsToDrop)
+{
+    // Drop items on the floor ?
 }
 

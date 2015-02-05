@@ -18,14 +18,15 @@ class Character : public Entity
         virtual ~Character();
         void AddGold(int amount);
         void AddMana(int amount);
+
+        virtual void LvlUpStats();
         void EarnExp(int amount);
         bool Hurt(unsigned int damage);
-        void Walk(sf::Vector2f direction);
-        virtual void LvlUpStats();
-        void Attack();
 
+        void Walk(sf::Vector2f direction);
+        void Attack();
 		void UpdateStates();
-		
+
 		Inventory *GetInventory() const;
     protected:
     private:
