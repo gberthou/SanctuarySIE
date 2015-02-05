@@ -10,6 +10,9 @@
 
 #define MAX_ADD_DROP_RATE 25
 
+#define X_SIZE_ITEM 40
+#define Y_SIZE_ITEM 40
+
 #define NB_SAVE 5
 
 namespace Gameplay

@@ -33,3 +33,10 @@ sf::Sprite const& Entity::GetSprite() const
 {
     return sprite;
 }
+
+sf::Vector2f Entity::GetPos() const
+{
+    return pos;
+}
+
+
