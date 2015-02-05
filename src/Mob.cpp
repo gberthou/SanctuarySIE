@@ -152,10 +152,11 @@ void Mob::dropItems(std::vector<Item*> &itemsToDrop)
         for(unsigned int i=1; i<itemsToDrop.size(); ++i)
         {
             // random offset between -X_SIZE_ITEM and +X_SIZE_ITEM
-            newPos.x = pos.x + ((i%2 == 0) ? ((rand()%100)*X_SIZE_ITEM/100) : -((rand()%100)*X_SIZE_ITEM/100));
+            newPos.x = pos.x + ((i%2 == 0) ? 2*X_SIZE_ITEM - (rand()%100)/100*0.7*X_SIZE_ITEM : -X_SIZE_ITEM + (rand()%100)/100*0.7*X_SIZE_ITEM);
             newPos.y = pos.y;
             itemsToDrop[i]->Drop(newPos);
             // UPDATE THE FORCE REQUIRED AT SOME POINT
+            // ADD EACH ITEM TO THE PHYSICS ENTITIES
         }
     }
 
