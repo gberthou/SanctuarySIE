@@ -7,10 +7,13 @@
 #include "Mob.h"
 #include "Item.h"
 
+// ---- CONSTANTS ----
 const float HVELOCITY = 4;
 
 const sf::Int32 JUMP_COOLDOWN = 500;
 const sf::Int32 JUMP_TIMEOUT = 200;
+
+// ---- PUBLIC ----
 
 Character::Character():
 	Entity(),
@@ -43,6 +46,8 @@ Character::~Character()
     delete inventory;
 }
 
+// #### PICKUP ITEMS METHODS ####
+
 void Character::AddGold(int amount)
 {
     inventory->AddGold(amount);
@@ -51,6 +56,17 @@ void Character::AddGold(int amount)
 void Character::AddMana(int amount)
 {
     mp = ((mp + amount) < maxMP) ? ((mp + amount > 0) ? mp + amount : 0) : maxMP;
+}
+
+// #### XP METHODS ####
+
+// Redefine One for each character
+void Character::LvlUpStats()
+{
+    baseStats->ModifyStats(new Stats(1,(lvl %2 != 0) ? 1 : 0,1,1,1,1));
+    maxHP += 12;
+    maxMP = (unsigned int)(a_MANA*lvl*lvl + b_MANA*lvl + c_MANA);
+    updateStats();
 }
 
 void Character::EarnExp(int amount)
@@ -65,32 +81,7 @@ void Character::EarnExp(int amount)
     }
 }
 
-// Redefine One for each character
-void Character::LvlUpStats()
-{
-    baseStats->ModifyStats(new Stats(1,(lvl %2 != 0) ? 1 : 0,1,1,1,1));
-    maxHP += 12;
-    maxMP = (unsigned int)(a_MANA*lvl*lvl + b_MANA*lvl + c_MANA);
-    updateStats();
-}
-
-
-void Character::updateStats()
-{
-    effectiveStats = baseStats;
-    effectiveStats->ModifyStats(inventory->GetAllStatsModifiers());
-}
-
-// Attack
-// Change state
-// Update
-
-unsigned int Character::getPower()
-{
-    unsigned int power = 0;
-    power = effectiveStats->GetAtt();
-    return power;
-}
+// #### DAMAGE METHODS ####
 
 bool Character::Hurt(unsigned int damage)
 {
@@ -106,14 +97,8 @@ bool Character::Hurt(unsigned int damage)
     }
 }
 
-unsigned int Character::dealDamage(unsigned int power, Status ownStatus, unsigned int defense, Status enemyStatus)
-{
-    unsigned int damage = 0;
-    damage = (power - defense/2)*(MAX_STAT - defense)/MAX_STAT;
-    damage = (enemyStatus == PETRIFIED) ? damage*2 : damage;
-    damage = (damage < 1 || ownStatus == POISONED) ? 1 : damage;
-    return damage;
-}
+// #### STATES METHODS ####
+
 
 void Character::Attack()
 {
@@ -191,10 +176,40 @@ void Character::UpdateStates()
 	std:: cout << std::endl;
 }
 
+// #### GETTERS ####
+
 Inventory *Character::GetInventory() const
 {
 	return inventory;
 }
+
+// ---- PRIVATE ----
+
+// #### DAMAGE METHODS ####
+
+unsigned int Character::getPower()
+{
+    unsigned int power = 0;
+    power = effectiveStats->GetAtt();
+    return power;
+}
+
+void Character::updateStats()
+{
+    effectiveStats = baseStats;
+    effectiveStats->ModifyStats(inventory->GetAllStatsModifiers());
+}
+
+unsigned int Character::dealDamage(unsigned int power, Status ownStatus, unsigned int defense, Status enemyStatus)
+{
+    unsigned int damage = 0;
+    damage = (power - defense/2)*(MAX_STAT - defense)/MAX_STAT;
+    damage = (enemyStatus == PETRIFIED) ? damage*2 : damage;
+    damage = (damage < 1 || ownStatus == POISONED) ? 1 : damage;
+    return damage;
+}
+
+// #### STATES METHODS ####
 
 void Character::attackBehavior(void)
 {
@@ -212,4 +227,6 @@ void Character::attackBehavior(void)
     }
 	*/
 }
+
+
 

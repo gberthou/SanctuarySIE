@@ -51,17 +51,22 @@ class Mob : public Entity
         Mob(MobType type, const sf::Texture &texture);
         Mob();
         virtual ~Mob();
-        unsigned int getPower();
+
         bool Hurt(unsigned int damage);
-        unsigned int DealDamage(unsigned int power, Status ownStatus, unsigned int defense, Status enemyStatus);
-        void SetPath(Path *path);
-		void UpdateAI(void);
 		void LootMob(unsigned int lck);
-		unsigned int GiveXP();
+
+        void UpdateAI(void);
+
+        void SetPath(Path *path);
+
 		Status GetStatus();
         Stats* GetStats();
+        unsigned int GiveXP();
     protected:
     private:
+
+        unsigned int getPower();
+        unsigned int dealDamage(unsigned int power, Status ownStatus, unsigned int defense, Status enemyStatus);
         void dropItems(std::vector<Item*> &itemsToDrop);
 
         // "Apparent" attributes

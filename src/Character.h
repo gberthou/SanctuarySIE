@@ -21,16 +21,18 @@ class Character : public Entity
         virtual ~Character();
         void AddGold(int amount);
         void AddMana(int amount);
+
+        virtual void LvlUpStats();
         void EarnExp(int amount);
-        bool Hurt(unsigned int damage);
-        void Walk(Orientation orientation);
-        void StopWalking(Orientation orientation);
-		virtual void LvlUpStats();
+        
+		bool Hurt(unsigned int damage);
+        
         void Attack();
 		void Jump();
-
+		void Walk(Orientation orientation);
+        void StopWalking(Orientation orientation);
 		void UpdateStates();
-		
+
 		Inventory *GetInventory() const;
     protected:
     private:
