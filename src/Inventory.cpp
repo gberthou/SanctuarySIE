@@ -210,7 +210,7 @@ Stats* Inventory::GetAllStatsModifiers() const
 
 // #### SETTERS ####
 
-void Inventory::SetWeapon(std::vector<Weapon*>::const_iterator it)
+void Inventory::EquipWeapon(std::vector<Weapon*>::const_iterator it)
 {
 	weapon = *it;
 }

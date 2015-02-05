@@ -34,7 +34,7 @@ class Inventory
 
 		Stats* GetAllStatsModifiers() const;
 
-		void SetWeapon(std::vector<Weapon*>::const_iterator it);
+		void EquipWeapon(std::vector<Weapon*>::const_iterator it);
         Weapon* GetWeapon() const;
 		const std::vector<Weapon*> &GetWeapons() const;
 

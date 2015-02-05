@@ -31,10 +31,14 @@ class Character : public Entity
 		void Jump();
 		void Walk(Orientation orientation);
         void StopWalking(Orientation orientation);
+		void UseRedSoul();
+		void UseBlueSoul();
+		void StopUsingBlueSoul();
 		void UpdateStates();
 
 		Inventory *GetInventory() const;
-    protected:
+		SoulSet *GetSoulSet() const;
+   	protected:
     private:
         unsigned int getPower();
         void updateStats();
@@ -42,6 +46,7 @@ class Character : public Entity
 
 		// State methods
 		void attackBehavior(void);
+		void redSoulBehavior(void);
 
         // "Gameplay" attributes
         unsigned int lvl;           // Level
@@ -73,6 +78,7 @@ class Character : public Entity
 		sf::Clock clJump;
 		sf::Clock clJumpTimeout;
 		sf::Clock clBackDash;
+		sf::Clock clRedSoul;
 };
 
 #endif // CHARACTER_H

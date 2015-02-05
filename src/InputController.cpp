@@ -8,8 +8,8 @@ using namespace std;
 sf::Keyboard::Key keys_mapping[] =
 {
     sf::Keyboard::Left,sf::Keyboard::Up, sf::Keyboard::Down,sf::Keyboard::Right,
-    sf::Keyboard::Space, sf::Keyboard::X,
-    sf::Keyboard::S, sf::Keyboard::R,
+    sf::Keyboard::Z, sf::Keyboard::A,
+    sf::Keyboard::Q, sf::Keyboard::S,
     sf::Keyboard::Return,sf::Keyboard::BackSpace
 };
 
@@ -80,5 +80,8 @@ void InputController::actionA()
 
 void InputController::actionB()
 {
-	character->Attack();
+	if(sf::Keyboard::isKeyPressed(keys_mapping[KEY_UP]))
+		character->UseRedSoul();
+	else
+		character->Attack();
 }

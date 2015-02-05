@@ -1,11 +1,11 @@
 #include "BlueSoul.h"
 
-BlueSoul::BlueSoul()
+BlueSoul::BlueSoul(MobType mobType):
+	Soul(mobType, SOULTYPE_BLUE)
 {
-    // ctor
 }
 
 BlueSoul::~BlueSoul()
 {
-    // dtor
 }
+

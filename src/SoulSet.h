@@ -3,6 +3,8 @@
 
 #include <vector>
 
+#include "Mob.h"
+
 class SoulManager;
 class RedSoul;
 class BlueSoul;
@@ -13,11 +15,22 @@ class SoulSet
     public:
         SoulSet();
         virtual ~SoulSet();
-        RedSoul *GetRedSoul();
-        BlueSoul *GetBlueSoul();
-        YellowSoul *GetYellowSoul();
-    protected:
-    private:
+
+		void AddSoul(MobType type);
+
+		// Red soul
+		void EquipRedSoul(std::vector<RedSoul*>::const_iterator it);
+        RedSoul *GetRedSoul() const;
+		const std::vector<RedSoul*> &GetRedSouls() const;
+
+		// Blue soul
+        BlueSoul *GetBlueSoul() const;
+        
+		// Yellow soul
+		YellowSoul *GetYellowSoul() const;
+    
+	private:
+		void addRedSoul(RedSoul *soul);
     
         RedSoul *redSoul;       // Equipped
         BlueSoul *blueSoul;     // Equipped

@@ -1,11 +1,11 @@
 #include "YellowSoul.h"
 
-YellowSoul::YellowSoul()
+YellowSoul::YellowSoul(MobType mobType):
+	Soul(mobType, SOULTYPE_YELLOW)
 {
-    // ctor
 }
 
 YellowSoul::~YellowSoul()
 {
-    // dtor
 }
+

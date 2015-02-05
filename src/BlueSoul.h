@@ -6,7 +6,7 @@
 class BlueSoul : public Soul
 {
     public:
-        BlueSoul();
+        BlueSoul(MobType mobType);
         virtual ~BlueSoul();
     protected:
     private:

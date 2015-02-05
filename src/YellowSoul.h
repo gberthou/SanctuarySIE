@@ -6,7 +6,7 @@
 class YellowSoul : public Soul
 {
     public:
-        YellowSoul();
+        YellowSoul(MobType type);
         virtual ~YellowSoul();
     protected:
     private:

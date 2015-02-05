@@ -1,8 +1,9 @@
 #ifndef TRADABLE_H
 #define TRADABLE_H
 
-#include "Item.h"
+#include <SFML/System.hpp>
 
+#include "Item.h"
 
 class Tradable : public Item
 {

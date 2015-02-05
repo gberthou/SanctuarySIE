@@ -10,28 +10,60 @@ SoulSet::SoulSet() :
     yellowSoul((YellowSoul*)0),
     soulManager(new SoulManager())
 {
-    // ctor
 }
 
 SoulSet::~SoulSet()
 {
-    delete redSoul;
-    delete blueSoul;
-    delete yellowSoul;
+	delete soulManager;
 }
 
-RedSoul *SoulSet::GetRedSoul()
+void SoulSet::AddSoul(MobType type)
+{
+	Soul *soul = soulManager->GetSoul(type);
+
+	switch(soul->GetSoulType())
+	{
+		case SOULTYPE_RED:
+			addRedSoul((RedSoul*) soul);
+			break;
+		default:
+			break;
+	}
+}
+
+void SoulSet::EquipRedSoul(std::vector<RedSoul*>::const_iterator it)
+{
+	redSoul = *it;
+}
+
+RedSoul *SoulSet::GetRedSoul() const
 {
     return redSoul;
 }
 
-BlueSoul *SoulSet::GetBlueSoul()
+const std::vector<RedSoul*> &SoulSet::GetRedSouls() const
+{
+	return redSouls;
+}
+
+BlueSoul *SoulSet::GetBlueSoul() const
 {
     return blueSoul;
 }
 
-YellowSoul *SoulSet::GetYellowSoul()
+YellowSoul *SoulSet::GetYellowSoul() const
 {
     return yellowSoul;
+}
+
+void SoulSet::addRedSoul(RedSoul *soul)
+{
+	bool found = false;
+	for(unsigned int i = 0; i < redSouls.size() && !found; ++i)
+		if(redSouls[i]->GetType() == soul->GetType())
+			found = true;
+	
+	if(!found)
+		redSouls.push_back(soul);
 }
 

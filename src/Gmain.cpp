@@ -11,6 +11,8 @@
 #include "InputController.h"
 #include "ItemFactory.h"
 #include "ItemType.h"
+#include "SoulSet.h"
+#include "SoulManager.h"
 
 int main(void)
 {
@@ -22,6 +24,7 @@ int main(void)
 	Level *level;
 	Character *character;
 	Inventory *inventory;
+	SoulSet *soulSet;
 	InputController *inputController;
 	Weapon *dagger = ItemFactory::CreateWeapon(DAGGER);
 
@@ -38,7 +41,11 @@ int main(void)
 
 	inventory = character->GetInventory();
 	inventory->LootItem(dagger);
-	inventory->SetWeapon(inventory->GetWeapons().begin());
+	inventory->EquipWeapon(inventory->GetWeapons().begin());
+
+	soulSet = character->GetSoulSet();
+	soulSet->AddSoul(GIANT_BAT); // Red soul
+	soulSet->EquipRedSoul(soulSet->GetRedSouls().begin());
 
 	while(window.isOpen())
 	{

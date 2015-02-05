@@ -6,6 +6,9 @@
 #include "Gameplay.h"
 #include "Mob.h"
 #include "Item.h"
+#include "RedSoul.h"
+#include "BlueSoul.h"
+#include "YellowSoul.h"
 
 // ---- CONSTANTS ----
 const float HVELOCITY = 4;
@@ -105,6 +108,7 @@ void Character::Attack()
 	if(stateWalk != BACKDASH && stateRedSoul == NORSOUL)
 	{
 		stateAttack = ATTACK;
+		stateWalk = IDLE;
 		clAttack.restart();
 	}
 }
@@ -113,15 +117,17 @@ void Character::Jump()
 {
 	if(stateWalk != BACKDASH && stateAttack == NOATTACK && stateRedSoul == NORSOUL)
 	{
-		if(stateJump == NOJUMP) // -> Jump
+		if(stateJump == NOJUMP) // -> Simple jump
 		{
 			stateJump = JUMP;
 			clJump.restart();
 			clJumpTimeout.restart();
 		}
-		else if((stateJump == JUMP && clJump.getElapsedTime().asMilliseconds() > JUMP_COOLDOWN) || stateJump == FALL) // -> Jump2
+		else if((stateJump == JUMP && clJump.getElapsedTime().asMilliseconds() > JUMP_COOLDOWN) || stateJump == FALL) // -> Double jump
 		{
 			stateJump = JUMP2;
+			clJump.restart();
+			clJumpTimeout.restart();
 		}	
 	}
 }
@@ -140,6 +146,31 @@ void Character::StopWalking(Orientation orientation1)
 {
 	if(orientation == orientation1) // Do not stop walking if it's not the right direction
 		stateWalk = IDLE;
+}
+
+void Character::UseRedSoul()
+{
+	if(stateWalk != BACKDASH && stateAttack == NOATTACK && stateRedSoul == NORSOUL)
+	{
+		RedSoul *soul = soulSet->GetRedSoul();
+
+		stateRedSoul = RSOUL;
+		clRedSoul.restart();
+
+		if(soul != 0)
+			soul->Use();
+	}
+}
+
+void Character::UseBlueSoul()
+{
+	if(stateBlueSoul == NOBSOUL)
+		stateBlueSoul = BSOUL;
+}
+
+void Character::StopUsingBlueSoul()
+{
+	stateBlueSoul = NOBSOUL;
 }
 
 void Character::UpdateStates()
@@ -169,9 +200,18 @@ void Character::UpdateStates()
 		}
 	}
 
+	if(stateRedSoul == RSOUL)
+	{
+		redSoulBehavior();
+		if(clRedSoul.getElapsedTime().asMilliseconds() > soulSet->GetRedSoul()->GetCooldown()) // Cooldown is over
+		   stateRedSoul = NORSOUL;	
+	}
+
 	std::cout << "Attack: " << stateAttack << std::endl;
-	std::cout << "Jump: " << stateJump << std::endl;
-	std::cout << "Walk: " << stateWalk << std::endl;
+	std::cout << "Jump  : " << stateJump << std::endl;
+	std::cout << "Walk  : " << stateWalk << std::endl;
+	std::cout << "RSoul : " << stateRedSoul << std::endl;
+	std::cout << "BSoul : " << stateBlueSoul << std::endl;
 
 	std:: cout << std::endl;
 }
@@ -181,6 +221,11 @@ void Character::UpdateStates()
 Inventory *Character::GetInventory() const
 {
 	return inventory;
+}
+
+SoulSet *Character::GetSoulSet() const
+{
+	return soulSet;
 }
 
 // ---- PRIVATE ----
@@ -228,5 +273,7 @@ void Character::attackBehavior(void)
 	*/
 }
 
-
+void Character::redSoulBehavior(void)
+{
+}
 

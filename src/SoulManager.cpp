@@ -10,7 +10,8 @@ SoulManager::SoulManager()
     {
         souls[i] = (Soul*)0;
     }
-    souls[GIANT_BAT] = new RedSoul();
+
+    souls[GIANT_BAT] = new RedSoul(GIANT_BAT, 800);
 }
 
 SoulManager::~SoulManager()

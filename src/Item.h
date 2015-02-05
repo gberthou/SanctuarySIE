@@ -2,8 +2,9 @@
 #ifndef ITEM_H
 #define ITEM_H
 
-#include "Character.h"
 #include "ItemType.h"
+
+class Character;
 
 class Item
 {
