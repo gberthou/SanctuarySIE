@@ -24,13 +24,16 @@ class SoulSet
 		const std::vector<RedSoul*> &GetRedSouls() const;
 
 		// Blue soul
-        BlueSoul *GetBlueSoul() const;
+        void EquipBlueSoul(std::vector<BlueSoul*>::const_iterator it);
+		BlueSoul *GetBlueSoul() const;
+		const std::vector<BlueSoul*> &GetBlueSouls() const;
         
 		// Yellow soul
 		YellowSoul *GetYellowSoul() const;
     
 	private:
 		void addRedSoul(RedSoul *soul);
+		void addBlueSoul(BlueSoul *soul);
     
         RedSoul *redSoul;       // Equipped
         BlueSoul *blueSoul;     // Equipped

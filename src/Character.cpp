@@ -150,27 +150,45 @@ void Character::StopWalking(Orientation orientation1)
 
 void Character::UseRedSoul()
 {
+	RedSoul *soul = soulSet->GetRedSoul();
+	if(soul == 0)
+		return;
+
 	if(stateWalk != BACKDASH && stateAttack == NOATTACK && stateRedSoul == NORSOUL)
 	{
-		RedSoul *soul = soulSet->GetRedSoul();
-
 		stateRedSoul = RSOUL;
 		clRedSoul.restart();
 
-		if(soul != 0)
-			soul->Use();
+		soul->Use();
 	}
 }
 
 void Character::UseBlueSoul()
 {
+	BlueSoul *soul = soulSet->GetBlueSoul();
+	if(soul == 0)
+		return;
+	
 	if(stateBlueSoul == NOBSOUL)
-		stateBlueSoul = BSOUL;
+	{
+		if(soul->GetBehavior() == BSOUL_B_HOLD)
+		{
+			stateBlueSoul = BSOUL_HELD;
+		}
+		else
+		{
+			stateBlueSoul = BSOUL_ACTIVATING;
+		}
+
+	}
 }
 
-void Character::StopUsingBlueSoul()
+void Character::ReleaseBlueSoul()
 {
-	stateBlueSoul = NOBSOUL;
+	if(stateBlueSoul == BSOUL_ACTIVATING)
+		stateBlueSoul = BSOUL_ACTIVATED;
+	else if(stateBlueSoul == BSOUL_HELD)
+		stateBlueSoul = NOBSOUL;
 }
 
 void Character::UpdateStates()
@@ -202,9 +220,15 @@ void Character::UpdateStates()
 
 	if(stateRedSoul == RSOUL)
 	{
-		redSoulBehavior();
 		if(clRedSoul.getElapsedTime().asMilliseconds() > soulSet->GetRedSoul()->GetCooldown()) // Cooldown is over
 		   stateRedSoul = NORSOUL;	
+	}
+
+	if(stateBlueSoul == BSOUL_HELD)
+	{
+		blueSoulBehavior();
+
+		// TODO : stop blue soul of there is no more mana
 	}
 
 	std::cout << "Attack: " << stateAttack << std::endl;
@@ -273,7 +297,10 @@ void Character::attackBehavior(void)
 	*/
 }
 
-void Character::redSoulBehavior(void)
+void Character::blueSoulBehavior(void)
 {
+	BlueSoul *soul = soulSet->GetBlueSoul();
+	if(soul != 0)
+		soul->Use();
 }
 

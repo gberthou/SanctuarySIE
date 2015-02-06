@@ -22,6 +22,7 @@ enum MobBehavior
 enum MobType
 {
 	GIANT_BAT,
+	DEVIL,
 
     MOB_COUNT
 };

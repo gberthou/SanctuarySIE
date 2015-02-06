@@ -42,6 +42,11 @@ void InputController::Update(sf::Event const& event)
         
 		if(sf::Keyboard::isKeyPressed(keys_mapping[KEY_B]))
             actionB();
+
+		if(sf::Keyboard::isKeyPressed(keys_mapping[KEY_R]))
+            actionRPressed();
+		else
+			actionRReleased();
     }
 }
 
@@ -85,3 +90,14 @@ void InputController::actionB()
 	else
 		character->Attack();
 }
+
+void InputController::actionRPressed()
+{
+	character->UseBlueSoul();
+}
+
+void InputController::actionRReleased()
+{
+	character->ReleaseBlueSoul();
+}
+

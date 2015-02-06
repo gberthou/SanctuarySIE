@@ -46,6 +46,8 @@ int main(void)
 	soulSet = character->GetSoulSet();
 	soulSet->AddSoul(GIANT_BAT); // Red soul
 	soulSet->EquipRedSoul(soulSet->GetRedSouls().begin());
+	soulSet->AddSoul(DEVIL); // Blue soul
+	soulSet->EquipBlueSoul(soulSet->GetBlueSouls().begin());
 
 	while(window.isOpen())
 	{

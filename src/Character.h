@@ -33,7 +33,7 @@ class Character : public Entity
         void StopWalking(Orientation orientation);
 		void UseRedSoul();
 		void UseBlueSoul();
-		void StopUsingBlueSoul();
+		void ReleaseBlueSoul();
 		void UpdateStates();
 
 		Inventory *GetInventory() const;
@@ -46,7 +46,7 @@ class Character : public Entity
 
 		// State methods
 		void attackBehavior(void);
-		void redSoulBehavior(void);
+		void blueSoulBehavior(void);
 
         // "Gameplay" attributes
         unsigned int lvl;           // Level

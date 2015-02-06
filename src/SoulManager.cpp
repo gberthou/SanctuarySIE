@@ -5,18 +5,20 @@
 
 SoulManager::SoulManager()
 {
-    int i;
-    for (i=0; i<MOB_COUNT; i++)
+    for (unsigned i=0; i<MOB_COUNT; ++i)
     {
         souls[i] = (Soul*)0;
     }
 
     souls[GIANT_BAT] = new RedSoul(GIANT_BAT, 800);
+	souls[DEVIL] = new BlueSoul(DEVIL, BSOUL_B_HOLD);
 }
 
 SoulManager::~SoulManager()
 {
-    delete souls[GIANT_BAT];
+	for(unsigned int i = 0; i < MOB_COUNT; ++i)
+		if(souls[i] != 0)
+			delete souls[i];
 }
 
 Soul *SoulManager::GetSoul(MobType type)

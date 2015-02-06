@@ -32,7 +32,9 @@ enum CharacterStateRedSoul
 enum CharacterStateBlueSoul
 {
 	NOBSOUL,
-	BSOUL
+	BSOUL_ACTIVATING,
+	BSOUL_ACTIVATED,
+	BSOUL_HELD
 };
 
 #endif // CHARACTERSTATE_H
