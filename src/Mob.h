@@ -23,6 +23,7 @@ enum MobType
 {
 	GIANT_BAT,
 	DEVIL,
+	DEATH,
 
     MOB_COUNT
 };

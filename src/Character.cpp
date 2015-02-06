@@ -181,13 +181,15 @@ void Character::UseBlueSoul()
 		}
 
 	}
+	else if(stateBlueSoul == BSOUL_ACTIVATED)
+		stateBlueSoul = BSOUL_DEACTIVATING;
 }
 
 void Character::ReleaseBlueSoul()
 {
 	if(stateBlueSoul == BSOUL_ACTIVATING)
 		stateBlueSoul = BSOUL_ACTIVATED;
-	else if(stateBlueSoul == BSOUL_HELD)
+	else if(stateBlueSoul == BSOUL_HELD || stateBlueSoul == BSOUL_DEACTIVATING)
 		stateBlueSoul = NOBSOUL;
 }
 
@@ -224,7 +226,7 @@ void Character::UpdateStates()
 		   stateRedSoul = NORSOUL;	
 	}
 
-	if(stateBlueSoul == BSOUL_HELD)
+	if(stateBlueSoul != NOBSOUL)
 	{
 		blueSoulBehavior();
 

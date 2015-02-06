@@ -13,9 +13,10 @@ Mob::Mob(MobType type1, const sf::Texture &texture):
 	sprite.setTexture(texture);
 }
 
-Mob::Mob()
+Mob::Mob():
+	stats(0),
+	path(0)
 {
-    stats = 0;
 }
 
 Mob::~Mob()

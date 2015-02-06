@@ -12,6 +12,7 @@ SoulManager::SoulManager()
 
     souls[GIANT_BAT] = new RedSoul(GIANT_BAT, 800);
 	souls[DEVIL] = new BlueSoul(DEVIL, BSOUL_B_HOLD);
+	souls[DEATH] = new BlueSoul(DEATH, BSOUL_B_TOGGLE);
 }
 
 SoulManager::~SoulManager()
