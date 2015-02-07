@@ -47,6 +47,11 @@ void InputController::Update(sf::Event const& event)
             actionRPressed();
 		else
 			actionRReleased();
+		
+		if(sf::Keyboard::isKeyPressed(keys_mapping[KEY_L]))
+            actionLPressed();
+		else
+			actionLReleased();
     }
 }
 
@@ -99,5 +104,15 @@ void InputController::actionRPressed()
 void InputController::actionRReleased()
 {
 	character->ReleaseBlueSoul();
+}
+
+void InputController::actionLPressed()
+{
+	character->BackDash();
+}
+
+void InputController::actionLReleased()
+{
+	character->ReleaseBackDash();
 }
 

@@ -12,7 +12,9 @@
 
 // ---- CONSTANTS ----
 const float HVELOCITY = 4;
+const float HVELOCITY_BACKDASH = 8;
 
+const sf::Int32 BDASH_TIMEOUT = 200;
 const sf::Int32 JUMP_COOLDOWN = 500;
 const sf::Int32 JUMP_TIMEOUT = 200;
 
@@ -105,7 +107,7 @@ bool Character::Hurt(unsigned int damage)
 
 void Character::Attack()
 {
-	if(stateWalk != BACKDASH && stateRedSoul == NORSOUL)
+	if((stateWalk == IDLE || stateWalk == WALK)  && stateRedSoul == NORSOUL)
 	{
 		stateAttack = ATTACK;
 		stateWalk = IDLE;
@@ -115,7 +117,7 @@ void Character::Attack()
 
 void Character::Jump()
 {
-	if(stateWalk != BACKDASH && stateAttack == NOATTACK && stateRedSoul == NORSOUL)
+	if((stateWalk == IDLE || stateWalk == WALK) && stateAttack == NOATTACK && stateRedSoul == NORSOUL)
 	{
 		if(stateJump == NOJUMP) // -> Simple jump
 		{
@@ -142,9 +144,28 @@ void Character::Walk(Orientation orientation1)
 	}
 }
 
+void Character::BackDash()
+{
+	if(stateAttack == NOATTACK && (stateWalk == IDLE || stateWalk == WALK)  && stateRedSoul == NORSOUL)
+	{
+		stateWalk = BACKDASH;
+		clWalk.restart();
+		clBackDashTimeout.restart();
+	}
+	
+}
+
+void Character::ReleaseBackDash()
+{
+	if(stateWalk == BACKDASH)
+		stateWalk = BACKDASH_DEACTIVATED;
+	else if(stateWalk == BACKDASH_TIMEOUT)
+		stateWalk = IDLE;
+}
+
 void Character::StopWalking(Orientation orientation1)
 {
-	if(orientation == orientation1) // Do not stop walking if it's not the right direction
+	if(stateWalk == WALK && orientation == orientation1) // Do not stop walking if it's not the right direction
 		stateWalk = IDLE;
 }
 
@@ -154,7 +175,7 @@ void Character::UseRedSoul()
 	if(soul == 0)
 		return;
 
-	if(stateWalk != BACKDASH && stateAttack == NOATTACK && stateRedSoul == NORSOUL)
+	if((stateWalk == IDLE || stateWalk == WALK) && stateAttack == NOATTACK && stateRedSoul == NORSOUL)
 	{
 		stateRedSoul = RSOUL;
 		clRedSoul.restart();
@@ -216,7 +237,25 @@ void Character::UpdateStates()
 		{
 			clWalk.restart();
 			
-			pos.x += (orientation == ORIENTATION_LEFT ? -HVELOCITY * frameCount : HVELOCITY * frameCount);
+			pos.x += (orientation == ORIENTATION_LEFT ? -HVELOCITY : HVELOCITY) * frameCount;
+		}
+	}
+	else if(stateWalk == BACKDASH || stateWalk == BACKDASH_DEACTIVATED)
+	{
+		unsigned int frameCount = clWalk.GetElapsedFrames();
+		if(frameCount > 0)
+		{
+			clWalk.restart();
+			
+			pos.x += (orientation != ORIENTATION_LEFT ? -HVELOCITY_BACKDASH : HVELOCITY_BACKDASH) * frameCount;
+		}
+	
+		if(clBackDashTimeout.getElapsedTime().asMilliseconds() > BDASH_TIMEOUT)
+		{
+			if(stateWalk == BACKDASH)
+				stateWalk = BACKDASH_TIMEOUT;
+			else if(stateWalk == BACKDASH_DEACTIVATED)
+				stateWalk = IDLE;
 		}
 	}
 

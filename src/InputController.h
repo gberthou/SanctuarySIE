@@ -33,6 +33,8 @@ class InputController
         void actionB();
 		void actionRPressed();
 		void actionRReleased();
+		void actionLPressed();
+		void actionLReleased();
 
         Character* character;
 

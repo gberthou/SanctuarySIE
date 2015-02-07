@@ -14,7 +14,9 @@ enum CharacterStateWalk
 {
 	IDLE,
 	WALK,
-	BACKDASH
+	BACKDASH,
+	BACKDASH_TIMEOUT,
+	BACKDASH_DEACTIVATED
 };
 
 enum CharacterStateAttack
