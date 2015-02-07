@@ -13,46 +13,108 @@ sf::Keyboard::Key keys_mapping[] =
     sf::Keyboard::Return,sf::Keyboard::BackSpace
 };
 
-InputController::InputController(Character* c)
+unsigned int joystick_mapping[] =
 {
-    character = c;
+	0, 0, 0, 0,
+	0, 1,
+	4, 5,
+	7, 6
+};
+
+const float JOYSTICK_THRESHOLD = 10;
+
+InputController::InputController(Character* c):
+	character(c),
+	eventSource(ES_KEYBOARD)
+{
 }
 
 void InputController::Update(sf::Event const& event)
 {
-    for(int i=0;i<KEY_COUNT;++i)
-    {
-        if(sf::Keyboard::isKeyPressed(keys_mapping[KEY_LEFT]))
-            actionLeftPressed();
-		else
-			actionLeftReleased();
-        
-		if(sf::Keyboard::isKeyPressed(keys_mapping[KEY_RIGHT]))
-            actionRightPressed();
-		else
+	if(eventSource == ES_KEYBOARD)
+		keyboardAction();
+	else
+		joystickAction();
+}
+
+void InputController::SetEventSource(EventSource source, unsigned int id)
+{
+	eventSource = source;
+	joystickId = id;
+}
+
+void InputController::keyboardAction()
+{
+	if(sf::Keyboard::isKeyPressed(keys_mapping[KEY_LEFT]))
+		actionLeftPressed();
+	else
+		actionLeftReleased();
+	
+	if(sf::Keyboard::isKeyPressed(keys_mapping[KEY_RIGHT]))
+		actionRightPressed();
+	else
+		actionRightReleased();
+
+	if(sf::Keyboard::isKeyPressed(keys_mapping[KEY_UP]))
+		actionUp();
+	if(sf::Keyboard::isKeyPressed(keys_mapping[KEY_DOWN]))
+		actionDown();
+
+	if(sf::Keyboard::isKeyPressed(keys_mapping[KEY_A]))
+		actionA();
+	
+	if(sf::Keyboard::isKeyPressed(keys_mapping[KEY_B]))
+		actionB();
+
+	if(sf::Keyboard::isKeyPressed(keys_mapping[KEY_R]))
+		actionRPressed();
+	else
+		actionRReleased();
+	
+	if(sf::Keyboard::isKeyPressed(keys_mapping[KEY_L]))
+		actionLPressed();
+	else
+		actionLReleased();
+}
+
+void InputController::joystickAction()
+{
+	if(sf::Joystick::isConnected(joystickId))
+	{
+		float xAxis = sf::Joystick::getAxisPosition(joystickId, sf::Joystick::PovX);
+
+		if(xAxis < -JOYSTICK_THRESHOLD)
+		{
 			actionRightReleased();
+			actionLeftPressed();
+		}
+		else if(xAxis > JOYSTICK_THRESHOLD)
+		{
+			actionLeftReleased();
+			actionRightPressed();
+		}
+		else
+		{
+			actionLeftReleased();
+			actionRightReleased();
+		}
 
-        if(sf::Keyboard::isKeyPressed(keys_mapping[KEY_UP]))
-            actionUp();
-        if(sf::Keyboard::isKeyPressed(keys_mapping[KEY_DOWN]))
-            actionDown();
+		if(sf::Joystick::isButtonPressed(joystickId, joystick_mapping[KEY_A]))
+			actionA();
+		
+		if(sf::Joystick::isButtonPressed(joystickId, joystick_mapping[KEY_B]))
+			actionB();
 
-        if(sf::Keyboard::isKeyPressed(keys_mapping[KEY_A]))
-            actionA();
-        
-		if(sf::Keyboard::isKeyPressed(keys_mapping[KEY_B]))
-            actionB();
-
-		if(sf::Keyboard::isKeyPressed(keys_mapping[KEY_R]))
-            actionRPressed();
+		if(sf::Joystick::isButtonPressed(joystickId, joystick_mapping[KEY_R]))
+			actionRPressed();
 		else
 			actionRReleased();
 		
-		if(sf::Keyboard::isKeyPressed(keys_mapping[KEY_L]))
-            actionLPressed();
+		if(sf::Joystick::isButtonPressed(joystickId, joystick_mapping[KEY_L]))
+			actionLPressed();
 		else
 			actionLReleased();
-    }
+	}
 }
 
 void InputController::actionLeftPressed()
@@ -90,7 +152,8 @@ void InputController::actionA()
 
 void InputController::actionB()
 {
-	if(sf::Keyboard::isKeyPressed(keys_mapping[KEY_UP]))
+	if((eventSource == ES_KEYBOARD && sf::Keyboard::isKeyPressed(keys_mapping[KEY_UP]))
+	|| (eventSource == ES_JOYSTICK && sf::Joystick::getAxisPosition(joystickId, sf::Joystick::PovY) < -JOYSTICK_THRESHOLD))
 		character->UseRedSoul();
 	else
 		character->Attack();

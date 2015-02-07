@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 
@@ -34,7 +36,7 @@ int main(void)
 	character = new Character();
 
     inputController = new InputController(character);
-
+	//inputController->SetEventSource(ES_JOYSTICK);
 
 	// Simulate the arrival of the player in the level
 	level->MakeReady(character);

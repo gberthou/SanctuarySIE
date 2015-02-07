@@ -5,6 +5,12 @@
 #include <SFML/Window.hpp>
 #include "Character.h"
 
+enum EventSource
+{
+	ES_KEYBOARD,
+	ES_JOYSTICK
+};
+
 enum KeyMapping
 {
     KEY_LEFT, KEY_UP, KEY_DOWN, KEY_RIGHT,
@@ -15,6 +21,7 @@ enum KeyMapping
 };
 
 extern sf::Keyboard::Key keys_mapping[];
+extern unsigned int joystick_mapping[];
 
 class InputController
 {
@@ -22,7 +29,12 @@ class InputController
         InputController(Character* c);
         void Update(sf::Event const& event);
 
+		void SetEventSource(EventSource source, unsigned int joystickId = 0);
+
     protected:
+		void keyboardAction();
+		void joystickAction();
+
         void actionLeftPressed();
         void actionLeftReleased();
         void actionRightPressed();
@@ -37,6 +49,8 @@ class InputController
 		void actionLReleased();
 
         Character* character;
+		EventSource eventSource;
+		unsigned int joystickId;
 
     private:
 
