@@ -8,7 +8,7 @@
 #include "Weapon.h"
 #include "Armor.h"
 #include "Accessory.h"
-#include "PickUpItem.h"
+#include "PickUp.h"
 
 class ItemFactory
 {
@@ -16,7 +16,9 @@ class ItemFactory
         static Weapon* CreateWeapon(WeaponType type);
         static Armor* CreateArmor(ArmorType type);
         static Accessory* CreateAccessory(AccessoryType type);
-        static PickUpItem* CreatePickUpItem(PickUpItemType type);
+        static PickUp* CreatePickUp(PickUpType type);
+
+		static Item* CreateItem(const ItemDesc &desc);
     protected:
     private:
         ItemFactory();

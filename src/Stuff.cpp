@@ -4,7 +4,7 @@ Stuff::Stuff(Stats *stats1, sf::String name1, sf::String description1, bool trad
     Tradable(name1, description1, trade1, sellPrice1, buyPrice1)
 {
     stats = stats1;
-    type = STUFF;
+//    type = STUFF;
 }
 
 Stuff::~Stuff()

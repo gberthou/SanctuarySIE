@@ -11,7 +11,7 @@ Item::~Item()
 
 void Item::Drop(sf::Vector2f posToDrop)
 {
-    pos = posToDrop;
+    SetPosition(posToDrop);
     // autre chose ?
 }
 

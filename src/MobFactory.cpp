@@ -15,7 +15,7 @@ Mob *MobFactory::CreateMob(MobType type)
 
 Mob *MobFactory::CreateGiantBat(void)
 {
-	return new Mob(GIANT_BAT, Resources::texGiantBat);
+	return new Mob(GIANT_BAT);
 }
 
 MobFactory::MobFactory()

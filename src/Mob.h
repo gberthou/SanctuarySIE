@@ -44,14 +44,14 @@ struct MobDesc
 
 struct Loot
 {
-    Item *item;
+    ItemDesc itemDesc;
     unsigned int dropRate;
 };
 
 class Mob : public Entity
 {
     public:
-        Mob(MobType type, const sf::Texture &texture);
+        Mob(MobType type);
         Mob();
         virtual ~Mob();
 
@@ -65,8 +65,9 @@ class Mob : public Entity
 		Status GetStatus();
         Stats* GetStats();
         unsigned int GiveXP();
-    protected:
-    private:
+    
+	private:
+		void buildSprite(void);
 
         unsigned int getPower();
         unsigned int dealDamage(unsigned int power, Status ownStatus, unsigned int defense, Status enemyStatus);

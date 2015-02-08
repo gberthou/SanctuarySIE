@@ -36,6 +36,22 @@ struct LevelDoor
 	DoorDirection direction; // Door direction (local position in the room unit space)
 };
 
+struct LevelItemDesc
+{
+	LevelItemDesc(ItemType type1, unsigned int subType, const sf::Vector2f &pos, bool available1 = true):
+		available(available1),
+		position(pos)
+	{
+		unsigned int *descPtr = (unsigned int*) &desc;
+		desc.type = type1;
+		*(descPtr + 1) = subType;
+	}
+
+	ItemDesc desc;
+	bool available;
+	sf::Vector2f position;
+};
+
 class Level : public sf::Drawable
 {
 	public:
@@ -44,6 +60,7 @@ class Level : public sf::Drawable
 
 		void SetBgDesc(const BgDesc &bgDesc);
 		void AddMobDesc(const MobDesc *mobDesc);
+		void AddItemDesc(const LevelItemDesc *itemDesc);
 		void SetCollisionMap(const sf::String &filename);
 
 		void MakeReady(Character *character);
@@ -70,8 +87,11 @@ class Level : public sf::Drawable
 		BgDesc bgDesc;
 		LevelBg *bg;
 
-		std::vector<const MobDesc*> mobDescs; // Contains the descriptions of all mobs in the level
-		std::vector<Mob*> mobs;               // Mobs that are in the room (when the player is inside)
+		std::vector<const MobDesc*> mobDescs;        // Contains the descriptions of all mobs in the level
+		std::vector<Mob*> mobs;                      // Mobs that are in the room (when the player is inside)
+
+		std::vector<const LevelItemDesc*> itemDescs; // Contains the descriptions of all items initially in the level (not the dropped ones)
+		std::vector<Item*> items;                    // Items inside the room
 
 		sf::String collisionMapFilename;
 		CollisionMap collisionMap;

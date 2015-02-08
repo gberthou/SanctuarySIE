@@ -1,11 +1,11 @@
 #ifndef MANA_H
 #define MANA_H
 
-#include "PickUpItem.h"
+#include "PickUp.h"
 #include "Character.h"
 
 
-class Mana : public PickUpItem
+class Mana : public PickUp
 {
     public:
         Mana(int amount1);

@@ -1,10 +1,10 @@
 #ifndef GOLD_H
 #define GOLD_H
 
-#include "PickUpItem.h"
+#include "PickUp.h"
 #include "Character.h"
 
-class Gold : public PickUpItem
+class Gold : public PickUp
 {
     public:
         Gold(int amount1);

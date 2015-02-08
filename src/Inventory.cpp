@@ -186,13 +186,16 @@ void Inventory::LootItem(Item *item)
         case ACCESSORY:
             accessories.push_back((Accessory*)item);
             break;
-        case CONSUMABLE:
+        /*
+		case CONSUMABLE:
             consumables.push_back((Consumable*)item);
             break;
         case PERMANENT:
             permanents.push_back((Permanent*)item);
             break;
-        default:
+        */
+
+		default:
             break;
     }
 }

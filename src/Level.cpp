@@ -1,5 +1,6 @@
 #include "Level.h"
 #include "MobFactory.h"
+#include "ItemFactory.h"
 
 #define DEBUG_PHYSICS
 
@@ -22,6 +23,12 @@ Level::~Level()
 	for(unsigned int i = 0; i < mobs.size(); ++i)
 		delete mobs[i];
 
+	for(unsigned int i = 0; i < itemDescs.size(); ++i)
+		delete itemDescs[i];
+
+	for(unsigned int i = 0; i < items.size(); ++i)
+		delete items[i];
+
 	delete collisionMap;
 
 	for(unsigned int i = 0; i < doors.size(); ++i)
@@ -37,6 +44,11 @@ void Level::SetBgDesc(const BgDesc &desc)
 void Level::AddMobDesc(const MobDesc *mobDesc)
 {
 	mobDescs.push_back(mobDesc);
+}
+
+void Level::AddItemDesc(const LevelItemDesc *itemDesc)
+{
+	itemDescs.push_back(itemDesc);
 }
 
 void Level::SetCollisionMap(const sf::String &filename)
@@ -66,11 +78,32 @@ void Level::MakeReady(Character *character1)
 	for(unsigned int i = 0; i < mobDescs.size(); ++i)
 	{
 		Mob *mob = MobFactory::CreateMob(mobDescs[i]->type);
-		mob->SetPosition(mobDescs[i]->position);
-		mob->SetPath(mobDescs[i]->path);
-		mobs.push_back(mob);
+		if(mob != 0)
+		{
+			mob->SetPosition(mobDescs[i]->position);
+			mob->SetPath(mobDescs[i]->path);
+			mobs.push_back(mob);
+
+			// Test purpose only
+			mob->LootMob(100);
 		
-		physics->AddEntity(mob);
+			physics->AddEntity(mob);
+		}
+	}
+
+	for(unsigned int i = 0; i < itemDescs.size(); ++i)
+	{
+		if(itemDescs[i]->available) // Do not spawn items that are unavailable (story purpose or because they were already collected)
+		{
+			Item *item = ItemFactory::CreateItem(itemDescs[i]->desc);
+			if(item != 0)
+			{
+				item->SetPosition(itemDescs[i]->position);
+				items.push_back(item);
+
+				physics->AddEntity(item);
+			}
+		}
 	}
 }
 
@@ -126,6 +159,12 @@ void Level::draw(sf::RenderTarget &target, sf::RenderStates states) const
 	for(unsigned int i = 0; i < mobs.size(); ++i)
 	{
 		target.draw(*mobs[i], states);
+	}
+
+	// Draw items
+	for(unsigned int i = 0; i < items.size(); ++i)
+	{
+		target.draw(*items[i], states);
 	}
 
 	// Draw character

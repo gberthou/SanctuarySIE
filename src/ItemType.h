@@ -4,13 +4,13 @@
 enum ItemType
 {
     PICKUP,
-    TRADABLE,
-    PERMANENT,
+    //TRADABLE,
+    //PERMANENT,
     WEAPON,
     ARMOR,
-    ACCESSORY,
-    STUFF,
-    CONSUMABLE
+    ACCESSORY
+    //STUFF,
+    //CONSUMABLE
 };
 
 enum WeaponType
@@ -28,10 +28,22 @@ enum AccessoryType
     BATFANG
 };
 
-enum PickUpItemType
+enum PickUpType
 {
     GOLD,
     MANA
+};
+
+struct ItemDesc
+{
+	ItemType type;
+	union
+	{
+		WeaponType weapon;
+		ArmorType armor;
+		AccessoryType accessory;
+		PickUpType pickup;
+	};
 };
 
 #endif // ITEMTYPE_H

@@ -17,6 +17,9 @@ class Resources
 		// Mobs
 		static sf::Texture texGiantBat;
 
+		// Items
+		static sf::Texture texDagger;
+
 	private:
 		Resources();
 		virtual ~Resources();

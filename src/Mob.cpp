@@ -1,16 +1,17 @@
 #include <cstdlib>
 
 #include "Mob.h"
+#include "Resources.h"
 
 // ---- PUBLIC ----
 
-Mob::Mob(MobType type1, const sf::Texture &texture):
+Mob::Mob(MobType type1):
 	type(type1),
 	stats(0),
 	behavior(NORMAL),
 	path(0)
 {
-	sprite.setTexture(texture);
+	buildSprite();
 }
 
 Mob::Mob():
@@ -60,7 +61,7 @@ void Mob::LootMob(unsigned int lck)
 
         if((unsigned int)(rand() % 100) > realDropRate)
         {
-            itemsToDrop.push_back(loot[i]->item);
+            //itemsToDrop.push_back(loot[i]->item);
         }
     }
     if(itemsToDrop.size() > 0)
@@ -118,7 +119,21 @@ unsigned int Mob::GiveXP()
     return xpDrop;
 }
 
-// ---- PUBLIC ----
+// ---- PRIVATE ----
+
+void Mob::buildSprite(void)
+{
+	switch(type)
+	{
+		case GIANT_BAT:
+			sprite.setTexture(Resources::texGiantBat);
+			break;
+		
+		default:
+			break;
+	}
+}
+
 
 // #### DAMAGE METHODS ####
 

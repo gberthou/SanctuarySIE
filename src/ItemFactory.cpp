@@ -17,7 +17,7 @@ Weapon* ItemFactory::CreateWeapon(WeaponType type)
 		case DAGGER:
 		{
 			Stats *stats = new Stats();
-         	return new Weapon(stats, sf::String("dagger"), sf::String("This dagger will make your heart bleed."), true, 1, 2, 1000);
+         	return new Weapon(DAGGER, stats, sf::String("dagger"), sf::String("This dagger will make your heart bleed."), true, 1, 2, 1000);
 		}
 
         default:
@@ -49,3 +49,34 @@ Accessory* ItemFactory::CreateAccessory(AccessoryType type)
             return 0;
     }
 }
+
+PickUp* ItemFactory::CreatePickUp(PickUpType type)
+{
+	switch(type)
+	{
+		default:
+			return 0;
+	}
+}
+
+Item* ItemFactory::CreateItem(const ItemDesc &desc)
+{
+	switch(desc.type)
+	{
+		case WEAPON:
+			return ItemFactory::CreateWeapon(desc.weapon);
+
+		case ARMOR:
+			return ItemFactory::CreateArmor(desc.armor);
+
+		case ACCESSORY:
+			return ItemFactory::CreateAccessory(desc.accessory);
+
+		case PICKUP:
+			return ItemFactory::CreatePickUp(desc.pickup);
+
+		default:
+			return 0;
+	}
+}
+

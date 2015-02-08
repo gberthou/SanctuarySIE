@@ -13,6 +13,7 @@ class Item :  public Entity
         Item();
         virtual ~Item();
         virtual void PickUp(Character *character) const = 0;
+
         void Drop(sf::Vector2f posToDrop);
         ItemType GetType();
     protected:
