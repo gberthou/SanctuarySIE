@@ -50,8 +50,10 @@ void Physics::manageStaticCollisions(Entity* e)
     }
     
     //// Structure collisions
-    
-    if (isThereStaticCollision(e))
+
+    if (e->pos.y > 0
+        && e->pos.y+e->GetSprite().getGlobalBounds().height < collisionMap->getSize().y
+        && isThereStaticCollision(e))
     {
         int yCorrection = computeVerticalStaticCorrection(e);
         if (yCorrection > 0)
