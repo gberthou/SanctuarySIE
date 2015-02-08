@@ -2,22 +2,24 @@
 
 #include "Mob.h"
 #include "Resources.h"
+#include "Level.h"
+#include "ItemFactory.h"
+
+static inline float frand()
+{
+	return rand() / (float) RAND_MAX;
+}
 
 // ---- PUBLIC ----
 
 Mob::Mob(MobType type1):
+	level(0),
 	type(type1),
 	stats(0),
 	behavior(NORMAL),
 	path(0)
 {
 	buildSprite();
-}
-
-Mob::Mob():
-	stats(0),
-	path(0)
-{
 }
 
 Mob::~Mob()
@@ -46,23 +48,24 @@ bool Mob::Hurt(unsigned int damage)
 }
 
 // #### LOOT METHODS ####
+void Mob::AddLoot(const Loot &lootItem)
+{
+	loot.push_back(lootItem);
+}
 
 void Mob::LootMob(unsigned int lck)
 {
     // Home-made algorithm for loot-%age
     unsigned int realDropRate = 0;
-    std::vector<Item*> itemsToDrop;
+    std::vector<ItemDesc> itemsToDrop;
 
     for(unsigned int i=0; i<loot.size(); ++i)
     {
-        srand(time(NULL));
-        realDropRate = loot[i]->dropRate + (int)((float)lck/(float)MAX_STAT)*MAX_ADD_DROP_RATE;
+        realDropRate = loot[i].dropRate + (int)((float)lck/(float)MAX_STAT)*MAX_ADD_DROP_RATE;
         realDropRate = (realDropRate > 100) ? 100 : realDropRate;
 
-        if((unsigned int)(rand() % 100) > realDropRate)
-        {
-            //itemsToDrop.push_back(loot[i]->item);
-        }
+        if((unsigned int)(rand() % 101) < realDropRate)
+            itemsToDrop.push_back(loot[i].itemDesc);
     }
     if(itemsToDrop.size() > 0)
         dropItems(itemsToDrop);
@@ -100,6 +103,11 @@ void Mob::UpdateAI(void)
 void Mob::SetPath(Path *path1)
 {
 	path = path1;
+}
+
+void Mob::SetLevel(Level *level1)
+{
+	level = level1;
 }
 
 // #### GETTERS ####
@@ -153,27 +161,19 @@ unsigned int Mob::dealDamage(unsigned int power, Status ownStatus, unsigned int 
 
 // #### LOOT METHODS ####
 
-void Mob::dropItems(std::vector<Item*> &itemsToDrop)
+void Mob::dropItems(const std::vector<ItemDesc> &itemsToDrop)
 {
-    // Drop items on the floor ?
-    if(itemsToDrop.size() == 0)
+    if(itemsToDrop.size() != 0)
     {
-        return;
-    }
-    else
-    {
-        srand(time(NULL));
-        itemsToDrop[0]->Drop(pos);
         sf::Vector2f newPos = pos;
-        for(unsigned int i=1; i<itemsToDrop.size(); ++i)
+       
+		level->SpawnItem(itemsToDrop[0], pos);
+        for(unsigned int i = 1; i < itemsToDrop.size(); ++i)
         {
             // random offset between -X_SIZE_ITEM and +X_SIZE_ITEM
-            newPos.x = pos.x + ((i%2 == 0) ? 2*X_SIZE_ITEM - (rand()%100)/100*0.7*X_SIZE_ITEM : -X_SIZE_ITEM + (rand()%100)/100*0.7*X_SIZE_ITEM);
-            newPos.y = pos.y;
-            itemsToDrop[i]->Drop(newPos);
-            // UPDATE THE FORCE REQUIRED AT SOME POINT
-            // ADD EACH ITEM TO THE PHYSICS ENTITIES
-        }
+            newPos.x = pos.x + ((i%2 == 0) ? 2*X_SIZE_ITEM - frand()*0.7*X_SIZE_ITEM : -X_SIZE_ITEM + frand()*0.7*X_SIZE_ITEM);
+			level->SpawnItem(itemsToDrop[i], newPos);
+		}
     }
 
 }

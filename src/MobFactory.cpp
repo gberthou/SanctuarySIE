@@ -15,7 +15,11 @@ Mob *MobFactory::CreateMob(MobType type)
 
 Mob *MobFactory::CreateGiantBat(void)
 {
-	return new Mob(GIANT_BAT);
+	Mob *mob = new Mob(GIANT_BAT);
+	Loot lootDagger = {{WEAPON, DAGGER}, 100};
+
+	mob->AddLoot(lootDagger);
+	return mob;
 }
 
 MobFactory::MobFactory()

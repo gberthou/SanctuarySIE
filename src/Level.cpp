@@ -46,9 +46,9 @@ void Level::AddMobDesc(const MobDesc *mobDesc)
 	mobDescs.push_back(mobDesc);
 }
 
-void Level::AddItemDesc(const LevelItemDesc *itemDesc)
+void Level::AddItemDesc(const LevelItemDesc *levelItemDesc)
 {
-	itemDescs.push_back(itemDesc);
+	itemDescs.push_back(levelItemDesc);
 }
 
 void Level::SetCollisionMap(const sf::String &filename)
@@ -80,6 +80,7 @@ void Level::MakeReady(Character *character1)
 		Mob *mob = MobFactory::CreateMob(mobDescs[i]->type);
 		if(mob != 0)
 		{
+			mob->SetLevel(this);
 			mob->SetPosition(mobDescs[i]->position);
 			mob->SetPath(mobDescs[i]->path);
 			mobs.push_back(mob);
@@ -94,16 +95,19 @@ void Level::MakeReady(Character *character1)
 	for(unsigned int i = 0; i < itemDescs.size(); ++i)
 	{
 		if(itemDescs[i]->available) // Do not spawn items that are unavailable (story purpose or because they were already collected)
-		{
-			Item *item = ItemFactory::CreateItem(itemDescs[i]->desc);
-			if(item != 0)
-			{
-				item->SetPosition(itemDescs[i]->position);
-				items.push_back(item);
+			SpawnItem(itemDescs[i]->desc, itemDescs[i]->position);
+	}
+}
 
-				physics->AddEntity(item);
-			}
-		}
+void Level::SpawnItem(const ItemDesc &itemDesc, const sf::Vector2f &position)
+{
+	Item *item = ItemFactory::CreateItem(itemDesc);
+	if(item != 0)
+	{
+		item->SetPosition(position);
+		items.push_back(item);
+
+		physics->AddEntity(item);
 	}
 }
 

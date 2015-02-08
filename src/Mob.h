@@ -48,18 +48,21 @@ struct Loot
     unsigned int dropRate;
 };
 
+class Level;
+
 class Mob : public Entity
 {
     public:
         Mob(MobType type);
-        Mob();
         virtual ~Mob();
 
         bool Hurt(unsigned int damage);
+		void AddLoot(const Loot &lootItem);
 		void LootMob(unsigned int lck);
 
         void UpdateAI(void);
 
+		void SetLevel(Level *level);
         void SetPath(Path *path);
 
 		Status GetStatus();
@@ -71,7 +74,9 @@ class Mob : public Entity
 
         unsigned int getPower();
         unsigned int dealDamage(unsigned int power, Status ownStatus, unsigned int defense, Status enemyStatus);
-        void dropItems(std::vector<Item*> &itemsToDrop);
+        void dropItems(const std::vector<ItemDesc> &itemsToDrop);
+
+		Level *level;
 
         // "Apparent" attributes
 		MobType type;
@@ -81,7 +86,7 @@ class Mob : public Entity
         unsigned int maxMP;         // Max MP
 
         unsigned int xpDrop;        // XP dropped
-        std::vector<Loot*> loot;    // Loot
+        std::vector<Loot> loot;    // Loot
 
         Status status;              // Status : buff or debuff
         Stats *stats;               // Basic stats

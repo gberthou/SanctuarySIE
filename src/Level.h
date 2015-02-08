@@ -60,8 +60,10 @@ class Level : public sf::Drawable
 
 		void SetBgDesc(const BgDesc &bgDesc);
 		void AddMobDesc(const MobDesc *mobDesc);
-		void AddItemDesc(const LevelItemDesc *itemDesc);
+		void AddItemDesc(const LevelItemDesc *levelItemDesc);
 		void SetCollisionMap(const sf::String &filename);
+
+		void SpawnItem(const ItemDesc &itemDesc, const sf::Vector2f &position);
 
 		void MakeReady(Character *character);
 		void Leave(void);
