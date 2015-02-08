@@ -22,17 +22,18 @@ int main()
 	{
 		MenuTitle1 *menuTitle = new MenuTitle1();
 		MenuSelectSave *menuSelectSave;
-		
+
 		menuTitle->Load();
 		code = menuTitle->Run();
 		delete menuTitle;
 
 		menuSelectSave = new MenuSelectSave();
+		menuSelectSave->Load();
 		menuSelectSave->Run();
 		delete menuSelectSave;
 
 	}while(code != EXIT);
-	
+
 	return 0;
 }
 

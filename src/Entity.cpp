@@ -26,9 +26,24 @@ void Entity::SetPosition(const sf::Vector2f &position)
 	sprite.setPosition(pos);
 }
 
+void Entity::AddForce(const sf::Vector2f &force)
+{
+	forces += force;
+}
+
+void Entity::AddImpulse(const sf::Vector2f &impulse)
+{
+	v += impulse/mass;
+}
+
 void Entity::AddAcceleration(const sf::Vector2f &acceleration)
 {
 	a += acceleration;
+}
+
+void Entity::AddVelocity(const sf::Vector2f &velocity)
+{
+	v += velocity;
 }
 
 void Entity::draw(sf::RenderTarget &target, sf::RenderStates states) const

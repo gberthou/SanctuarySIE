@@ -13,7 +13,10 @@ class Entity : public sf::Drawable
         virtual void Update();
 
         void SetPosition(const sf::Vector2f &pos);
+        void AddForce(const sf::Vector2f &force);
+        void AddImpulse(const sf::Vector2f &impulse);
         void AddAcceleration(const sf::Vector2f &acceleration);
+        void AddVelocity(const sf::Vector2f &velocity);
 
         virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
         sf::Sprite const& GetSprite() const;

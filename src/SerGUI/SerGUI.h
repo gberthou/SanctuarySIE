@@ -7,19 +7,6 @@ namespace SerGUI
 {
     extern unsigned int SCREEN_WIDTH;
     extern unsigned int SCREEN_HEIGHT;
-	
-	// The following constants might be placed in the adequate files as well
-    extern const std::string TXT_TITLE_SCREEN;
-    extern const std::string TXT_MENU_TITLE_SAVE;
-    extern const std::string TXT_MENU_TITLE_PLAY;
-    extern const std::string TXT_MENU_TITLE_ERASE;
-    extern const std::string TXT_MENU_TITLE_COPY;
-
-    extern sf::Texture texMenuTitleBG;
-    extern sf::Texture texMenuSelectSaveButtonNbSave;
-    extern sf::Texture texMenuSelectSaveButtonNbSaveSelected;
-    extern sf::Texture texMenuSelectSaveButtonAction;
-    extern sf::Texture texMenuSelectSaveButtonActionSelected;
 
     extern sf::Font fontMenu1;
 

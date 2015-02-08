@@ -30,7 +30,7 @@ bool MenuTitle1::Load(void)
 
 MenuTitle1Code MenuTitle1::Run(void)
 {
-        text.setTexture(texText);
+    text.setTexture(texText);
     text.setOrigin(text.getGlobalBounds().width/2.f,
                    text.getGlobalBounds().height*1.0f);
     text.setPosition(SerGUI::window.getSize().x/2.f,SerGUI::window.getSize().y-0.f);
@@ -46,7 +46,7 @@ MenuTitle1Code MenuTitle1::Run(void)
 
 	sf::Clock timer;
 	FPSClock clock(60);
-	
+
 	for(unsigned int i = 0; i < NBATS; ++i)
 	{
 		inside[i] = new Bat(texBat);
@@ -58,7 +58,7 @@ MenuTitle1Code MenuTitle1::Run(void)
 	{
 		sf::Event event;
 		unsigned int nframes;
-		
+
 		while(SerGUI::window.pollEvent(event))
 		{
 			if(event.type == sf::Event::Closed)
@@ -74,7 +74,7 @@ MenuTitle1Code MenuTitle1::Run(void)
                 }
             }
 		}
-		
+
 		nframes = clock.GetElapsedFrames();
 		if(nframes > 0) // Important
 			clock.restart();

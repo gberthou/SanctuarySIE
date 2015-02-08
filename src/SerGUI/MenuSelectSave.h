@@ -15,8 +15,9 @@ class MenuSelectSave : public sf::Drawable
         bool Run();
 
         virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
-
+        bool Load();
     protected:
+        void init();
         void changeState(int newState);
         void changeSelection();
         void play();
@@ -36,6 +37,11 @@ class MenuSelectSave : public sf::Drawable
 
         static unsigned int NB_ACTION;
         static sf::Color blue;
+
+        sf::Texture texMenuSelectSaveButtonNbSave;
+        sf::Texture texMenuSelectSaveButtonNbSaveSelected;
+        sf::Texture texMenuSelectSaveButtonAction;
+        sf::Texture texMenuSelectSaveButtonActionSelected;
 };
 
 #endif // MENU_SELECT_SAVE

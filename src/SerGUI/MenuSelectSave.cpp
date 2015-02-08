@@ -4,29 +4,79 @@
 
 sf::Color MenuSelectSave::blue = sf::Color(8,8,176);
 unsigned int MenuSelectSave::NB_ACTION = 2;
-enum State {CHOICE_NB_STATE,CHOICE_ACTION};
+enum State {CHOICE_NB_STATE, CHOICE_ACTION};
+
+static const char* S_BUTTON_SAVE("img/sergui/maimenu_element1.png");
+static const char* S_BUTTON_SAVE_SELECTED("img/sergui/maimenu_element1_select.png");
+static const char* S_BUTTON_ACTION("img/sergui/maimenu_element2.png");
+static const char* S_BUTTON_ACTION_SELECTED("img/sergui/maimenu_element2_select.png");
+static const char* TXT_MENU_TITLE_SAVE("Save");
+static const char* TXT_MENU_TITLE_PLAY("Play");
+static const char* TXT_MENU_TITLE_ERASE("Erase");
+static const char* TXT_MENU_TITLE_COPY("Copy");
 
 MenuSelectSave::MenuSelectSave():
-      selected(0),state(CHOICE_NB_STATE),endMenu(false)
+      selected(0), state(CHOICE_NB_STATE), endMenu(false)
+{
+}
+
+bool MenuSelectSave::Load()
+{
+    if(!texMenuSelectSaveButtonNbSave
+                .loadFromFile(S_BUTTON_SAVE))
+    {
+        #ifdef DEBUG
+        std::cout<<"Fail while loading resource (S_BUTTON_SAVE)"<<std::endl;
+        #endif
+        return false;
+    }
+    if(!texMenuSelectSaveButtonNbSaveSelected
+            .loadFromFile(S_BUTTON_SAVE_SELECTED))
+    {
+        #ifdef DEBUG
+        std::cout<<"Fail while loading resource (S_BUTTON_SAVE_SELECTED)"<<std::endl;
+        #endif
+        return false;
+    }
+    if(!texMenuSelectSaveButtonAction
+            .loadFromFile(S_BUTTON_ACTION))
+    {
+        #ifdef DEBUG
+        std::cout<<"Fail while loading resource (S_BUTTON_ACTION)"<<std::endl;
+        #endif
+        return false;
+    }
+    if(!texMenuSelectSaveButtonActionSelected
+            .loadFromFile(S_BUTTON_ACTION_SELECTED))
+    {
+        #ifdef DEBUG
+        std::cout<<"Fail while loading resource (S_BUTTON_ACTION_SELECTED)"<<std::endl;
+        #endif
+        return false;
+    }
+    return true;
+}
+
+void MenuSelectSave::init()
 {
     for(unsigned int i=0;i<NB_SAVE;++i)
     {
-        buttonsNbSave[i].SetTextureDefault(&SerGUI::texMenuSelectSaveButtonNbSave);
-        buttonsNbSave[i].SetTextureSelected(&SerGUI::texMenuSelectSaveButtonNbSaveSelected);
+        buttonsNbSave[i].SetTextureDefault(&texMenuSelectSaveButtonNbSave);
+        buttonsNbSave[i].SetTextureSelected(&texMenuSelectSaveButtonNbSaveSelected);
         buttonsNbSave[i].SetFont(SerGUI::fontMenu1,36);
-        buttonsNbSave[i].SetText(SerGUI::TXT_MENU_TITLE_SAVE+ttos(i+1));
+        buttonsNbSave[i].SetText(TXT_MENU_TITLE_SAVE+ttos(i+1));
         buttonsNbSave[i].SetPosition(
                 (int)(SerGUI::window.getSize().x*1.f/4.f),
                 (int)(SerGUI::window.getSize().y*1.f/8.f+100.f*i));
     }
     for(unsigned int i=0;i<NB_ACTION;++i)
     {
-        buttonsAction[i].SetTextureDefault(&SerGUI::texMenuSelectSaveButtonAction);
-        buttonsAction[i].SetTextureSelected(&SerGUI::texMenuSelectSaveButtonActionSelected);
+        buttonsAction[i].SetTextureDefault(&texMenuSelectSaveButtonAction);
+        buttonsAction[i].SetTextureSelected(&texMenuSelectSaveButtonActionSelected);
         buttonsAction[i].SetFont(SerGUI::fontMenu1,36);
     }
-    buttonsAction[0].SetText(SerGUI::TXT_MENU_TITLE_PLAY);
-    buttonsAction[1].SetText(SerGUI::TXT_MENU_TITLE_ERASE);
+    buttonsAction[0].SetText(TXT_MENU_TITLE_PLAY);
+    buttonsAction[1].SetText(TXT_MENU_TITLE_ERASE);
     //buttonsAction[2].SetText(SerGUI::TXT_MENU_TITLE_COPY);
     for(unsigned int i=0;i<NB_ACTION;++i)
     {
@@ -51,6 +101,7 @@ void MenuSelectSave::draw(sf::RenderTarget &target, sf::RenderStates states) con
 
 bool MenuSelectSave::Run()
 {
+    init();
 	while(SerGUI::window.isOpen() && !endMenu)
 	{
 		sf::Event event;
