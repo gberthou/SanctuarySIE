@@ -23,6 +23,9 @@ class Physics
 
     protected:
         void manageStaticCollisions(Entity* e);
+        bool isThereStaticCollision(Entity* e);
+        int computeHorizontalStaticCorrection(Entity* e);
+        int computeVerticalStaticCorrection(Entity* e);
 
     private:
         std::vector<Entity*> entities;
