@@ -25,19 +25,19 @@ Level *LevelFactory::CreateLevel(TypeLevel typeLevel)
 
 			// Mobs
 			path = new Path();
-			path->AddPosition(sf::Vector2f(10, 20));
+			path->AddPosition(sf::Vector2f(20, 20));
 			path->AddPosition(sf::Vector2f(200, 20));
 			path->MakeReady();
 			level->AddMobDesc(new MobDesc(GIANT_BAT, sf::Vector2f(10, 20), path));
 
 			path = new Path();
 			path->AddPosition(sf::Vector2f(100, 300));
-			path->AddPosition(sf::Vector2f(0, 300));
+			path->AddPosition(sf::Vector2f(20, 300));
 			path->MakeReady();
 			level->AddMobDesc(new MobDesc(GIANT_BAT, sf::Vector2f(100, 300), path));
 			
 			// Items
-			level->AddItemDesc(new LevelItemDesc(WEAPON, DAGGER, sf::Vector2f(10, 300)));
+			level->AddItemDesc(new LevelItemDesc(WEAPON, DAGGER, sf::Vector2f(64, 300)));
 			break;
 		}
 

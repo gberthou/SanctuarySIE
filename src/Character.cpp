@@ -125,12 +125,41 @@ void Character::Jump()
 			clJump.restart();
 			clJumpTimeout.restart();
 		}
-		else if((stateJump == JUMP && clJump.getElapsedTime().asMilliseconds() > JUMP_COOLDOWN) || stateJump == FALL) // -> Double jump
+		else if(stateJump == FALL_DEACTIVATED) // -> Double jump
 		{
 			stateJump = JUMP2;
 			clJump.restart();
 			clJumpTimeout.restart();
 		}	
+	}
+}
+
+void Character::ReleaseJump()
+{
+	switch(stateJump)
+	{
+		case JUMP:
+			stateJump = JUMP_DEACTIVATED;
+			break;
+
+		case FALL:
+			stateJump = FALL_DEACTIVATED;
+			break;
+
+		case JUMP2:
+			stateJump = JUMP2_DEACTIVATED;
+			break;
+
+		case FALL2:
+			stateJump = FALL2_DEACTIVATED;
+			break;
+
+		case FALL_WAIT_DEACTIVATION:
+			stateJump = NOJUMP;
+			break;
+
+		default:
+			break;
 	}
 }
 
@@ -223,15 +252,41 @@ void Character::UpdateStates()
 			stateAttack = NOATTACK;
 	}
 
-	if(stateJump == JUMP || stateJump == JUMP2)
+	if(stateJump == JUMP || stateJump == JUMP_DEACTIVATED || stateJump == JUMP2 || stateJump == JUMP2_DEACTIVATED)
 	{
 		AddVelocity(sf::Vector2f(0, -20.0f));
 		if(clJumpTimeout.getElapsedTime().asMilliseconds() > JUMP_TIMEOUT)
-			stateJump = (stateJump == JUMP ? FALL : FALL2);
+		{
+			switch(stateJump)
+			{
+				case JUMP:
+					stateJump = FALL;
+					break;
+
+				case JUMP_DEACTIVATED:
+					stateJump = FALL_DEACTIVATED;
+					break;
+
+				case JUMP2:
+					stateJump = FALL2;
+					break;
+
+				case JUMP2_DEACTIVATED:
+					stateJump = FALL2_DEACTIVATED;
+					break;
+
+				default:
+					break;
+			}
+		}
 	}
-	if(onGround && (stateJump == FALL || stateJump == FALL2) )
+	if(onGround && (stateJump == FALL_DEACTIVATED || stateJump == FALL2_DEACTIVATED))
     {
         stateJump = NOJUMP;
+	}
+	else if(onGround && (stateJump == FALL || stateJump == FALL2))
+	{
+		stateJump = FALL_WAIT_DEACTIVATION;
 	}
 
 	if(stateWalk == WALK)

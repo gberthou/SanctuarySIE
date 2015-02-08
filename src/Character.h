@@ -29,6 +29,7 @@ class Character : public Entity
         
         void Attack();
 		void Jump();
+		void ReleaseJump();
 		void Walk(Orientation orientation);
 		void BackDash();
 		void ReleaseBackDash();

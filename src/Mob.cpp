@@ -75,7 +75,7 @@ void Mob::LootMob(unsigned int lck)
 
 void Mob::UpdateAI(void)
 {
-	const float EPSILON = 1; // Warning : may be capricious if the initial mob position is not adapted to the
+	const float EPSILON = 16; // Warning : may be capricious if the initial mob position is not adapted to the
 							 // collision map (ie. if the mob is a few pixels above the local floor)
 
 	if(behavior == NORMAL)
