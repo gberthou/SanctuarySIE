@@ -225,9 +225,13 @@ void Character::UpdateStates()
 
 	if(stateJump == JUMP || stateJump == JUMP2)
 	{
-		AddAcceleration(sf::Vector2f(0, -100));
+		AddVelocity(sf::Vector2f(0, -20.0f));
 		if(clJumpTimeout.getElapsedTime().asMilliseconds() > JUMP_TIMEOUT)
 			stateJump = (stateJump == JUMP ? FALL : FALL2);
+	}
+	if(onGround && (stateJump == FALL || stateJump == FALL2) )
+    {
+        stateJump = NOJUMP;
 	}
 
 	if(stateWalk == WALK)

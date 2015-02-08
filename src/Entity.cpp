@@ -1,7 +1,7 @@
 #include "Entity.h"
 
 Entity::Entity():
-    mass(1)
+    mass(1), onGround(false)
 {
 }
 
@@ -59,6 +59,11 @@ sf::Sprite const& Entity::GetSprite() const
 sf::Vector2f Entity::GetPos() const
 {
     return pos;
+}
+
+void Entity::SetJumping()
+{
+    onGround = false;
 }
 
 

@@ -65,13 +65,16 @@ void Physics::manageStaticCollisions(Entity* e)
             e->forces.y = 0;
             e->a.y = 0;
             e->v.y = 0;
+            e->onGround = true;
         }
+
         e->pos.y+=yCorrection;
     }
     else
     {
+        e->onGround = false;
         e->forces = GRAVITY;
-    } 
+    }
 }
 
 bool Physics::isThereStaticCollision(Entity* e)

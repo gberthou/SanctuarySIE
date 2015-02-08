@@ -21,12 +21,15 @@ class Entity : public sf::Drawable
         virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
         sf::Sprite const& GetSprite() const;
         sf::Vector2f GetPos() const;
+        void SetJumping();
+
     protected:
         float mass;
         sf::Vector2f pos;
         sf::Vector2f v;
         sf::Vector2f a;
         sf::Vector2f forces;
+        bool onGround;
 
         sf::Sprite sprite;
 
