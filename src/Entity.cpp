@@ -53,6 +53,11 @@ void Entity::AddVelocity(const sf::Vector2f &velocity)
 	v += velocity;
 }
 
+void Entity::SetVelocityY(float vy)
+{
+	v.y = vy;
+}
+
 void Entity::SetHitbox(const AABB &hitbox1, const sf::Vector2f &offset)
 {
 	hitbox = hitbox1;

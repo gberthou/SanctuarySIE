@@ -14,9 +14,11 @@
 const float HVELOCITY = 4;
 const float HVELOCITY_BACKDASH = 8;
 
+const float VVELOCITY = 8;
+
 const sf::Int32 BDASH_TIMEOUT = 200;
-const sf::Int32 JUMP_COOLDOWN = 500;
-const sf::Int32 JUMP_TIMEOUT = 200;
+const sf::Int32 JUMP_TIMEOUT = 175;
+const sf::Int32 JUMP2_TIMEOUT = 75;
 
 // ---- PUBLIC ----
 
@@ -126,13 +128,12 @@ void Character::Jump()
 		if(stateJump == NOJUMP) // -> Simple jump
 		{
 			stateJump = JUMP;
-			clJump.restart();
 			clJumpTimeout.restart();
 		}
 		else if(stateJump == FALL_DEACTIVATED) // -> Double jump
 		{
 			stateJump = JUMP2;
-			clJump.restart();
+			SetVelocityY(0);
 			clJumpTimeout.restart();
 		}	
 	}
@@ -258,40 +259,37 @@ void Character::UpdateStates()
 
 	if(stateJump == JUMP || stateJump == JUMP_DEACTIVATED || stateJump == JUMP2 || stateJump == JUMP2_DEACTIVATED)
 	{
-		AddVelocity(sf::Vector2f(0, -20.0f));
+		AddPosition(sf::Vector2f(0, -VVELOCITY));
 		if(clJumpTimeout.getElapsedTime().asMilliseconds() > JUMP_TIMEOUT)
 		{
-			switch(stateJump)
-			{
-				case JUMP:
-					stateJump = FALL;
-					break;
+			if(stateJump == JUMP)
+				stateJump = FALL;
+			else if(stateJump == JUMP_DEACTIVATED)
+				stateJump = FALL_DEACTIVATED;
+		}
 
-				case JUMP_DEACTIVATED:
-					stateJump = FALL_DEACTIVATED;
-					break;
-
-				case JUMP2:
-					stateJump = FALL2;
-					break;
-
-				case JUMP2_DEACTIVATED:
-					stateJump = FALL2_DEACTIVATED;
-					break;
-
-				default:
-					break;
-			}
+		if(clJumpTimeout.getElapsedTime().asMilliseconds() > JUMP2_TIMEOUT)
+		{
+			if(stateJump == JUMP2)
+				stateJump = FALL2;
+			else if(stateJump == JUMP2_DEACTIVATED)
+				stateJump = FALL2_DEACTIVATED;	
 		}
 	}
-	if(onGround && (stateJump == FALL_DEACTIVATED || stateJump == FALL2_DEACTIVATED))
-    {
-        stateJump = NOJUMP;
-	}
-	else if(onGround && (stateJump == FALL || stateJump == FALL2))
+
+	if(onGround)
 	{
-		stateJump = FALL_WAIT_DEACTIVATION;
+		if(stateJump == FALL_DEACTIVATED || stateJump == FALL2_DEACTIVATED)
+		{
+			stateJump = NOJUMP;
+		}
+		else if(stateJump == FALL || stateJump == FALL2)
+		{
+			stateJump = FALL_WAIT_DEACTIVATION;
+		}
 	}
+	else if((stateWalk == IDLE || stateWalk == WALK) && stateJump == NOJUMP)
+		stateJump = FALL_DEACTIVATED;
 
 	if(stateWalk == WALK)
 	{

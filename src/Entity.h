@@ -18,6 +18,7 @@ class Entity : public sf::Drawable
         void AddImpulse(const sf::Vector2f &impulse);
         void AddAcceleration(const sf::Vector2f &acceleration);
         void AddVelocity(const sf::Vector2f &velocity);
+		void SetVelocityY(float vy);
 
 		void SetHitbox(const AABB &hitbox, const sf::Vector2f &offset);
 

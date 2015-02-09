@@ -79,7 +79,6 @@ class Character : public Entity
 		FPSClock clWalk;
 		sf::Clock clBackDashTimeout;
 		sf::Clock clAttack;
-		sf::Clock clJump;
 		sf::Clock clJumpTimeout;
 		sf::Clock clBackDash;
 		sf::Clock clRedSoul;
