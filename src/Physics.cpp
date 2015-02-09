@@ -50,11 +50,14 @@ void Physics::manageStaticCollisions(Entity* e)
     }
     
     //// Structure collisions
-
+    
+    
     if (e->pos.y > 0
         && e->pos.y+e->GetSprite().getGlobalBounds().height < collisionMap->getSize().y
         && isThereStaticCollision(e))
     {
+        int xCorrection = computeHorizontalStaticCorrection(e);
+        e->pos.x+=xCorrection;
         int yCorrection = computeVerticalStaticCorrection(e);
         if (yCorrection > 0)
         {
@@ -69,7 +72,6 @@ void Physics::manageStaticCollisions(Entity* e)
             e->v.y = 0;
             e->onGround = true;
         }
-
         e->pos.y+=yCorrection;
     }
     else
@@ -89,7 +91,7 @@ bool Physics::isThereStaticCollision(Entity* e)
                 y<e->pos.y+e->GetSprite().getGlobalBounds().height;
                 ++y)
         {
-            if(collisionMap->getPixel(x,y).r > 0)
+            if(collisionMap->getPixel(x,y).a > 0)
             {
                 return true;
             }
@@ -108,18 +110,52 @@ int Physics::computeVerticalStaticCorrection(Entity* e)
     {
         return -e->pos.y;
     }
-    else if (e->pos.y+e->GetSprite().getGlobalBounds().height > collisionMap->getSize().y)
+    else if (yBottom+1 > collisionMap->getSize().y)
     {
         return collisionMap->getSize().y-1 - yBottom;
     }
     
     // Search the highest collision point
-    int y=0; // y coordonate of the collision point
+    int y; // y coordinate of the collision point
     for(y=0;
         y < e->GetSprite().getGlobalBounds().width
-            && collisionMap->getPixel(x,yBottom+y).r > 0;
+            && collisionMap->getPixel(x,yBottom+y).a > 0;
         --y);
     return y;
+}
+
+int Physics::computeHorizontalStaticCorrection(Entity* e)
+{
+    unsigned int yMiddle = e->pos.y+(e->GetSprite().getGlobalBounds().height-1)/2;
+    unsigned int xRight = e->pos.x+e->GetSprite().getGlobalBounds().width-1;
+    
+    // Test the map collision bounds
+    if (e->pos.x < 0)
+    {
+        return -e->pos.x;
+    }
+    else if (xRight+1 > collisionMap->getSize().x)
+    {
+        return collisionMap->getSize().x-1 - xRight;
+    }
+    
+    int halfWidth = e->GetSprite().getGlobalBounds().width/2;
+    int x;
+    for(x = halfWidth;
+        x >= 0
+            && collisionMap->getPixel(e->pos.x+x,yMiddle).a == 0;
+        --x);
+    if(x >= 0)
+    {
+        return halfWidth-x;
+    }
+    for(x = halfWidth;
+        x < e->GetSprite().getGlobalBounds().width
+            && collisionMap->getPixel(e->pos.x+x,yMiddle).a == 0;
+        ++x);
+    if(x >= e->GetSprite().getGlobalBounds().width)
+        return 0;
+    return halfWidth-x;
 }
 
 void Physics::Update()
