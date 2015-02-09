@@ -155,6 +155,7 @@ void Level::draw(sf::RenderTarget &target, sf::RenderStates states) const
 
 	tex.loadFromImage(*collisionMap);
 	sprPhysics.setTexture(tex);
+	sprPhysics.setColor(sf::Color(255,255,255,128));
 
 	target.draw(sprPhysics, states);
 #endif

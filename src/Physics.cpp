@@ -117,8 +117,19 @@ int Physics::computeVerticalStaticCorrection(Entity* e)
         return collisionMap->getSize().y-1 - yBottom;
     }
     
-    // Search the highest collision point
-    int y; // y coordinate of the collision point
+    int halfHeight = e->hitbox.size.y/2;
+    int y;
+    // collision on top
+    for(y = halfHeight;
+        y >= 0
+            && (collisionMap->getPixel(x,e->hitbox.pos.y+y).a == 0
+            || collisionMap->getPixel(x,e->hitbox.pos.y+y).b == 0
+                );
+        --y);
+    if(y >= 0)
+    {
+        return y+1; // > 0
+    }
     for(y=0;
         y < e->hitbox.size.y
             && collisionMap->getPixel(x,yBottom+y).a > 0;
