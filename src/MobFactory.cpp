@@ -1,5 +1,6 @@
 #include "MobFactory.h"
 #include "Resources.h"
+#include "AABB.h"
 
 Mob *MobFactory::CreateMob(MobType type)
 {
@@ -17,7 +18,9 @@ Mob *MobFactory::CreateGiantBat(void)
 {
 	Mob *mob = new Mob(GIANT_BAT);
 	Loot lootDagger = {{WEAPON, DAGGER}, 100};
+	AABB hitbox(sf::Vector2f(34, 55));
 
+	mob->SetHitbox(hitbox, sf::Vector2f(50, 0));
 	mob->AddLoot(lootDagger);
 	return mob;
 }

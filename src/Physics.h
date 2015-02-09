@@ -8,8 +8,6 @@
 extern const float DT;
 extern const sf::Vector2f GRAVITY;
 
-class Entity;
-
 typedef sf::Image *CollisionMap;
 
 class Physics

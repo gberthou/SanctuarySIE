@@ -24,6 +24,8 @@ Character::Character():
 	Entity(),
 	clWalk(60)
 {
+	AABB hb(sf::Vector2f(30, 50));
+
     // Redefine this in
     sprite = sf::Sprite(Resources::texCharacter);
     lvl = 1;
@@ -42,6 +44,8 @@ Character::Character():
 	stateAttack = NOATTACK;
 	stateRedSoul = NORSOUL;
 	stateBlueSoul = NOBSOUL;
+
+	SetHitbox(hb, sf::Vector2f(0, 0));	
 }
 
 Character::~Character()
@@ -295,8 +299,8 @@ void Character::UpdateStates()
 		if(frameCount > 0)
 		{
 			clWalk.restart();
-			
-			pos.x += (orientation == ORIENTATION_LEFT ? -HVELOCITY : HVELOCITY) * frameCount;
+		
+			AddPosition(sf::Vector2f((orientation == ORIENTATION_LEFT ? -HVELOCITY : HVELOCITY) * frameCount, 0));	
 		}
 	}
 	else if(stateWalk == BACKDASH || stateWalk == BACKDASH_DEACTIVATED)
@@ -306,7 +310,7 @@ void Character::UpdateStates()
 		{
 			clWalk.restart();
 			
-			pos.x += (orientation != ORIENTATION_LEFT ? -HVELOCITY_BACKDASH : HVELOCITY_BACKDASH) * frameCount;
+			AddPosition(sf::Vector2f((orientation != ORIENTATION_LEFT ? -HVELOCITY_BACKDASH : HVELOCITY_BACKDASH) * frameCount, 0));
 		}
 	
 		if(clBackDashTimeout.getElapsedTime().asMilliseconds() > BDASH_TIMEOUT)

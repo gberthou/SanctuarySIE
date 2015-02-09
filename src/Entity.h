@@ -3,7 +3,7 @@
 
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
-#include "Physics.h"
+#include "AABB.h"
 
 class Entity : public sf::Drawable
 {
@@ -13,10 +13,13 @@ class Entity : public sf::Drawable
         virtual void Update();
 
         void SetPosition(const sf::Vector2f &pos);
+        void AddPosition(const sf::Vector2f &delta);
         void AddForce(const sf::Vector2f &force);
         void AddImpulse(const sf::Vector2f &impulse);
         void AddAcceleration(const sf::Vector2f &acceleration);
         void AddVelocity(const sf::Vector2f &velocity);
+
+		void SetHitbox(const AABB &hitbox, const sf::Vector2f &offset);
 
         virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
         sf::Sprite const& GetSprite() const;
@@ -25,17 +28,19 @@ class Entity : public sf::Drawable
 
     protected:
         float mass;
+        bool onGround;
+
+        sf::Sprite sprite;
+		AABB hitbox;
+		sf::Vector2f hitboxOffset;
+
+    private:
         sf::Vector2f pos;
         sf::Vector2f v;
         sf::Vector2f a;
         sf::Vector2f forces;
-        bool onGround;
-
-        sf::Sprite sprite;
-
-    private:
-
-        friend class Physics;
+        
+	friend class Physics;
 };
 
 #endif
