@@ -7,7 +7,7 @@
 #include "ItemAttribute.h"
 #include "Tradable.h"
 #include "Character.h"
-
+#include "Enchantment.h"
 
 class Stuff : public Tradable
 {
@@ -16,12 +16,14 @@ class Stuff : public Tradable
         virtual ~Stuff();
         void AddAttribute(ItemAttribute attribute1);
         virtual void PickUp(Character *character);
-        ItemEffect GetEffect();
-        Stats* GetStats();
+        ItemEffect GetEffect() const;
+        Stats* GetStats() const;
+		bool HasEnchantment() const;
     protected:
         Stats *stats;
         ItemEffect effect;
         std::set<ItemAttribute> attributes;
+		Enchantment *enchantment;
     private:
 };
 

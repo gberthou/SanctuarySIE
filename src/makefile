@@ -17,7 +17,7 @@ INCLUDE=./
 
 MAINFILE=Gmain.cpp
 
-CPPFILES=$(MAINFILE) Accessory.cpp Armor.cpp Item.cpp Tradable.cpp PickUp.cpp Stuff.cpp ItemFactory.cpp Weapon.cpp Consumable.cpp Permanent.cpp Inventory.cpp Stats.cpp Level.cpp LevelBg.cpp LevelFactory.cpp Map.cpp Character.cpp Merchant.cpp Mob.cpp MobFactory.cpp Path.cpp Gold.cpp Mana.cpp Resources.cpp Physics.cpp AABB.cpp Entity.cpp InputController.cpp RedSoul.cpp BlueSoul.cpp YellowSoul.cpp Soul.cpp SoulManager.cpp SoulSet.cpp Camera.cpp Animation.cpp FPSClock.cpp SerGUI/Button.cpp SerGUI/MenuSelectSave.cpp SerGUI/MenuTitle1.cpp SerGUI/SerGUI.cpp SerGUI/Bat.cpp
+CPPFILES=$(MAINFILE) Accessory.cpp Armor.cpp Item.cpp Tradable.cpp PickUp.cpp Stuff.cpp ItemFactory.cpp Weapon.cpp Consumable.cpp Permanent.cpp Inventory.cpp Enchantment.cpp Stats.cpp Level.cpp LevelBg.cpp LevelFactory.cpp Map.cpp Character.cpp Merchant.cpp Mob.cpp MobFactory.cpp Path.cpp Gold.cpp Mana.cpp Resources.cpp Physics.cpp AABB.cpp Entity.cpp InputController.cpp RedSoul.cpp BlueSoul.cpp YellowSoul.cpp Soul.cpp SoulManager.cpp SoulSet.cpp Camera.cpp Animation.cpp FPSClock.cpp SerGUI/Button.cpp SerGUI/MenuSelectSave.cpp SerGUI/MenuTitle1.cpp SerGUI/SerGUI.cpp SerGUI/Bat.cpp
 
 
 
