@@ -17,6 +17,11 @@ void Stuff::AddAttribute(ItemAttribute attribute1)
     attributes.insert(attribute1);
 }
 
+void Stuff::PickUp(Character *character)
+{
+	character->GetInventory()->LootItem(this);
+}
+
 ItemEffect Stuff::GetEffect()
 {
     return effect;

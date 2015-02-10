@@ -64,6 +64,11 @@ void Entity::SetHitbox(const AABB &hitbox1, const sf::Vector2f &offset)
 	hitboxOffset = offset;
 }
 
+bool Entity::CollidesWith(const Entity *entity) const
+{
+	return hitbox.CollidesWith(entity->hitbox);
+}
+
 void Entity::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
     target.draw(sprite, states);

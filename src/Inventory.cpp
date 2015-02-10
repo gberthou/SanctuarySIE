@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "Inventory.h"
 #include "Armor.h"
 #include "Weapon.h"
@@ -5,6 +7,8 @@
 #include "Consumable.h"
 #include "Permanent.h"
 #include "Tradable.h"
+
+#define DEBUG_INVENTORY
 
 // ---- PUBLIC ----
 
@@ -198,6 +202,14 @@ void Inventory::LootItem(Item *item)
 		default:
             break;
     }
+
+#ifdef DEBUG_INVENTORY
+	std::cout << "Weapons    : " << weapons.size() << std::endl;
+	std::cout << "Armors     : " << armors.size() << std::endl;
+	std::cout << "Accessories: " << accessories.size() << std::endl;
+	
+	std::cout << std::endl;
+#endif
 }
 
 // #### STATS METHODS ####

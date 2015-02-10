@@ -15,7 +15,7 @@ class Stuff : public Tradable
         Stuff(Stats *stats1, sf::String name1, sf::String description1, bool trade1, unsigned int sellPrice1, unsigned int buyPrice1);
         virtual ~Stuff();
         void AddAttribute(ItemAttribute attribute1);
-        virtual void PickUp(Character *character) const = 0;
+        virtual void PickUp(Character *character);
         ItemEffect GetEffect();
         Stats* GetStats();
     protected:

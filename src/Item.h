@@ -12,7 +12,7 @@ class Item : public Entity
     public:
         Item();
         virtual ~Item();
-        virtual void PickUp(Character *character) const = 0;
+        virtual void PickUp(Character *character) = 0;
 
         ItemType GetType();
     protected:

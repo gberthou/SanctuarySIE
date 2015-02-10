@@ -83,6 +83,8 @@ class Level : public sf::Drawable
 		const std::vector<LevelDoor*> &GetDoors(void) const;
 
 	private:
+		void checkItems(void);
+
 		unsigned int x;
 		unsigned int y;
 		unsigned int width;

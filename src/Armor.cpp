@@ -11,7 +11,3 @@ Armor::~Armor()
     //dtor
 }
 
-void Armor::PickUp(Character *character) const
-{
-    // Empty on purpose : cannot pick up armor
-}

@@ -10,6 +10,8 @@
 #include "BlueSoul.h"
 #include "YellowSoul.h"
 
+//#define DEBUG_CHARACTER_STATE
+
 // ---- CONSTANTS ----
 const float HVELOCITY = 4;
 const float HVELOCITY_BACKDASH = 8;
@@ -333,6 +335,7 @@ void Character::UpdateStates()
 		// TODO : stop blue soul of there is no more mana
 	}
 
+#ifdef DEBUG_CHARACTER_STATE
 	std::cout << "Attack: " << stateAttack << std::endl;
 	std::cout << "Jump  : " << stateJump << std::endl;
 	std::cout << "Walk  : " << stateWalk << std::endl;
@@ -340,6 +343,7 @@ void Character::UpdateStates()
 	std::cout << "BSoul : " << stateBlueSoul << std::endl;
 
 	std:: cout << std::endl;
+#endif
 }
 
 // #### GETTERS ####

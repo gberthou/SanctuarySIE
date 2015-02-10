@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "Level.h"
 #include "MobFactory.h"
 #include "ItemFactory.h"
@@ -134,6 +136,8 @@ void Level::AddDoor(Level *target, unsigned int lx, unsigned int ly, DoorDirecti
 
 void Level::Update(unsigned int frameCount)
 {
+		checkItems();	
+
 		for(unsigned int i = 0; i < mobs.size(); ++i)
 		{
 				mobs[i]->UpdateAI();
@@ -204,5 +208,24 @@ unsigned int Level::GetHeight(void) const
 const std::vector<LevelDoor*> &Level::GetDoors(void) const
 {
 	return doors;
+}
+
+void Level::checkItems(void)
+{
+	std::vector<Item*>::iterator it = items.begin();
+	while(it != items.end())
+	{
+		if((*it)->CollidesWith(character)) // The character just picked up the item
+		{
+			std::vector<Item*>::iterator tmp = it;
+			Item *item = *it;
+
+			item->PickUp(character);
+
+			it = items.erase(tmp);
+		}
+		else
+			++it;
+	}
 }
 

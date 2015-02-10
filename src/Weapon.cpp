@@ -15,11 +15,6 @@ Weapon::~Weapon()
 
 }
 
-void Weapon::PickUp(Character *character) const
-{
-    // Empty on purpose : cannot pick up weapon
-}
-
 sf::Int32 Weapon::GetCooldown(void) const
 {
 	return cooldown;

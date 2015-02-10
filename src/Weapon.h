@@ -12,7 +12,6 @@ class Weapon : public Stuff
     public:
         Weapon(WeaponType weaponType, Stats *stats1, sf::String name1, sf::String description1, bool trade1, unsigned int sellPrice1, unsigned int buyPrice1, sf::Int32 cooldown);
         virtual ~Weapon();
-        virtual void PickUp(Character *character) const;
    
 		sf::Int32 GetCooldown(void) const;
 	private:
