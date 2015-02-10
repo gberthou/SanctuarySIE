@@ -15,6 +15,7 @@
 #include "ItemType.h"
 #include "SoulSet.h"
 #include "SoulManager.h"
+#include "Camera.h"
 
 int main(void)
 {
@@ -50,6 +51,10 @@ int main(void)
 	soulSet->EquipRedSoul(soulSet->GetRedSouls().begin());
 	soulSet->AddSoul(DEATH); // Blue soul
 	soulSet->EquipBlueSoul(soulSet->GetBlueSouls().begin());
+    
+    // View management
+    Camera camera(sf::FloatRect(0, 0, W, H));
+    window.setView(camera);
 
 	while(window.isOpen())
 	{
@@ -74,6 +79,10 @@ int main(void)
 			window.draw(*level);
 
 			window.display();
+            
+            // View management
+            camera.Update(level, character);
+            window.setView(camera);
 
 			level->Update(frameCount);
 		}

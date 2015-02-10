@@ -175,6 +175,11 @@ void Level::draw(sf::RenderTarget &target, sf::RenderStates states) const
 	target.draw(*character, states);
 }
 
+void Level::SetPOV(sf::Vector2f pov)
+{
+    bg->SetOffset(pov);
+}
+
 unsigned int Level::GetX(void) const
 {
 	return x;

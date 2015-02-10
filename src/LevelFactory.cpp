@@ -11,7 +11,7 @@ Level *LevelFactory::CreateLevel(TypeLevel typeLevel)
 			Path *path;
 			BgDesc bgDesc;
 
-			level = new Level(0, 0, 1, 1);
+			level = new Level(0, 0, 1600, 600);
 
 			// Backgrounds
 			bgDesc.names[0] = sf::String("img/levels/sample/layer0.png");

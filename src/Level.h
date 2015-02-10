@@ -73,6 +73,8 @@ class Level : public sf::Drawable
 		void Update(unsigned int frameCount);
 
 		virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+        
+        void SetPOV(sf::Vector2f);
 
 		unsigned int GetX(void) const;
 		unsigned int GetY(void) const;
