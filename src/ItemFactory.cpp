@@ -1,4 +1,5 @@
 #include "ItemFactory.h"
+#include "AABB.h"
 
 ItemFactory::ItemFactory()
 {
@@ -17,7 +18,11 @@ Weapon* ItemFactory::CreateWeapon(WeaponType type)
 		case DAGGER:
 		{
 			Stats *stats = new Stats();
-         	return new Weapon(DAGGER, stats, sf::String("dagger"), sf::String("This dagger will make your heart bleed."), true, 1, 2, 1000);
+         	AABB hitbox(sf::Vector2f(32, 32));
+			Weapon *item = new Weapon(DAGGER, stats, sf::String("dagger"), sf::String("This dagger will make your heart bleed."), true, 1, 2, 1000);
+			item->SetHitbox(hitbox, sf::Vector2f(0, 0));
+
+			return item;
 		}
 
         default:

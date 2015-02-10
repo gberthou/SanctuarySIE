@@ -1,4 +1,5 @@
 #include "Entity.h"
+#include "Physics.h"
 
 Entity::Entity():
     mass(1), onGround(false)
@@ -13,17 +14,23 @@ void Entity::Update()
 {
     a += forces/mass;
     v += a*DT;
-    pos += v*DT;
+    
+	AddPosition(v*DT);
 
 	a = sf::Vector2f();
-
-    sprite.setPosition(pos);
 }
 
 void Entity::SetPosition(const sf::Vector2f &position)
 {
 	pos = position;
+	
+	hitbox.SetPosition(pos + hitboxOffset);
 	sprite.setPosition(pos);
+}
+
+void Entity::AddPosition(const sf::Vector2f &delta)
+{
+	SetPosition(pos + delta);
 }
 
 void Entity::AddForce(const sf::Vector2f &force)
@@ -44,6 +51,17 @@ void Entity::AddAcceleration(const sf::Vector2f &acceleration)
 void Entity::AddVelocity(const sf::Vector2f &velocity)
 {
 	v += velocity;
+}
+
+void Entity::SetVelocityY(float vy)
+{
+	v.y = vy;
+}
+
+void Entity::SetHitbox(const AABB &hitbox1, const sf::Vector2f &offset)
+{
+	hitbox = hitbox1;
+	hitboxOffset = offset;
 }
 
 void Entity::draw(sf::RenderTarget &target, sf::RenderStates states) const

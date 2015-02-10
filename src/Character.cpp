@@ -14,9 +14,11 @@
 const float HVELOCITY = 4;
 const float HVELOCITY_BACKDASH = 8;
 
+const float VVELOCITY = 8;
+
 const sf::Int32 BDASH_TIMEOUT = 200;
-const sf::Int32 JUMP_COOLDOWN = 500;
-const sf::Int32 JUMP_TIMEOUT = 200;
+const sf::Int32 JUMP_TIMEOUT = 175;
+const sf::Int32 JUMP2_TIMEOUT = 75;
 
 // ---- PUBLIC ----
 
@@ -24,6 +26,8 @@ Character::Character():
 	Entity(),
 	clWalk(60)
 {
+	AABB hb(sf::Vector2f(30, 50));
+
     // Redefine this in
     sprite = sf::Sprite(Resources::texCharacter);
     lvl = 1;
@@ -42,6 +46,8 @@ Character::Character():
 	stateAttack = NOATTACK;
 	stateRedSoul = NORSOUL;
 	stateBlueSoul = NOBSOUL;
+
+	SetHitbox(hb, sf::Vector2f(0, 0));	
 }
 
 Character::~Character()
@@ -122,15 +128,43 @@ void Character::Jump()
 		if(stateJump == NOJUMP) // -> Simple jump
 		{
 			stateJump = JUMP;
-			clJump.restart();
 			clJumpTimeout.restart();
 		}
-		else if((stateJump == JUMP && clJump.getElapsedTime().asMilliseconds() > JUMP_COOLDOWN) || stateJump == FALL) // -> Double jump
+		else if(stateJump == FALL_DEACTIVATED) // -> Double jump
 		{
 			stateJump = JUMP2;
-			clJump.restart();
+			SetVelocityY(0);
 			clJumpTimeout.restart();
 		}	
+	}
+}
+
+void Character::ReleaseJump()
+{
+	switch(stateJump)
+	{
+		case JUMP:
+			stateJump = JUMP_DEACTIVATED;
+			break;
+
+		case FALL:
+			stateJump = FALL_DEACTIVATED;
+			break;
+
+		case JUMP2:
+			stateJump = JUMP2_DEACTIVATED;
+			break;
+
+		case FALL2:
+			stateJump = FALL2_DEACTIVATED;
+			break;
+
+		case FALL_WAIT_DEACTIVATION:
+			stateJump = NOJUMP;
+			break;
+
+		default:
+			break;
 	}
 }
 
@@ -223,16 +257,39 @@ void Character::UpdateStates()
 			stateAttack = NOATTACK;
 	}
 
-	if(stateJump == JUMP || stateJump == JUMP2)
+	if(stateJump == JUMP || stateJump == JUMP_DEACTIVATED || stateJump == JUMP2 || stateJump == JUMP2_DEACTIVATED)
 	{
-		AddVelocity(sf::Vector2f(0, -20.0f));
+		AddPosition(sf::Vector2f(0, -VVELOCITY));
 		if(clJumpTimeout.getElapsedTime().asMilliseconds() > JUMP_TIMEOUT)
-			stateJump = (stateJump == JUMP ? FALL : FALL2);
+		{
+			if(stateJump == JUMP)
+				stateJump = FALL;
+			else if(stateJump == JUMP_DEACTIVATED)
+				stateJump = FALL_DEACTIVATED;
+		}
+
+		if(clJumpTimeout.getElapsedTime().asMilliseconds() > JUMP2_TIMEOUT)
+		{
+			if(stateJump == JUMP2)
+				stateJump = FALL2;
+			else if(stateJump == JUMP2_DEACTIVATED)
+				stateJump = FALL2_DEACTIVATED;	
+		}
 	}
-	if(onGround && (stateJump == FALL || stateJump == FALL2) )
-    {
-        stateJump = NOJUMP;
+
+	if(onGround)
+	{
+		if(stateJump == FALL_DEACTIVATED || stateJump == FALL2_DEACTIVATED)
+		{
+			stateJump = NOJUMP;
+		}
+		else if(stateJump == FALL || stateJump == FALL2)
+		{
+			stateJump = FALL_WAIT_DEACTIVATION;
+		}
 	}
+	else if((stateWalk == IDLE || stateWalk == WALK) && stateJump == NOJUMP)
+		stateJump = FALL_DEACTIVATED;
 
 	if(stateWalk == WALK)
 	{
@@ -240,8 +297,8 @@ void Character::UpdateStates()
 		if(frameCount > 0)
 		{
 			clWalk.restart();
-			
-			pos.x += (orientation == ORIENTATION_LEFT ? -HVELOCITY : HVELOCITY) * frameCount;
+		
+			AddPosition(sf::Vector2f((orientation == ORIENTATION_LEFT ? -HVELOCITY : HVELOCITY) * frameCount, 0));	
 		}
 	}
 	else if(stateWalk == BACKDASH || stateWalk == BACKDASH_DEACTIVATED)
@@ -251,7 +308,7 @@ void Character::UpdateStates()
 		{
 			clWalk.restart();
 			
-			pos.x += (orientation != ORIENTATION_LEFT ? -HVELOCITY_BACKDASH : HVELOCITY_BACKDASH) * frameCount;
+			AddPosition(sf::Vector2f((orientation != ORIENTATION_LEFT ? -HVELOCITY_BACKDASH : HVELOCITY_BACKDASH) * frameCount, 0));
 		}
 	
 		if(clBackDashTimeout.getElapsedTime().asMilliseconds() > BDASH_TIMEOUT)

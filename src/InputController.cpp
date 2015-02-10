@@ -61,7 +61,9 @@ void InputController::keyboardAction()
 		actionDown();
 
 	if(sf::Keyboard::isKeyPressed(keys_mapping[KEY_A]))
-		actionA();
+		actionAPressed();
+	else
+		actionAReleased();
 	
 	if(sf::Keyboard::isKeyPressed(keys_mapping[KEY_B]))
 		actionB();
@@ -100,7 +102,9 @@ void InputController::joystickAction()
 		}
 
 		if(sf::Joystick::isButtonPressed(joystickId, joystick_mapping[KEY_A]))
-			actionA();
+			actionAPressed();
+		else
+			actionAReleased();
 		
 		if(sf::Joystick::isButtonPressed(joystickId, joystick_mapping[KEY_B]))
 			actionB();
@@ -145,9 +149,14 @@ void InputController::actionDown()
 {
 }
 
-void InputController::actionA()
+void InputController::actionAPressed()
 {
 	character->Jump();
+}
+
+void InputController::actionAReleased()
+{
+	character->ReleaseJump();
 }
 
 void InputController::actionB()

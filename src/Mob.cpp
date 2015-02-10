@@ -75,13 +75,13 @@ void Mob::LootMob(unsigned int lck)
 
 void Mob::UpdateAI(void)
 {
-	const float EPSILON = 1; // Warning : may be capricious if the initial mob position is not adapted to the
+	const float EPSILON = 16; // Warning : may be capricious if the initial mob position is not adapted to the
 							 // collision map (ie. if the mob is a few pixels above the local floor)
 
 	if(behavior == NORMAL)
 	{
 		sf::Vector2f objective = path->GetNextPosition();
-		sf::Vector2f diff = objective - pos;
+		sf::Vector2f diff = objective - GetPos();
 
 		if(diff.x * diff.x + diff.y * diff.y < EPSILON)
 		{
@@ -89,11 +89,11 @@ void Mob::UpdateAI(void)
 		}
 		else if(diff.x > 0) // Objective is on the right
 		{
-			pos.x += 1;
+			AddPosition(sf::Vector2f(1, 0));
 		}
 		else
 		{
-			pos.x -= 1;
+			AddPosition(sf::Vector2f(-1, 0));
 		}
 	}
 }
@@ -165,13 +165,13 @@ void Mob::dropItems(const std::vector<ItemDesc> &itemsToDrop)
 {
     if(itemsToDrop.size() != 0)
     {
-        sf::Vector2f newPos = pos;
+        sf::Vector2f newPos = GetPos();
        
-		level->SpawnItem(itemsToDrop[0], pos);
+		level->SpawnItem(itemsToDrop[0], newPos);
         for(unsigned int i = 1; i < itemsToDrop.size(); ++i)
         {
             // random offset between -X_SIZE_ITEM and +X_SIZE_ITEM
-            newPos.x = pos.x + ((i%2 == 0) ? 2*X_SIZE_ITEM - frand()*0.7*X_SIZE_ITEM : -X_SIZE_ITEM + frand()*0.7*X_SIZE_ITEM);
+            newPos.x = GetPos().x + ((i%2 == 0) ? 2*X_SIZE_ITEM - frand()*0.7*X_SIZE_ITEM : -X_SIZE_ITEM + frand()*0.7*X_SIZE_ITEM);
 			level->SpawnItem(itemsToDrop[i], newPos);
 		}
     }

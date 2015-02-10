@@ -29,6 +29,7 @@ class Character : public Entity
         
         void Attack();
 		void Jump();
+		void ReleaseJump();
 		void Walk(Orientation orientation);
 		void BackDash();
 		void ReleaseBackDash();
@@ -78,7 +79,6 @@ class Character : public Entity
 		FPSClock clWalk;
 		sf::Clock clBackDashTimeout;
 		sf::Clock clAttack;
-		sf::Clock clJump;
 		sf::Clock clJumpTimeout;
 		sf::Clock clBackDash;
 		sf::Clock clRedSoul;
