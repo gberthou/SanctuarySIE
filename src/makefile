@@ -13,11 +13,11 @@ RELEASE=release
 
 GPP=g++
 CFLAGS=-Wall
-INCLUDE=./
+INCLUDE=-I"./" -I"./SerGUI/"
 
 MAINFILE=Gmain.cpp
 
-CPPFILES=$(MAINFILE) Accessory.cpp Armor.cpp Item.cpp Tradable.cpp PickUp.cpp Stuff.cpp ItemFactory.cpp Weapon.cpp Consumable.cpp Permanent.cpp Inventory.cpp Enchantment.cpp Stats.cpp Level.cpp LevelBg.cpp LevelFactory.cpp Map.cpp Character.cpp Merchant.cpp Mob.cpp MobFactory.cpp Path.cpp Gold.cpp Mana.cpp Resources.cpp Physics.cpp AABB.cpp Entity.cpp EntitySoul.cpp InputController.cpp RedSoul.cpp BlueSoul.cpp YellowSoul.cpp Soul.cpp SoulManager.cpp SoulSet.cpp Camera.cpp Animation.cpp FPSClock.cpp SerGUI/Button.cpp SerGUI/MenuSelectSave.cpp SerGUI/MenuTitle1.cpp SerGUI/SerGUI.cpp SerGUI/Bat.cpp
+CPPFILES=$(MAINFILE) Accessory.cpp Armor.cpp Item.cpp Tradable.cpp PickUp.cpp Stuff.cpp ItemFactory.cpp Weapon.cpp Consumable.cpp Permanent.cpp Inventory.cpp Enchantment.cpp Stats.cpp Level.cpp LevelBg.cpp LevelFactory.cpp Map.cpp Character.cpp Merchant.cpp Mob.cpp MobFactory.cpp Path.cpp Gold.cpp Mana.cpp Resources.cpp Physics.cpp AABB.cpp Entity.cpp EntitySoul.cpp InputController.cpp RedSoul.cpp BlueSoul.cpp YellowSoul.cpp Soul.cpp SoulManager.cpp SoulSet.cpp Camera.cpp Animation.cpp FPSClock.cpp SerGUI/Button.cpp SerGUI/MenuSelectSave.cpp SerGUI/MenuTitle1.cpp SerGUI/SerGUI.cpp SerGUI/BoxExpandable.cpp SerGUI/Bat.cpp
 
 
 
@@ -45,8 +45,8 @@ $(CLEAN):
 	rm -f $(BINDEBUG) $(BINRELEASE) $(OBJDEBUG) $(OBJRELEASE)
 
 $(DEBUGDIR)/$(OBJDIR)/%.o: %.cpp
-	$(GPP) $(CFLAGS) $(FLAGSDEBUG) -I"$(INCLUDE)" -c -o $@ $<
+	$(GPP) $(CFLAGS) $(FLAGSDEBUG) $(INCLUDE) -c -o $@ $<
 
 $(RELEASEDIR)/$(OBJDIR)/%.o: %.cpp
-	$(GPP) $(CFLAGS) $(FLAGSRELEASE) -I"$(INCLUDE)" -c -o $@ $<
+	$(GPP) $(CFLAGS) $(FLAGSRELEASE) $(INCLUDE) -c -o $@ $<
 

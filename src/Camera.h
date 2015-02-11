@@ -3,8 +3,8 @@
 
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
-#include <Character.h>
-#include <Level.h>
+#include "Character.h"
+#include "Level.h"
 
 class Camera : public sf::View
 {
