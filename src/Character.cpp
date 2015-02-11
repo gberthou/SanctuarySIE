@@ -184,11 +184,16 @@ void Character::BackDash()
 {
 	if(stateAttack == NOATTACK && (stateWalk == IDLE || stateWalk == WALK)  && stateRedSoul == NORSOUL)
 	{
-		stateWalk = BACKDASH;
-		clWalk.restart();
-		clBackDashTimeout.restart();
+		if(stateJump == NOJUMP)
+		{
+			stateWalk = BACKDASH;
+			clWalk.restart();
+			clBackDashTimeout.restart();
+		}
+		else // High jump
+		{
+		}
 	}
-	
 }
 
 void Character::ReleaseBackDash()
