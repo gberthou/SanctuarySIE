@@ -2,6 +2,7 @@
 
 #include "EntitySoul.h"
 #include "Resources.h"
+#include "Character.h"
 
 const float SOUL_ATTRACT_FORCE = 16;
 const float SOUL_BRAKE_FORCE = 2;
@@ -31,17 +32,17 @@ void EntitySoul::Start(void)
 	clock.restart();
 }
 
-sf::Int32 EntitySoul::GetTime(void)
-{
-	return clock.getElapsedTime().asMilliseconds();
-}
-
 void EntitySoul::GetCloserTo(Entity *entity)
 {
 		sf::Vector2f d = normalize(entity->GetCenter() - GetCenter()); // Gravitational component
 		sf::Vector2f brake = normalize(-GetVelocity());
 		sf::Vector2f impulse = d * SOUL_ATTRACT_FORCE + brake * SOUL_BRAKE_FORCE;
 		AddImpulse(impulse);
+}
+
+void EntitySoul::PickUp(Character *character)
+{
+	character->GetSoulSet()->AddSoul(soul);
 }
 
 void EntitySoul::buildSprite(void)

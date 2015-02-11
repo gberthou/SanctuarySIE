@@ -51,9 +51,9 @@ int main(void)
 	inventory->EquipWeapon(inventory->GetWeapons().begin());
 
 	soulSet = character->GetSoulSet();
-	soulSet->AddSoul(GIANT_BAT); // Red soul
+	soulSet->AddSoul(SoulManager::GetSoul(GIANT_BAT)); // Red soul
 	soulSet->EquipRedSoul(soulSet->GetRedSouls().begin());
-	soulSet->AddSoul(DEATH); // Blue soul
+	soulSet->AddSoul(SoulManager::GetSoul(DEATH)); // Blue soul
 	soulSet->EquipBlueSoul(soulSet->GetBlueSouls().begin());
     
     // View management

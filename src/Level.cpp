@@ -246,6 +246,7 @@ void Level::checkItems(void)
 
 			item->PickUp(character);
 
+			physics->RemoveEntity(item);
 			it = items.erase(tmp);
 		}
 		else
@@ -255,9 +256,24 @@ void Level::checkItems(void)
 
 void Level::updateSouls(void)
 {
-	for(unsigned int i = 0; i < souls.size(); ++i)
+	std::vector<EntitySoul*>::iterator it = souls.begin();
+	while(it != souls.end())
 	{
-		souls[i]->GetCloserTo(character);
+		if((*it)->CollidesWith(character))
+		{
+			std::vector<EntitySoul*>::iterator tmp = it;
+			EntitySoul *entity = *it;
+
+			entity->PickUp(character);
+			delete entity;
+			physics->RemoveEntity(entity);
+			it = souls.erase(tmp);
+		}
+		else
+		{
+			(*it)->GetCloserTo(character);
+			++it;
+		}
 	}
 }
 

@@ -16,7 +16,7 @@ class SoulSet
         SoulSet();
         virtual ~SoulSet();
 
-		void AddSoul(MobType type);
+		void AddSoul(Soul *soul);
 
 		// Red soul
 		void EquipRedSoul(std::vector<RedSoul*>::const_iterator it);
@@ -34,7 +34,8 @@ class SoulSet
 	private:
 		void addRedSoul(RedSoul *soul);
 		void addBlueSoul(BlueSoul *soul);
-    
+		void addYellowSoul(YellowSoul *soul);
+
         RedSoul *redSoul;       // Equipped
         BlueSoul *blueSoul;     // Equipped
         YellowSoul *yellowSoul; // Equipped
