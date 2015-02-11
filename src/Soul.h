@@ -2,14 +2,7 @@
 #define SOUL_H
 
 #include "Mob.h"
-
-enum SoulType
-{
-	SOULTYPE_UNKNOWN,
-	SOULTYPE_RED,
-	SOULTYPE_BLUE,
-	SOULTYPE_YELLOW
-};
+#include "SoulTypes.h"
 
 class Soul
 {

@@ -177,7 +177,8 @@ void Physics::Update()
     // bitmap collision
     for(unsigned int i=0; i<entities.size(); ++i)
     {
-        manageStaticCollisions(entities[i]);
+        if(entities[i]->IsMapCollisionEnabled())
+			manageStaticCollisions(entities[i]);
     }
 
     for(unsigned int i=0; i<entities.size(); ++i)

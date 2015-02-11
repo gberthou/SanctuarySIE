@@ -18,6 +18,7 @@ class Entity : public sf::Drawable
         void AddImpulse(const sf::Vector2f &impulse);
         void AddAcceleration(const sf::Vector2f &acceleration);
         void AddVelocity(const sf::Vector2f &velocity);
+		void SetVelocity(const sf::Vector2f &velocity);
 		void SetVelocityY(float vy);
 
 		void SetHitbox(const AABB &hitbox, const sf::Vector2f &offset);
@@ -27,11 +28,17 @@ class Entity : public sf::Drawable
         virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
         sf::Sprite const& GetSprite() const;
         sf::Vector2f GetPos() const;
-        void SetJumping();
+		sf::Vector2f GetCenter() const;
+		sf::Vector2f GetVelocity() const;
+		void SetJumping();
+
+		void SetMapCollisionEnabled(bool enabled);
+		bool IsMapCollisionEnabled() const;
 
     protected:
         float mass;
         bool onGround;
+		bool mapCollisionEnabled;
 
         sf::Sprite sprite;
 		AABB hitbox;

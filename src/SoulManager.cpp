@@ -3,7 +3,9 @@
 #include "BlueSoul.h"
 #include "YellowSoul.h"
 
-SoulManager::SoulManager()
+Soul *SoulManager::souls[MOB_COUNT];
+
+void SoulManager::Init(void)
 {
     for (unsigned i=0; i<MOB_COUNT; ++i)
     {
@@ -15,7 +17,7 @@ SoulManager::SoulManager()
 	souls[DEATH] = new BlueSoul(DEATH, BSOUL_B_TOGGLE);
 }
 
-SoulManager::~SoulManager()
+void SoulManager::Free(void)
 {
 	for(unsigned int i = 0; i < MOB_COUNT; ++i)
 		if(souls[i] != 0)
@@ -29,4 +31,12 @@ Soul *SoulManager::GetSoul(MobType type)
         return (Soul*)0;
     }
     return souls[type];
+}
+
+SoulManager::SoulManager()
+{
+}
+
+SoulManager::~SoulManager()
+{
 }

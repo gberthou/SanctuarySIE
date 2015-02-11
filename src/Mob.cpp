@@ -4,6 +4,10 @@
 #include "Resources.h"
 #include "Level.h"
 #include "ItemFactory.h"
+#include "SoulManager.h"
+#include "EntitySoul.h"
+
+const sf::Vector2f INITIAL_SOUL_VELOCITY(200, 0);
 
 static inline float frand()
 {
@@ -15,6 +19,7 @@ static inline float frand()
 Mob::Mob(MobType type1):
 	level(0),
 	type(type1),
+	soul(SoulManager::GetSoul(type1)),
 	stats(0),
 	behavior(NORMAL),
 	path(0)
@@ -69,6 +74,19 @@ void Mob::LootMob(unsigned int lck)
     }
     if(itemsToDrop.size() > 0)
         dropItems(itemsToDrop);
+}
+
+// #### Drop Soul ####
+void Mob::DropSoul(unsigned int lck)
+{
+	EntitySoul *entity = new EntitySoul(soul);
+	AABB hb(sf::Vector2f(32, 32));
+	sf::Vector2f p = hitbox.GetPosition() + (hitbox.GetSize() - hb.GetSize()) / 2.f;
+
+	entity->SetHitbox(hitbox, sf::Vector2f(0, 0));
+	entity->SetMapCollisionEnabled(false);
+	entity->SetVelocity(INITIAL_SOUL_VELOCITY);
+	level->SpawnSoul(entity, p);
 }
 
 // #### IA METHODS ####
@@ -175,6 +193,5 @@ void Mob::dropItems(const std::vector<ItemDesc> &itemsToDrop)
 			level->SpawnItem(itemsToDrop[i], newPos);
 		}
     }
-
 }
 

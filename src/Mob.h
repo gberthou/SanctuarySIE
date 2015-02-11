@@ -49,6 +49,7 @@ struct Loot
 };
 
 class Level;
+class Soul;
 
 class Mob : public Entity
 {
@@ -58,7 +59,10 @@ class Mob : public Entity
 
         bool Hurt(unsigned int damage);
 		void AddLoot(const Loot &lootItem);
+		
+		// Designed to be private
 		void LootMob(unsigned int lck);
+		void DropSoul(unsigned int lck);
 
         void UpdateAI(void);
 
@@ -87,6 +91,9 @@ class Mob : public Entity
 
         unsigned int xpDrop;        // XP dropped
         std::vector<Loot> loot;    // Loot
+
+		Soul *soul;
+		unsigned int soulDropRate;
 
         Status status;              // Status : buff or debuff
         Stats *stats;               // Basic stats

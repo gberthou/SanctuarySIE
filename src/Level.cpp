@@ -1,10 +1,23 @@
 #include <iostream>
+#include <cmath>
 
 #include "Level.h"
 #include "MobFactory.h"
 #include "ItemFactory.h"
 
 #define DEBUG_PHYSICS
+
+const float SOUL_ATTRACT_FORCE = 16;
+
+static sf::Vector2f normalize(const sf::Vector2f &v)
+{
+	float d = v.x * v.x + v.y * v.y;
+	if(d != 0)
+	{
+		return v / (float)sqrt(d);
+	}
+	return sf::Vector2f(0, 0);
+}
 
 Level::Level(unsigned int x1, unsigned int y1, unsigned int width1, unsigned int height1):
 	x(x1),
@@ -30,6 +43,9 @@ Level::~Level()
 
 	for(unsigned int i = 0; i < items.size(); ++i)
 		delete items[i];
+
+	for(unsigned int i = 0; i < souls.size(); ++i)
+		delete souls[i];
 
 	delete collisionMap;
 
@@ -89,7 +105,8 @@ void Level::MakeReady(Character *character1)
 
 			// Test purpose only
 			mob->LootMob(100);
-		
+			mob->DropSoul(100);
+
 			physics->AddEntity(mob);
 		}
 	}
@@ -101,16 +118,27 @@ void Level::MakeReady(Character *character1)
 	}
 }
 
+void Level::SpawnEntity(Entity *entity, const sf::Vector2f &position)
+{
+	entity->SetPosition(position);
+	physics->AddEntity(entity);
+}
+
 void Level::SpawnItem(const ItemDesc &itemDesc, const sf::Vector2f &position)
 {
 	Item *item = ItemFactory::CreateItem(itemDesc);
 	if(item != 0)
 	{
-		item->SetPosition(position);
 		items.push_back(item);
-
-		physics->AddEntity(item);
+		SpawnEntity(item, position);
 	}
+}
+
+void Level::SpawnSoul(EntitySoul *entity, const sf::Vector2f &position)
+{
+	souls.push_back(entity);
+	entity->Start();
+	SpawnEntity(entity, position);
 }
 
 void Level::Leave(void)
@@ -136,7 +164,8 @@ void Level::AddDoor(Level *target, unsigned int lx, unsigned int ly, DoorDirecti
 
 void Level::Update(unsigned int frameCount)
 {
-		checkItems();	
+		checkItems();
+		updateSouls();	
 
 		for(unsigned int i = 0; i < mobs.size(); ++i)
 		{
@@ -174,6 +203,12 @@ void Level::draw(sf::RenderTarget &target, sf::RenderStates states) const
 	for(unsigned int i = 0; i < items.size(); ++i)
 	{
 		target.draw(*items[i], states);
+	}
+
+	// Draw souls
+	for(unsigned int i = 0; i < souls.size(); ++i)
+	{
+		target.draw(*souls[i], states);
 	}
 
 	// Draw character
@@ -226,6 +261,17 @@ void Level::checkItems(void)
 		}
 		else
 			++it;
+	}
+}
+
+void Level::updateSouls(void)
+{
+	for(unsigned int i = 0; i < souls.size(); ++i)
+	{
+		sf::Vector2f d = normalize(character->GetCenter() - souls[i]->GetCenter()); // Gravitational component
+		sf::Vector2f brake = normalize(-souls[i]->GetVelocity());
+		sf::Vector2f impulse = d * SOUL_ATTRACT_FORCE + brake * (float)souls[i]->GetTime() / 1000.f;
+		souls[i]->AddImpulse(impulse);
 	}
 }
 

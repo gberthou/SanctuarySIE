@@ -9,6 +9,7 @@
 #include "LevelBg.h"
 #include "Physics.h"
 #include "Character.h"
+#include "EntitySoul.h"
 
 class Level;
 
@@ -62,8 +63,10 @@ class Level : public sf::Drawable
 		void AddMobDesc(const MobDesc *mobDesc);
 		void AddItemDesc(const LevelItemDesc *levelItemDesc);
 		void SetCollisionMap(const sf::String &filename);
-
+		
+		void SpawnEntity(Entity *entity, const sf::Vector2f &position);
 		void SpawnItem(const ItemDesc &itemDesc, const sf::Vector2f &position);
+		void SpawnSoul(EntitySoul *entity, const sf::Vector2f &position);
 
 		void MakeReady(Character *character);
 		void Leave(void);
@@ -84,6 +87,7 @@ class Level : public sf::Drawable
 
 	private:
 		void checkItems(void);
+		void updateSouls(void);
 
 		unsigned int x;
 		unsigned int y;
@@ -98,6 +102,8 @@ class Level : public sf::Drawable
 
 		std::vector<const LevelItemDesc*> itemDescs; // Contains the descriptions of all items initially in the level (not the dropped ones)
 		std::vector<Item*> items;                    // Items inside the room
+
+		std::vector<EntitySoul*> souls;
 
 		sf::String collisionMapFilename;
 		CollisionMap collisionMap;

@@ -20,6 +20,9 @@ class Resources
 		// Items
 		static sf::Texture texDagger;
 
+		// Souls
+		static sf::Texture texRedSoul;
+
 	private:
 		Resources();
 		virtual ~Resources();

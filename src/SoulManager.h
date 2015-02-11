@@ -7,12 +7,14 @@
 class SoulManager
 {
     public:
-        SoulManager();
-        virtual ~SoulManager();
-        Soul *GetSoul(MobType type);
-    protected:
+        static void Init(void);
+		static void Free(void);
+		static Soul *GetSoul(MobType type);
     private:
-        Soul *souls[MOB_COUNT];
+        SoulManager();
+        ~SoulManager();
+        
+		static Soul *souls[MOB_COUNT];
 };
 
 #endif // SOULMANAGER_H

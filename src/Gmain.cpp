@@ -32,6 +32,7 @@ int main(void)
 	Weapon *dagger = ItemFactory::CreateWeapon(DAGGER);
 
 	Resources::Load();
+	SoulManager::Init();
 
 	level = LevelFactory::CreateLevel(CORRIDOR0);
 	character = new Character();
@@ -91,6 +92,8 @@ int main(void)
 	delete level;
 	delete character;
 	delete inputController;
+
+	SoulManager::Free();
 
 	return 0;
 }

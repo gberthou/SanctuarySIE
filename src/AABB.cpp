@@ -31,3 +31,13 @@ void AABB::SetSize(const sf::Vector2f &size1)
 	size = size1;
 }
 
+sf::Vector2f AABB::GetPosition(void) const
+{
+	return pos;
+}
+
+sf::Vector2f AABB::GetSize(void) const
+{
+	return size;
+}
+

@@ -7,19 +7,17 @@
 SoulSet::SoulSet() :
     redSoul((RedSoul*)0),
     blueSoul((BlueSoul*)0),
-    yellowSoul((YellowSoul*)0),
-    soulManager(new SoulManager())
+    yellowSoul((YellowSoul*)0)
 {
 }
 
 SoulSet::~SoulSet()
 {
-	delete soulManager;
 }
 
 void SoulSet::AddSoul(MobType type)
 {
-	Soul *soul = soulManager->GetSoul(type);
+	Soul *soul = SoulManager::GetSoul(type);
 
 	switch(soul->GetSoulType())
 	{

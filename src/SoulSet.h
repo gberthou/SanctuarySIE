@@ -42,8 +42,6 @@ class SoulSet
         std::vector<RedSoul*> redSouls;
         std::vector<BlueSoul*> blueSouls;
         std::vector<YellowSoul*> yellowSouls;
-        
-        SoulManager *soulManager;
 };
 
 #endif // SOULSET_H

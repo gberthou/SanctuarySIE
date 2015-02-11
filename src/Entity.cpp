@@ -2,7 +2,9 @@
 #include "Physics.h"
 
 Entity::Entity():
-    mass(1), onGround(false)
+    mass(1),
+	onGround(false),
+	mapCollisionEnabled(true)
 {
 }
 
@@ -53,6 +55,11 @@ void Entity::AddVelocity(const sf::Vector2f &velocity)
 	v += velocity;
 }
 
+void Entity::SetVelocity(const sf::Vector2f &velocity)
+{
+	v = velocity;
+}
+
 void Entity::SetVelocityY(float vy)
 {
 	v.y = vy;
@@ -84,9 +91,28 @@ sf::Vector2f Entity::GetPos() const
     return pos;
 }
 
+sf::Vector2f Entity::GetCenter() const
+{
+	return pos + hitboxOffset + hitbox.GetSize() / 2.f;
+}
+
+sf::Vector2f Entity::GetVelocity() const
+{
+	return v;
+}
+
 void Entity::SetJumping()
 {
     onGround = false;
 }
 
+void Entity::SetMapCollisionEnabled(bool enabled)
+{
+	mapCollisionEnabled = enabled;
+}
+
+bool Entity::IsMapCollisionEnabled() const
+{
+	return mapCollisionEnabled;
+}
 
