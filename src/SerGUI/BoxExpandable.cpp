@@ -1,4 +1,5 @@
 #include "BoxExpandable.h"
+#include "SerGUI.h"
 
 static const int NB_PART(9);
 static const char* S_BUTTON_ACTION("img/sergui/maimenu_element2.png");
@@ -18,6 +19,45 @@ static sf::IntRect DEFAULT_TEXTURE_RECT [] = {
         sf::IntRect(88,50,1,38), // bottom
         sf::IntRect(268,50,88,38) // corner bottom right
 };
+
+void AutoCutText(sf::Text & text, std::string const& str, unsigned int widthMax)
+{
+    std::string nstr;
+    nstr.resize(str.size()+8,' ');
+    unsigned int width = 0;
+    unsigned int widthWord = 0;
+    unsigned int nbLine = 0;
+    for(unsigned int i=0,j=0,k=0;i<str.size();)
+    {
+        if(widthWord == 0)
+        {
+            for(k=0;str[i+k] != ' ' && i+k<str.size();++k)
+            {
+                 widthWord += text.getFont()->getGlyph(sf::String(str[i+k])[0],text.getCharacterSize(),false).bounds.width;
+            }
+        }
+        if(width+widthWord < widthMax || widthWord >= widthMax)
+        {
+            for(unsigned int c=0;c<k;++c)
+            {
+                nstr[j++] = str[i++];
+            }
+            i++;
+            nstr[j++] = ' ';
+            width += widthWord+0*text.getFont()->getGlyph(sf::String('l')[0],text.getCharacterSize(),false).bounds.width;
+            widthWord = 0;
+        }
+        else
+        {
+            ++nbLine;
+            if(nbLine>=8)
+               nstr.append("        "); 
+            nstr[j++] = '\n';
+            width = 0;
+        }
+    }
+    text.setString(nstr);
+}
 
 BoxExpandable::BoxExpandable() :
     texture(0)
@@ -41,6 +81,12 @@ void BoxExpandable::SetTexture(sf::Texture* tex, sf::IntRect n_texRect[9])
     }
 }
 
+void BoxExpandable::SetTextAuto(std::string const& str)
+{
+    AutoCutText(text,str,GetCenterSize().x-textOffset.x*2);
+    // work only if its symmetric 
+}
+
 void BoxExpandable::SetDefaultTexture()
 {
     if(!DEFAULT_TEXTURE)
@@ -49,6 +95,9 @@ void BoxExpandable::SetDefaultTexture()
         DEFAULT_TEXTURE->loadFromFile(S_BUTTON_ACTION);
     }
     SetTexture(DEFAULT_TEXTURE,DEFAULT_TEXTURE_RECT);
+    text.setFont(SerGUI::fontMenu1);
+    text.setCharacterSize(24);
+    
 }
 
 void BoxExpandable::draw(sf::RenderTarget &target, sf::RenderStates states) const
@@ -56,6 +105,7 @@ void BoxExpandable::draw(sf::RenderTarget &target, sf::RenderStates states) cons
     states.transform *= getTransform();
     states.texture = texture;
     target.draw(m_vertices,states);
+    target.draw(text,states);
 }
 
 void BoxExpandable::SetSize(sf::Vector2i n_size)
@@ -78,6 +128,17 @@ void BoxExpandable::SetRect(sf::IntRect rect)
 void BoxExpandable::SetRect(sf::FloatRect rect)
 {
     SetRect(rect);
+}
+
+void BoxExpandable::SetTextPositionOffset(sf::Vector2f const& offset)
+{
+    textOffset = offset;
+    text.setPosition(sf::Vector2f(texRect[0].width,texRect[0].height)+textOffset);
+}
+
+sf::Vector2f BoxExpandable::GetCenterSize() const
+{
+    return ((sf::Vertex*)&m_vertices[1*4])[2].position;
 }
 
 // PROTECTED ---
@@ -141,4 +202,5 @@ void BoxExpandable::computeSprite()
             }
         }
     }
+    text.setPosition(sf::Vector2f(texRect[0].width,texRect[0].height)+textOffset);
 }

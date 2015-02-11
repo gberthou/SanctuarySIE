@@ -16,9 +16,12 @@
 #include "SoulSet.h"
 #include "SoulManager.h"
 #include "Camera.h"
+#include "BoxExpandable.h"
+#include "SerGUI.h"
 
 int main(void)
 {
+	SerGUI::Load();
 	const unsigned int W = 800;
 	const unsigned int H = 600;
 
@@ -56,6 +59,15 @@ int main(void)
     // View management
     Camera camera(sf::FloatRect(0, 0, W, H));
     window.setView(camera);
+    
+    // a box with text
+    BoxExpandable box = BoxExpandable();
+    box.SetDefaultTexture();
+    box.SetRect(sf::IntRect(10,500,780,100));
+    box.SetTextPositionOffset(sf::Vector2f(-70.0f,-20.0f));
+    box.SetTextAuto("Lorem ipsum dolor sit amet, consectetur adipiscing elit. \
+Suspendisse vel sagittis mauris. \
+Nullam imperdiet ex purus, nec dictum lacus tempus in.");
 
 	while(window.isOpen())
 	{
@@ -78,12 +90,16 @@ int main(void)
 			window.clear(sf::Color::Black);
 
 			window.draw(*level);
-
+			
+			window.setView(window.getDefaultView());
+			window.draw(box);
+			
 			window.display();
             
             // View management
             camera.Update(level, character);
             window.setView(camera);
+            
 
 			level->Update(frameCount);
 		}
