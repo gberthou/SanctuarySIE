@@ -56,6 +56,7 @@ struct LevelItemDesc
 class Level : public sf::Drawable
 {
 	public:
+		// All the parameters are room-unit
 		Level(unsigned int x, unsigned int y, unsigned int width, unsigned int height);
 		virtual ~Level();
 
@@ -89,6 +90,7 @@ class Level : public sf::Drawable
 		void checkItems(void);
 		void updateSouls(void);
 
+		// Warning: the following data are room-unit
 		unsigned int x;
 		unsigned int y;
 		unsigned int width;
