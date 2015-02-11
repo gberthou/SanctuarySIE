@@ -17,7 +17,8 @@ class Physics
         virtual ~Physics();
         void Update();
         void AddEntity(Entity* entity);
-        void CleanEntities();
+        void RemoveEntity(const Entity *entity);
+		void CleanEntities();
 
     protected:
         void manageStaticCollisions(Entity* e);

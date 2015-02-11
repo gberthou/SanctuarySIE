@@ -13,10 +13,10 @@ class EntitySoul : public Entity
 		virtual ~EntitySoul();
 
 		void Start(void);
-		sf::Int32 GetTime(void);
 
 		void GetCloserTo(Entity *entity);
-	
+		void PickUp(Character *character);
+
 	private:
 		void buildSprite(void);
 

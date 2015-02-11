@@ -15,10 +15,8 @@ SoulSet::~SoulSet()
 {
 }
 
-void SoulSet::AddSoul(MobType type)
+void SoulSet::AddSoul(Soul *soul)
 {
-	Soul *soul = SoulManager::GetSoul(type);
-
 	switch(soul->GetSoulType())
 	{
 		case SOULTYPE_RED:
@@ -29,11 +27,15 @@ void SoulSet::AddSoul(MobType type)
 			addBlueSoul((BlueSoul*) soul);
 			break;
 
+		case SOULTYPE_YELLOW:
+			addYellowSoul((YellowSoul*) soul);
+			break;
+
 		default:
 			break;
 	}
-}
 
+}
 
 // Red souls
 void SoulSet::EquipRedSoul(std::vector<RedSoul*>::const_iterator it)
@@ -96,5 +98,16 @@ void SoulSet::addBlueSoul(BlueSoul *soul)
 	
 	if(!found)
 		blueSouls.push_back(soul);
+}
+
+void SoulSet::addYellowSoul(YellowSoul *soul)
+{
+	bool found = false;
+	for(unsigned int i = 0; i < yellowSouls.size() && !found; ++i)
+		if(yellowSouls[i] == soul)
+			found = true;
+	
+	if(!found)
+		yellowSouls.push_back(soul);
 }
 

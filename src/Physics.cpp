@@ -1,6 +1,9 @@
 #include "Entity.h"
 #include "Physics.h"
 #include <iostream>
+
+#define DEBUG_PHYSICS
+
 using namespace std;
 
 const float DT = 0.015625f; // 1/64 s
@@ -18,6 +21,21 @@ Physics::~Physics()
 void Physics::AddEntity(Entity* entity)
 {
     entities.push_back(entity);
+}
+
+void Physics::RemoveEntity(const Entity *entity)
+{
+	std::vector<Entity*>::iterator it = entities.begin();
+	while(it != entities.end())
+	{
+		if(*it == entity)
+		{
+			std::vector<Entity*>::iterator tmp = it;
+			it = entities.erase(tmp);
+		}
+		else
+			++it;
+	}
 }
 
 void Physics::CleanEntities()
@@ -185,4 +203,10 @@ void Physics::Update()
     {
         entities[i]->Update();
     }
+
+#ifdef DEBUG_PHYSICS
+	std::cout << "Entities: " << entities.size() << std::endl;
+	
+	std::cout << std::endl;
+#endif
 }
