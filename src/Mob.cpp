@@ -7,7 +7,7 @@
 #include "SoulManager.h"
 #include "EntitySoul.h"
 
-const sf::Vector2f INITIAL_SOUL_VELOCITY(200, 0);
+const sf::Vector2f INITIAL_SOUL_VELOCITY(500, 0);
 
 static inline float frand()
 {

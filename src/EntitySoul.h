@@ -14,6 +14,8 @@ class EntitySoul : public Entity
 
 		void Start(void);
 		sf::Int32 GetTime(void);
+
+		void GetCloserTo(Entity *entity);
 	
 	private:
 		void buildSprite(void);

@@ -1,5 +1,4 @@
 #include <iostream>
-#include <cmath>
 
 #include "Level.h"
 #include "MobFactory.h"
@@ -7,17 +6,7 @@
 
 #define DEBUG_PHYSICS
 
-const float SOUL_ATTRACT_FORCE = 16;
 
-static sf::Vector2f normalize(const sf::Vector2f &v)
-{
-	float d = v.x * v.x + v.y * v.y;
-	if(d != 0)
-	{
-		return v / (float)sqrt(d);
-	}
-	return sf::Vector2f(0, 0);
-}
 
 Level::Level(unsigned int x1, unsigned int y1, unsigned int width1, unsigned int height1):
 	x(x1),
@@ -268,10 +257,7 @@ void Level::updateSouls(void)
 {
 	for(unsigned int i = 0; i < souls.size(); ++i)
 	{
-		sf::Vector2f d = normalize(character->GetCenter() - souls[i]->GetCenter()); // Gravitational component
-		sf::Vector2f brake = normalize(-souls[i]->GetVelocity());
-		sf::Vector2f impulse = d * SOUL_ATTRACT_FORCE + brake * (float)souls[i]->GetTime() / 1000.f;
-		souls[i]->AddImpulse(impulse);
+		souls[i]->GetCloserTo(character);
 	}
 }
 
