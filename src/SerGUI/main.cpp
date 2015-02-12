@@ -12,6 +12,7 @@
 int main()
 {
 	MenuTitle1Code code;
+	int saveSelected;
 
 	srand(time(0));
 
@@ -27,12 +28,20 @@ int main()
 		code = menuTitle->Run();
 		delete menuTitle;
 
+		if(code == EXIT)
+			continue;
+		
 		menuSelectSave = new MenuSelectSave();
 		menuSelectSave->Load();
-		menuSelectSave->Run();
+		saveSelected = menuSelectSave->Run();
 		delete menuSelectSave;
 
-	}while(code != EXIT);
+		if(saveSelected <= -1)
+			continue;
+		
+		
+
+	} while(code != EXIT);
 
 	return 0;
 }

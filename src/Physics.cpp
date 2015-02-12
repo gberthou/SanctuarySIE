@@ -75,7 +75,7 @@ void Physics::manageStaticCollisions(Entity* e)
         && isThereStaticCollision(e))
     {
         int xCorrection = computeHorizontalStaticCorrection(e);
-        e->hitbox.pos.x+=xCorrection;
+        e->hitbox.pos.x += xCorrection;
         int yCorrection = computeVerticalStaticCorrection(e);
         if (yCorrection > 0)
         {
@@ -149,7 +149,7 @@ int Physics::computeVerticalStaticCorrection(Entity* e)
         return y+1; // > 0
     }
     for(y=0;
-        y < e->hitbox.size.y
+        y < -e->hitbox.size.y
             && collisionMap->getPixel(x,yBottom+y).a > 0;
         --y);
     return y;

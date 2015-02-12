@@ -1,65 +1,47 @@
+#include <cstdlib>
+#include <ctime>
+
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 
+#include "MenuTitle1.h"
+#include "MenuSelectSave.h"
+#include "SerGUI.h"
 #include "Resources.h"
-#include "Map.h"
-#include "Character.h"
-#include "LevelBg.h"
-#include "InputController.h"
 
-int main(void)
+int main()
 {
-	sf::RenderWindow window(sf::VideoMode(800, 600), "Sample");
+	MenuTitle1Code code;
+	int saveSelected;
 
-	Map sanctuaryMap;
+	srand(time(0));
 
 	Resources::Load();
+    SerGUI::Load();
 
-	Character* chara = new Character();
-
-	sanctuaryMap.Load();
-
-    sf::Image bitmap;
-	bitmap.loadFromFile("img/bitmap.png");
-
-	Physics physics = Physics(&bitmap);
-	physics.AddEntity(chara);
-
-
-	sf::Sprite spriteBitmap;
-	sf::Texture texmap;
-	texmap.loadFromImage(bitmap);
-	spriteBitmap.setTexture(texmap);
-
-    InputController inputController(chara);
-    sf::Joystick::update();
-    window.setFramerateLimit(64);
-
-	while(window.isOpen())
+	do
 	{
-		sf::Event event;
-		while(window.pollEvent(event))
-		{
-			if(event.type == sf::Event::Closed)
-				window.close();
-            if(event.type == sf::Event::KeyPressed)
-            {
-                if (event.key.code == sf::Keyboard::Escape)
-                    window.close();
-            }
-			inputController.Update(event);
-		}
+		MenuTitle1 *menuTitle = new MenuTitle1();
+		MenuSelectSave *menuSelectSave;
 
-		physics.Update();
+		menuTitle->Load();
+		code = menuTitle->Run();
+		delete menuTitle;
 
+		if(code == EXIT)
+			continue;
+		
+		menuSelectSave = new MenuSelectSave();
+		menuSelectSave->Load();
+		saveSelected = menuSelectSave->Run();
+		delete menuSelectSave;
 
-		window.clear(sf::Color::Black);
-        window.draw(spriteBitmap);
-		//window.draw(sanctuaryMap);
-		window.draw(*chara);
+		if(saveSelected <= -1)
+			continue;
+		
+		
 
-		window.display();
-	}
+	} while(code != EXIT);
 
 	return 0;
 }

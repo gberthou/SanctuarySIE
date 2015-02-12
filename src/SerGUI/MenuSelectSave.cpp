@@ -99,7 +99,7 @@ void MenuSelectSave::draw(sf::RenderTarget &target, sf::RenderStates states) con
     }
 }
 
-bool MenuSelectSave::Run()
+int MenuSelectSave::Run()
 {
     init();
 	while(SerGUI::window.isOpen() && !endMenu)
@@ -122,7 +122,7 @@ bool MenuSelectSave::Run()
 
 		SerGUI::window.display();
 	}
-	return true;
+	return saveSelected;
 }
 
 void MenuSelectSave::manageEvent(sf::Event const& event)
@@ -255,6 +255,7 @@ void MenuSelectSave::play()
 {
     // save chosen:
     // saveSelected
+    endMenu = true;
 }
 
 void MenuSelectSave::deleteSave()

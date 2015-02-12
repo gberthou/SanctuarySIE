@@ -12,7 +12,7 @@ class MenuSelectSave : public sf::Drawable
 {
     public:
         MenuSelectSave();
-        bool Run();
+        int Run();
 
         virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
         bool Load();
