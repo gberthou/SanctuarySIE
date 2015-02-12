@@ -20,6 +20,18 @@ sf::Int32 Weapon::GetCooldown(void) const
 	return cooldown;
 }
 
+AttackAnimation *Weapon::GetAttackAnimation(Weapon *weapon)
+{
+	switch(weapon->weaponType)
+	{
+		case DAGGER:
+			return new AttackAnimation(ATTACK_SWORD);
+
+		default:
+			return 0;
+	}
+}
+
 void Weapon::buildSprite(void)
 {
 	switch(weaponType)

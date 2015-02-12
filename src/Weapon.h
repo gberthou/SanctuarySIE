@@ -6,6 +6,7 @@
 #include "Stuff.h"
 #include "Stats.h"
 #include "Character.h"
+#include "AttackAnimation.h"
 
 class Weapon : public Stuff
 {
@@ -14,6 +15,8 @@ class Weapon : public Stuff
         virtual ~Weapon();
    
 		sf::Int32 GetCooldown(void) const;
+	
+		static AttackAnimation *GetAttackAnimation(Weapon *weapon);
 	private:
 		void buildSprite(void);
 

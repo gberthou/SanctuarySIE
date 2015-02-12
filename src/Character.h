@@ -11,6 +11,7 @@
 #include "Gameplay.h"
 #include "Orientation.h"
 #include "FPSClock.h"
+#include "AttackAnimation.h"
 
 class Item;
 
@@ -41,6 +42,9 @@ class Character : public Entity
 
 		Inventory *GetInventory() const;
 		SoulSet *GetSoulSet() const;
+
+		// Debug purpose only
+		void DrawAttack(sf::RenderTarget &target, sf::RenderStates states) const;
    	protected:
     private:
         unsigned int getPower();
@@ -68,6 +72,8 @@ class Character : public Entity
         SoulSet *soulSet;           // SoulSet
 
 		Orientation orientation;
+
+		AttackAnimation *attack;
 
         // "Hidden" attributes
         CharacterStateJump stateJump;

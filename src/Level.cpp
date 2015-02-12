@@ -5,8 +5,7 @@
 #include "ItemFactory.h"
 
 #define DEBUG_PHYSICS
-
-
+#define DEBUG_CHARACTER_ATTACK
 
 Level::Level(unsigned int x1, unsigned int y1, unsigned int width1, unsigned int height1):
 	x(x1),
@@ -202,6 +201,10 @@ void Level::draw(sf::RenderTarget &target, sf::RenderStates states) const
 
 	// Draw character
 	target.draw(*character, states);
+
+#ifdef DEBUG_CHARACTER_ATTACK
+	character->DrawAttack(target, states);
+#endif
 }
 
 void Level::SetPOV(sf::Vector2f pov)

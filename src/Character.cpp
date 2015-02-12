@@ -26,6 +26,7 @@ const sf::Int32 JUMP2_TIMEOUT = 75;
 
 Character::Character():
 	Entity(),
+	attack(0),
 	clWalk(60)
 {
 	AABB hb(sf::Vector2f(30, 50));
@@ -361,6 +362,19 @@ Inventory *Character::GetInventory() const
 SoulSet *Character::GetSoulSet() const
 {
 	return soulSet;
+}
+
+// #### DEBUG ####
+void Character::DrawAttack(sf::RenderTarget &target, sf::RenderStates states) const
+{
+	if(attack != 0)
+	{
+		sf::CircleShape circle(10);
+		circle.setPosition(attack->GetCurrentPoint());
+		circle.setFillColor(sf::Color(0, 255, 128));
+
+		target.draw(circle, states);
+	}
 }
 
 // ---- PRIVATE ----
