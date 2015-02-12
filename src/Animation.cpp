@@ -1,8 +1,10 @@
 #include "Animation.h"
 
-Animation::Animation(unsigned int startFrame1, unsigned int endFrame1, unsigned int fps1):
+Animation::Animation(unsigned int startFrame1, unsigned int endFrame1, unsigned int fps1, AnimationMode mode1):
+	currentFrame(startFrame1),
 	startFrame(startFrame1),
 	endFrame(endFrame1),
+	mode(mode1),
 	playing(false),
 	clock(fps1)
 {
@@ -43,7 +45,15 @@ void Animation::Update(void)
 			timeCarry %= 1000 / fps;
 			*/
 
-			currentFrame = startFrame + ((currentFrame - startFrame + nframes) % (endFrame - startFrame + 1));
+			currentFrame += nframes;
+			
+			if(currentFrame > endFrame)
+			{
+				if(mode == AM_CYCLE)
+					currentFrame = startFrame + ((currentFrame - startFrame) % (endFrame - startFrame + 1));
+				else
+					playing = false;
+			}
 		}
 	}
 }
@@ -58,3 +68,12 @@ unsigned int Animation::GetFrame(void) const
 	return currentFrame;
 }
 
+Animation::Animation(unsigned int fps):
+	currentFrame(0),
+	startFrame(0),
+	endFrame(0),
+	mode(AM_CYCLE),
+	playing(false),
+	clock(fps)
+{
+}

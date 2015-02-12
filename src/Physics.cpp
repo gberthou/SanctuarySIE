@@ -2,7 +2,7 @@
 #include "Physics.h"
 #include <iostream>
 
-#define DEBUG_PHYSICS
+//#define DEBUG_PHYSICS
 
 using namespace std;
 

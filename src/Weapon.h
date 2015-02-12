@@ -16,7 +16,7 @@ class Weapon : public Stuff
    
 		sf::Int32 GetCooldown(void) const;
 	
-		static AttackAnimation *GetAttackAnimation(Weapon *weapon);
+		AttackAnimation *GetAttackAnimation(void) const;
 	private:
 		void buildSprite(void);
 

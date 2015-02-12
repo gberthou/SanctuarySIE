@@ -27,9 +27,8 @@ namespace SerGUI
             #endif
             return false;
         }
-        /*window.create(sf::VideoMode(SerGUI::SCREEN_WIDTH,SerGUI::SCREEN_HEIGHT),
+        window.create(sf::VideoMode(SerGUI::SCREEN_WIDTH,SerGUI::SCREEN_HEIGHT),
                       SerGUI::WINDOW_TITLE,sf::Style::Default);
-        */
         return true;
     }
     void Free()

@@ -21,11 +21,6 @@
 
 int main(void)
 {
-	SerGUI::Load();
-	const unsigned int W = 800;
-	const unsigned int H = 600;
-
-	sf::RenderWindow window(sf::VideoMode(W, H), "Sample");
 	FPSClock clock(60);
 	Level *level;
 	Character *character;
@@ -35,6 +30,8 @@ int main(void)
 	Weapon *dagger = ItemFactory::CreateWeapon(DAGGER);
 
 	Resources::Load();
+	SerGUI::Load();
+	
 	SoulManager::Init();
 
 	level = LevelFactory::CreateLevel(CORRIDOR0);
@@ -57,8 +54,8 @@ int main(void)
 	soulSet->EquipBlueSoul(soulSet->GetBlueSouls().begin());
     
     // View management
-    Camera camera(sf::FloatRect(0, 0, W, H));
-    window.setView(camera);
+    Camera camera(sf::FloatRect(0, 0, SerGUI::SCREEN_WIDTH, SerGUI::SCREEN_HEIGHT));
+	SerGUI::window.setView(camera);
     
     // a box with text
     BoxExpandable box = BoxExpandable();
@@ -69,15 +66,15 @@ int main(void)
 Suspendisse vel sagittis mauris. \
 Nullam imperdiet ex purus, nec dictum lacus tempus in.");
 
-	while(window.isOpen())
+	while(SerGUI::window.isOpen())
 	{
 		unsigned int frameCount;
 		sf::Event event;
 
-		while(window.pollEvent(event))
+		while(SerGUI::window.pollEvent(event))
 		{
 			if(event.type == sf::Event::Closed)
-				window.close();
+				SerGUI::window.close();
 
 			inputController->Update(event);
 		}
@@ -87,18 +84,18 @@ Nullam imperdiet ex purus, nec dictum lacus tempus in.");
 		{
 			clock.restart();
 
-			window.clear(sf::Color::Black);
+			SerGUI::window.clear(sf::Color::Black);
 
-			window.draw(*level);
+			SerGUI::window.draw(*level);
 			
-			window.setView(window.getDefaultView());
-			window.draw(box);
+			SerGUI::window.setView(SerGUI::window.getDefaultView());
+			SerGUI::window.draw(box);
 			
-			window.display();
+			SerGUI::window.display();
             
             // View management
             camera.Update(level, character);
-            window.setView(camera);
+            SerGUI::window.setView(camera);
             
 
 			level->Update(frameCount);

@@ -30,13 +30,12 @@ struct ActionPoint
 	bool active;
 };
 
-class AttackAnimation
+class AttackAnimation : public Animation
 {
 	public:
 		AttackAnimation(AttackType type);
 		virtual ~AttackAnimation();
 
-		void Start(void);
 		bool HitsEntity(Entity *entity);
 
 		sf::Vector2f GetCurrentPoint(void) const;
@@ -44,7 +43,6 @@ class AttackAnimation
 		void initAnimation(void);
 
 		AttackType type;
-		Animation *animation;
 		std::vector<ActionPoint> actionPoints;
 };
 

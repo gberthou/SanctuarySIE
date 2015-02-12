@@ -41,7 +41,7 @@ static float min(float x, float y)
 Bat::Bat(const sf::Texture &texture):
 	sf::Drawable(),
 	sprite(texture),
-	animation(0, FRAME_NUMBER-1, FPS),
+	animation(0, FRAME_NUMBER-1, FPS, AM_CYCLE),
 	outside(false)
 {
 	int x = SPAWN_AREA.left + (rand() % (SPAWN_AREA.width + 1));

@@ -20,9 +20,9 @@ sf::Int32 Weapon::GetCooldown(void) const
 	return cooldown;
 }
 
-AttackAnimation *Weapon::GetAttackAnimation(Weapon *weapon)
+AttackAnimation *Weapon::GetAttackAnimation(void) const
 {
-	switch(weapon->weaponType)
+	switch(weaponType)
 	{
 		case DAGGER:
 			return new AttackAnimation(ATTACK_SWORD);

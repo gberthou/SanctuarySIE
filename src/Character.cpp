@@ -116,8 +116,13 @@ bool Character::Hurt(unsigned int damage)
 
 void Character::Attack()
 {
-	if((stateWalk == IDLE || stateWalk == WALK)  && stateRedSoul == NORSOUL)
+	if((stateWalk == IDLE || stateWalk == WALK)  && stateAttack == NOATTACK && stateRedSoul == NORSOUL)
 	{
+		if(attack != 0)
+			delete attack;
+		attack = inventory->GetWeapon()->GetAttackAnimation();
+		attack->Start(0);
+
 		stateAttack = ATTACK;
 		stateWalk = IDLE;
 		clAttack.restart();
@@ -262,7 +267,14 @@ void Character::UpdateStates()
 	{
 		attackBehavior();
 		if(clAttack.getElapsedTime().asMilliseconds() > inventory->GetWeapon()->GetCooldown()) // Cooldown is over
+		{
+			if(attack != 0)
+			{
+				delete attack;
+				attack = 0;
+			}
 			stateAttack = NOATTACK;
+		}
 	}
 
 	if(stateJump == JUMP || stateJump == JUMP_DEACTIVATED || stateJump == JUMP2 || stateJump == JUMP2_DEACTIVATED)
@@ -369,8 +381,8 @@ void Character::DrawAttack(sf::RenderTarget &target, sf::RenderStates states) co
 {
 	if(attack != 0)
 	{
-		sf::CircleShape circle(10);
-		circle.setPosition(attack->GetCurrentPoint());
+		sf::CircleShape circle(5);
+		circle.setPosition(GetCenter() + attack->GetCurrentPoint());
 		circle.setFillColor(sf::Color(0, 255, 128));
 
 		target.draw(circle, states);
@@ -420,6 +432,9 @@ void Character::attackBehavior(void)
         EarnExp(mob->GiveXP());
     }
 	*/
+
+	if(attack != 0)
+		attack->Update();
 }
 
 void Character::blueSoulBehavior(void)

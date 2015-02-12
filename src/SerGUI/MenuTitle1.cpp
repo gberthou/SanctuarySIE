@@ -63,7 +63,7 @@ MenuTitle1Code MenuTitle1::Run(void)
 		{
 			if(event.type == sf::Event::Closed)
 				SerGUI::window.close();
-            if(event.type == sf::Event::KeyPressed)
+			else if(event.type == sf::Event::KeyPressed)
             {
                 if (event.key.code == sf::Keyboard::Escape)
                     SerGUI::window.close();

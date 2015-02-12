@@ -1,24 +1,18 @@
+#include <iostream>
+
 #include "AttackAnimation.h"
 
+const unsigned int ANIM_FPS = 3;
+
 AttackAnimation::AttackAnimation(AttackType type1):
-	type(type1),
-	animation(0)
+	Animation(ANIM_FPS),
+	type(type1)
 {
 	initAnimation();
 }
 
 AttackAnimation::~AttackAnimation()
 {
-	if(animation != 0)
-		delete animation;
-}
-
-void AttackAnimation::Start(void)
-{
-	if(animation != 0)
-	{
-		animation->Start(0);
-	}
 }
 
 bool AttackAnimation::HitsEntity(Entity *entity)
@@ -28,7 +22,10 @@ bool AttackAnimation::HitsEntity(Entity *entity)
 
 sf::Vector2f AttackAnimation::GetCurrentPoint(void) const
 {
-	unsigned int frame = animation->GetFrame();
+	unsigned int frame = GetFrame();
+
+	std::cout << frame << std::endl;
+
 	if(frame < actionPoints.size()) // Usual case
 		return actionPoints[frame].pos;
 	if(actionPoints.size() >= 1)    // Return the first frame (should not happen)
@@ -45,7 +42,12 @@ void AttackAnimation::initAnimation(void)
 	{
 		case ATTACK_SWORD:
 		{
-			animation = new Animation(0, 3, 1);
+			// Set protected attributes
+			startFrame = 0;
+			endFrame = 3;
+			mode = AM_ONCE;
+			
+			// Set action points
 			actionPoints.push_back(inactive);
 			
 			tmp.pos = sf::Vector2f(5, 0);
@@ -56,6 +58,8 @@ void AttackAnimation::initAnimation(void)
 			
 			tmp.pos = sf::Vector2f(15, 0);
 			actionPoints.push_back(tmp);
+
+			std::cout<<actionPoints.size()<<std::endl;
 			break;
 		}
 
