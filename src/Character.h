@@ -27,6 +27,7 @@ class Character : public Entity
         void EarnExp(int amount);
         
 		bool Hurt(unsigned int damage);
+		bool HitMob(Mob *mob);
         
         void Attack();
 		void Jump();
@@ -43,13 +44,18 @@ class Character : public Entity
 		Inventory *GetInventory() const;
 		SoulSet *GetSoulSet() const;
 
+		// GetActionPoint : Copy the action point into point parameter
+		// Return true if there is an attack animation, returns false
+		// otherwise.
+		bool GetActionPoint(sf::Vector2f &point) const;
+
 		// Debug purpose only
 		void DrawAttack(sf::RenderTarget &target, sf::RenderStates states) const;
    	protected:
     private:
-        unsigned int getPower();
+        unsigned int getPower() const;
         void updateStats();
-        unsigned int dealDamage(unsigned int power, Status ownStatus, unsigned int defense, Status enemyStatus);
+        unsigned int dealDamage(unsigned int eDefense, Status eStatus) const;
 
 		// State methods
 		void attackBehavior(void);

@@ -89,6 +89,7 @@ class Level : public sf::Drawable
 	private:
 		void checkItems(void);
 		void updateSouls(void);
+		void checkCharacterAttacks(void);
 
 		// Warning: the following data are room-unit
 		unsigned int x;

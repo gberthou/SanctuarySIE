@@ -1,3 +1,4 @@
+#include <iostream>
 #include <cstdlib>
 
 #include "Mob.h"
@@ -6,6 +7,8 @@
 #include "ItemFactory.h"
 #include "SoulManager.h"
 #include "EntitySoul.h"
+
+#define DEBUG_MOB_HURT
 
 const sf::Vector2f INITIAL_SOUL_VELOCITY(500, 0);
 
@@ -16,11 +19,11 @@ static inline float frand()
 
 // ---- PUBLIC ----
 
-Mob::Mob(MobType type1):
+Mob::Mob(MobType type1, Stats *stats1):
 	level(0),
 	type(type1),
 	soul(SoulManager::GetSoul(type1)),
-	stats(0),
+	stats(stats1),
 	behavior(NORMAL),
 	path(0)
 {
@@ -40,16 +43,29 @@ Mob::~Mob()
 
 bool Mob::Hurt(unsigned int damage)
 {
-    if(hp - damage <= 0)
+#ifdef DEBUG_MOB_HURT
+	std::cout << "Mob takes " << damage << " damage" << std::endl;
+#endif
+
+    if(hp <= damage)
     {
         hp = 0;
+#ifdef DEBUG_MOB_HURT
+	std::cout << "Mob dead" << std::endl;
+#endif
         return true;
     }
     else
     {
         hp -= damage;
+#ifdef DEBUG_MOB_HURT
+	std::cout << "Mob hp left: " << hp << std::endl;
+#endif
         return false;
     }
+#ifdef DEBUG_MOB_HURT
+	std::cout << std::endl;
+#endif
 }
 
 // #### LOOT METHODS ####
@@ -130,17 +146,17 @@ void Mob::SetLevel(Level *level1)
 
 // #### GETTERS ####
 
-Status Mob::GetStatus()
+Status Mob::GetStatus() const
 {
     return status;
 }
 
-Stats* Mob::GetStats()
+const Stats* Mob::GetStats() const
 {
     return stats;
 }
 
-unsigned int Mob::GiveXP()
+unsigned int Mob::GetXP() const
 {
     return xpDrop;
 }
@@ -163,17 +179,17 @@ void Mob::buildSprite(void)
 
 // #### DAMAGE METHODS ####
 
-unsigned int Mob::getPower()
+unsigned int Mob::getPower() const
 {
-    unsigned int power = 0;
-    power = stats->GetAtt();
+    unsigned int power = stats->GetAtt();
     return power;
 }
 
-unsigned int Mob::dealDamage(unsigned int power, Status ownStatus, unsigned int defense, Status enemyStatus)
+unsigned int Mob::dealDamage(unsigned int eDefense, Status eStatus) const
 {
     unsigned int damage = 0;
-    damage = (power - defense/2)*(MAX_STAT - defense)/MAX_STAT;
+    unsigned int power = getPower();
+	damage = (power - eDefense/2)*(MAX_STAT - eDefense)/MAX_STAT;
     return damage;
 }
 

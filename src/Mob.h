@@ -54,7 +54,7 @@ class Soul;
 class Mob : public Entity
 {
     public:
-        Mob(MobType type);
+        Mob(MobType type, Stats *stats);
         virtual ~Mob();
 
         bool Hurt(unsigned int damage);
@@ -69,15 +69,15 @@ class Mob : public Entity
 		void SetLevel(Level *level);
         void SetPath(Path *path);
 
-		Status GetStatus();
-        Stats* GetStats();
-        unsigned int GiveXP();
+		Status GetStatus() const;
+        const Stats* GetStats() const;
+        unsigned int GetXP() const;
     
 	private:
 		void buildSprite(void);
 
-        unsigned int getPower();
-        unsigned int dealDamage(unsigned int power, Status ownStatus, unsigned int defense, Status enemyStatus);
+        unsigned int getPower() const;
+        unsigned int dealDamage(unsigned int eDefense, Status eStatus) const;
         void dropItems(const std::vector<ItemDesc> &itemsToDrop);
 
 		Level *level;

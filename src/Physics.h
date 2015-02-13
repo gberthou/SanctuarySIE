@@ -18,7 +18,7 @@ class Physics
         void Update();
         void AddEntity(Entity* entity);
         void RemoveEntity(const Entity *entity);
-		void CleanEntities();
+		//void CleanEntities();
 
     protected:
         void manageStaticCollisions(Entity* e);

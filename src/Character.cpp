@@ -51,6 +51,8 @@ Character::Character():
 	stateBlueSoul = NOBSOUL;
 
 	SetHitbox(hb, sf::Vector2f(0, 0));	
+
+	updateStats(); // Remove me later
 }
 
 Character::~Character()
@@ -99,7 +101,7 @@ void Character::EarnExp(int amount)
 
 bool Character::Hurt(unsigned int damage)
 {
-    if(hp - damage <= 0)
+    if(hp <= damage)
     {
         hp = 0;
         return true;
@@ -109,6 +111,20 @@ bool Character::Hurt(unsigned int damage)
         hp -= damage;
         return false;
     }
+}
+
+bool Character::HitMob(Mob *mob)
+{
+	sf::Vector2f point;
+	if(GetActionPoint(point) && mob->CollidesWith(point))
+	{
+		const Stats *eStats = mob->GetStats();
+		unsigned int damage = dealDamage(eStats->GetDef(), mob->GetStatus());
+
+		return mob->Hurt(damage);
+	}
+
+	return false;
 }
 
 // #### STATES METHODS ####
@@ -376,6 +392,15 @@ SoulSet *Character::GetSoulSet() const
 	return soulSet;
 }
 
+bool Character::GetActionPoint(sf::Vector2f &point) const
+{
+	if(attack == 0)
+		return false;
+
+	point = GetCenter() + attack->GetCurrentPoint();
+	return true;
+}
+
 // #### DEBUG ####
 void Character::DrawAttack(sf::RenderTarget &target, sf::RenderStates states) const
 {
@@ -393,25 +418,31 @@ void Character::DrawAttack(sf::RenderTarget &target, sf::RenderStates states) co
 
 // #### DAMAGE METHODS ####
 
-unsigned int Character::getPower()
+unsigned int Character::getPower() const
 {
-    unsigned int power = 0;
-    power = effectiveStats->GetAtt();
+    unsigned int power = effectiveStats->GetAtt();
     return power;
 }
 
 void Character::updateStats()
 {
-    effectiveStats = baseStats;
+	if(effectiveStats != 0)
+		delete effectiveStats;
+
+    effectiveStats = new Stats(*baseStats);
     effectiveStats->ModifyStats(inventory->GetAllStatsModifiers());
 }
 
-unsigned int Character::dealDamage(unsigned int power, Status ownStatus, unsigned int defense, Status enemyStatus)
+unsigned int Character::dealDamage(unsigned int eDefense, Status eStatus) const
 {
     unsigned int damage = 0;
-    damage = (power - defense/2)*(MAX_STAT - defense)/MAX_STAT;
-    damage = (enemyStatus == PETRIFIED) ? damage*2 : damage;
-    damage = (damage < 1 || ownStatus == POISONED) ? 1 : damage;
+	unsigned int power = getPower();
+    
+	damage = (power - eDefense/2)*(MAX_STAT - eDefense)/MAX_STAT;
+    if(eStatus == PETRIFIED)
+		damage *= 2;
+	if(damage < 1 || status == POISONED)
+		damage = 1;
     return damage;
 }
 
@@ -434,7 +465,9 @@ void Character::attackBehavior(void)
 	*/
 
 	if(attack != 0)
+	{
 		attack->Update();
+	}
 }
 
 void Character::blueSoulBehavior(void)

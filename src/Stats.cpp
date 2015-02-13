@@ -29,36 +29,46 @@ Stats::Stats()
     luck = 0;
 }
 
+Stats::Stats(const Stats &other):
+	att(other.att),
+	def(other.def),
+	str(other.str),
+	con(other.con),
+	intel(other.intel),
+	luck(other.luck)
+{
+}
+
 Stats::~Stats()
 {
 }
 
-int Stats::GetAtt()
+int Stats::GetAtt() const
 {
     return att;
 }
 
-int Stats::GetDef()
+int Stats::GetDef() const
 {
     return def;
 }
 
-int Stats::GetStr()
+int Stats::GetStr() const
 {
     return str;
 }
 
-int Stats::GetCon()
+int Stats::GetCon() const
 {
     return con;
 }
 
-int Stats::GetInt()
+int Stats::GetInt() const
 {
     return intel;
 }
 
-int Stats::GetLck()
+int Stats::GetLck() const
 {
     return luck;
 }

@@ -21,6 +21,14 @@ bool AABB::CollidesWith(const AABB &box) const
 		&& box.pos.y + box.size.y > pos.y;
 }
 
+bool AABB::CollidesWith(const sf::Vector2f &point) const
+{
+	return point.x >= pos.x
+		&& point.x <= pos.x + size.x
+		&& point.y >= pos.y
+		&& point.y <= pos.y + size.y;
+}
+
 void AABB::SetPosition(const sf::Vector2f &position)
 {
 	pos = position;

@@ -16,7 +16,8 @@ Mob *MobFactory::CreateMob(MobType type)
 
 Mob *MobFactory::CreateGiantBat(void)
 {
-	Mob *mob = new Mob(GIANT_BAT);
+	Stats *stats = new Stats();
+	Mob *mob = new Mob(GIANT_BAT, stats);
 	Loot lootDagger = {{WEAPON, DAGGER}, 100};
 	AABB hitbox(sf::Vector2f(34, 55));
 

@@ -38,10 +38,12 @@ void Physics::RemoveEntity(const Entity *entity)
 	}
 }
 
+/*
 void Physics::CleanEntities()
 {
     entities.clear();
 }
+*/
 
 void Physics::manageStaticCollisions(Entity* e)
 {
@@ -210,3 +212,4 @@ void Physics::Update()
 	std::cout << std::endl;
 #endif
 }
+

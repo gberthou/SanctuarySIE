@@ -161,6 +161,7 @@ void Level::Update(unsigned int frameCount)
 		}
 
 		character->UpdateStates();
+		checkCharacterAttacks();
 
 		physics->Update();
 }
@@ -255,6 +256,15 @@ void Level::checkItems(void)
 		else
 			++it;
 	}
+}
+
+void Level::checkCharacterAttacks(void)
+{
+	// Check attacks against mobs
+	for(unsigned int i = 0; i < mobs.size(); ++i)
+		character->HitMob(mobs[i]);
+
+	// TODO: check attacks against furniture
 }
 
 void Level::updateSouls(void)

@@ -11,6 +11,7 @@ class AABB
 		virtual ~AABB();
 	
 		bool CollidesWith(const AABB &box) const;
+		bool CollidesWith(const sf::Vector2f &point) const;
 
 		void SetPosition(const sf::Vector2f &position);
 		void SetSize(const sf::Vector2f &size);

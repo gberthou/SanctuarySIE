@@ -13,7 +13,7 @@ static const char* S_BUTTON_ACTION_SELECTED("img/sergui/maimenu_element2_select.
 static const char* TXT_MENU_TITLE_SAVE("Save");
 static const char* TXT_MENU_TITLE_PLAY("Play");
 static const char* TXT_MENU_TITLE_ERASE("Erase");
-static const char* TXT_MENU_TITLE_COPY("Copy");
+//static const char* TXT_MENU_TITLE_COPY("Copy");
 
 MenuSelectSave::MenuSelectSave():
       selected(0), state(CHOICE_NB_STATE), endMenu(false)

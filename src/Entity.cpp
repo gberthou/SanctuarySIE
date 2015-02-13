@@ -76,6 +76,11 @@ bool Entity::CollidesWith(const Entity *entity) const
 	return hitbox.CollidesWith(entity->hitbox);
 }
 
+bool Entity::CollidesWith(const sf::Vector2f &point) const
+{
+	return hitbox.CollidesWith(point);
+}
+
 void Entity::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
     target.draw(sprite, states);

@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include "AttackAnimation.h"
 
 const unsigned int ANIM_FPS = 3;
@@ -23,8 +21,6 @@ bool AttackAnimation::HitsEntity(Entity *entity)
 sf::Vector2f AttackAnimation::GetCurrentPoint(void) const
 {
 	unsigned int frame = GetFrame();
-
-	std::cout << frame << std::endl;
 
 	if(frame < actionPoints.size()) // Usual case
 		return actionPoints[frame].pos;
@@ -58,8 +54,6 @@ void AttackAnimation::initAnimation(void)
 			
 			tmp.pos = sf::Vector2f(15, 0);
 			actionPoints.push_back(tmp);
-
-			std::cout<<actionPoints.size()<<std::endl;
 			break;
 		}
 

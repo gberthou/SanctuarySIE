@@ -217,9 +217,15 @@ void Inventory::LootItem(Item *item)
 Stats* Inventory::GetAllStatsModifiers() const
 {
     Stats* allModifiers = new Stats();
-    allModifiers->ModifyStats(weapon->GetStats());
-    allModifiers->ModifyStats(armor->GetStats());
-    allModifiers->ModifyStats(accessory->GetStats());
+    
+	if(weapon != 0)
+		allModifiers->ModifyStats(weapon->GetStats());
+    
+	if(armor != 0)
+		allModifiers->ModifyStats(armor->GetStats());
+    
+	if(accessory != 0)
+		allModifiers->ModifyStats(accessory->GetStats());
     return allModifiers;
 }
 

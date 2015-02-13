@@ -24,8 +24,9 @@ class Entity : public sf::Drawable
 		void SetHitbox(const AABB &hitbox, const sf::Vector2f &offset);
 
 		bool CollidesWith(const Entity *entity) const;
-
-        virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+		bool CollidesWith(const sf::Vector2f &point) const;
+        
+		virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
         sf::Sprite const& GetSprite() const;
         sf::Vector2f GetPos() const;
 		sf::Vector2f GetCenter() const;
