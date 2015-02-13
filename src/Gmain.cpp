@@ -18,6 +18,7 @@
 #include "Camera.h"
 #include "BoxExpandable.h"
 #include "SerGUI.h"
+#include "UICharacterStatus.h"
 
 int main(void)
 {
@@ -38,6 +39,8 @@ int main(void)
 	character = new Character();
 
     inputController = new InputController(character);
+    UICharacterStatus *uicharacterstatus = new UICharacterStatus();
+    uicharacterstatus->SetCharacter(character);
 	//inputController->SetEventSource(ES_JOYSTICK);
 
 	// Simulate the arrival of the player in the level
@@ -90,6 +93,7 @@ Nullam imperdiet ex purus, nec dictum lacus tempus in.");
 			
 			SerGUI::window.setView(SerGUI::window.getDefaultView());
 			SerGUI::window.draw(box);
+			SerGUI::window.draw(*uicharacterstatus);
 			
 			SerGUI::window.display();
             

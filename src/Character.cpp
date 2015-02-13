@@ -401,6 +401,41 @@ bool Character::GetActionPoint(sf::Vector2f &point) const
 	return true;
 }
 
+unsigned int Character::GetHP() const
+{
+	return hp;
+}
+
+unsigned int Character::GetMaxHP() const
+{
+	return maxHP;
+}
+
+unsigned int Character::GetMP() const
+{
+	return mp;
+}
+
+unsigned int Character::GetMaxMP() const
+{
+	return maxMP;
+}
+
+unsigned int Character::GetLevel() const
+{
+	return lvl;
+}
+
+unsigned int Character::GetExp() const
+{
+	return exp;
+}
+
+unsigned int Character::GetExpToNextLvl() const
+{
+	return expToNextLvl;
+}
+
 // #### DEBUG ####
 void Character::DrawAttack(sf::RenderTarget &target, sf::RenderStates states) const
 {
