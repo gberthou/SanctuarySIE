@@ -15,10 +15,21 @@ static sf::IntRect DEFAULT_SPRITE_POSITION [] = {
     };
 static const unsigned int UI_TEXT_SIZE = 18;
 
-UICharacterStatus::UICharacterStatus()
+UICharacterStatus::UICharacterStatus(Character *ncharacter):
+	character(ncharacter)
 {
-    load();
-    spriteUI.setTexture(textureUICharacterStatus);
+}
+
+UICharacterStatus::~UICharacterStatus()
+{
+}
+
+bool UICharacterStatus::Load()
+{
+    if(!textureUICharacterStatus.loadFromFile(S_IMAGE_UI))
+		return false;
+	
+	spriteUI.setTexture(textureUICharacterStatus);
     spriteHp.setTexture(textureUICharacterStatus);
     spriteMp.setTexture(textureUICharacterStatus);
     
@@ -31,21 +42,10 @@ UICharacterStatus::UICharacterStatus()
     textHp.setFont(SerGUI::fontMenu1);
     textHp.setPosition(DEFAULT_SPRITE_POSITION[0].left,DEFAULT_SPRITE_POSITION[0].top);
     textHp.setCharacterSize(UI_TEXT_SIZE);
-}
-
-UICharacterStatus::~UICharacterStatus()
-{
-}
-
-bool UICharacterStatus::load()
-{
-    return textureUICharacterStatus.loadFromFile(S_IMAGE_UI);
-}
-
-void UICharacterStatus::SetCharacter(Character* ncharacter)
-{
-    character = ncharacter;
+    
     Update();
+	
+	return true;
 }
 
 void UICharacterStatus::Update()

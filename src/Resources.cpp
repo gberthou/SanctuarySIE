@@ -15,21 +15,27 @@ sf::Texture Resources::texGiantBat;
 sf::Texture Resources::texDagger;
 sf::Texture Resources::texRedSoul;
 
-void Resources::Load(void)
+bool Resources::Load(void)
 {
+	return
 	// Map
-	texMap.loadFromFile(S_MAP);
+	texMap.loadFromFile(S_MAP)
+	&&
 	
 	// Character
-	texCharacter.loadFromFile(S_CHARACTER);
+	texCharacter.loadFromFile(S_CHARACTER)
+	&&
 
 	// Mobs
-	texGiantBat.loadFromFile(S_GIANTBAT);
+	texGiantBat.loadFromFile(S_GIANTBAT)
+	&&
 
 	// Items
-	texDagger.loadFromFile(S_DAGGER);
+	texDagger.loadFromFile(S_DAGGER)
+	&&
 
 	// Souls
-	texRedSoul.loadFromFile(S_REDSOUL);
+	texRedSoul.loadFromFile(S_REDSOUL)
+	;
 }
 

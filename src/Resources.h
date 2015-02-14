@@ -6,7 +6,7 @@
 class Resources
 {
 	public:
-		static void Load(void);
+		static bool Load(void);
 
 		// Map
 		static sf::Texture texMap;

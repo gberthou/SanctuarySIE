@@ -28,10 +28,18 @@ int main(void)
 	Inventory *inventory;
 	SoulSet *soulSet;
 	InputController *inputController;
+	UICharacterStatus *uicharacterstatus;
 	Weapon *dagger = ItemFactory::CreateWeapon(DAGGER);
 
-	Resources::Load();
-	SerGUI::Load();
+	if(!Resources::Load())
+	{
+		// :(
+	}
+	
+	if(!SerGUI::Load())
+	{
+		// :(
+	}
 	
 	SoulManager::Init();
 
@@ -39,9 +47,16 @@ int main(void)
 	character = new Character();
 
     inputController = new InputController(character);
-    UICharacterStatus *uicharacterstatus = new UICharacterStatus();
-    uicharacterstatus->SetCharacter(character);
 	//inputController->SetEventSource(ES_JOYSTICK);
+    
+	uicharacterstatus = new UICharacterStatus(character);
+    
+	if(!uicharacterstatus->Load())
+	{
+		// :(
+	}
+	
+	//uicharacterstatus->SetCharacter(character);
 
 	// Simulate the arrival of the player in the level
 	level->MakeReady(character);
