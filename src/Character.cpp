@@ -88,7 +88,7 @@ void Character::LvlUpStats()
 void Character::EarnExp(int amount)
 {
     unsigned int xp = exp + amount;
-    if(xp > expToNextLvl)
+    if(xp >= expToNextLvl)
     {
         xp -= expToNextLvl;
         lvl++;
@@ -434,6 +434,11 @@ unsigned int Character::GetExp() const
 unsigned int Character::GetExpToNextLvl() const
 {
 	return expToNextLvl;
+}
+
+const Stats *Character::GetEffectiveStats() const
+{
+	return effectiveStats;
 }
 
 // #### DEBUG ####

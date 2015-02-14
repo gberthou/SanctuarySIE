@@ -33,6 +33,10 @@ UICharacterStatus::UICharacterStatus()
     textHp.setCharacterSize(UI_TEXT_SIZE);
 }
 
+UICharacterStatus::~UICharacterStatus()
+{
+}
+
 bool UICharacterStatus::load()
 {
     return textureUICharacterStatus.loadFromFile(S_IMAGE_UI);

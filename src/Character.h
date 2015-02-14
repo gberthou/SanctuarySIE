@@ -48,6 +48,7 @@ class Character : public Entity
 		// Return true if there is an attack animation, returns false
 		// otherwise.
 		bool GetActionPoint(sf::Vector2f &point) const;
+		
 		unsigned int GetHP() const;
 		unsigned int GetMaxHP() const;
 		unsigned int GetMP() const;
@@ -55,6 +56,8 @@ class Character : public Entity
 		unsigned int GetLevel() const;
 		unsigned int GetExp() const;
 		unsigned int GetExpToNextLvl() const;
+
+		const Stats *GetEffectiveStats() const;
 
 		// Debug purpose only
 		void DrawAttack(sf::RenderTarget &target, sf::RenderStates states) const;

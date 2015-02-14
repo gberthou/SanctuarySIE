@@ -54,7 +54,7 @@ class Soul;
 class Mob : public Entity
 {
     public:
-        Mob(MobType type, Stats *stats);
+        Mob(MobType type, Stats *stats, unsigned int maxHP, unsigned int maxMP);
         virtual ~Mob();
 
         bool Hurt(unsigned int damage);
@@ -71,7 +71,7 @@ class Mob : public Entity
 
 		Status GetStatus() const;
         const Stats* GetStats() const;
-        unsigned int GetXP() const;
+        unsigned int GetExp() const;
     
 	private:
 		void buildSprite(void);

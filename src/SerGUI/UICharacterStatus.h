@@ -8,7 +8,9 @@ class UICharacterStatus : public sf::Drawable, protected sf::Transformable
 {
     public:
         UICharacterStatus();
-        void SetCharacter(Character* ncharacter);
+        virtual ~UICharacterStatus();
+
+		void SetCharacter(Character* ncharacter);
         virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
         void Update();
         void SetPosition(sf::Vector2f pos);

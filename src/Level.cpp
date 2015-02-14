@@ -91,10 +91,6 @@ void Level::MakeReady(Character *character1)
 			mob->SetPath(mobDescs[i]->path);
 			mobs.push_back(mob);
 
-			// Test purpose only
-			mob->LootMob(100);
-			mob->DropSoul(100);
-
 			physics->AddEntity(mob);
 		}
 	}
@@ -262,7 +258,16 @@ void Level::checkCharacterAttacks(void)
 {
 	// Check attacks against mobs
 	for(unsigned int i = 0; i < mobs.size(); ++i)
-		character->HitMob(mobs[i]);
+	{
+		if(character->HitMob(mobs[i])) // Mob is dead
+		{
+			const Stats *stats = character->GetEffectiveStats();
+
+			character->EarnExp(mobs[i]->GetExp());
+			mobs[i]->LootMob(stats->GetLck());
+			mobs[i]->DropSoul(stats->GetLck());
+		}
+	}
 
 	// TODO: check attacks against furniture
 }

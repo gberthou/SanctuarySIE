@@ -19,9 +19,13 @@ static inline float frand()
 
 // ---- PUBLIC ----
 
-Mob::Mob(MobType type1, Stats *stats1):
+Mob::Mob(MobType type1, Stats *stats1, unsigned int maxHP1, unsigned int maxMP1):
 	level(0),
 	type(type1),
+	hp(maxHP1),
+	mp(maxMP1),
+	maxHP(maxHP1),
+	maxMP(maxMP1),
 	soul(SoulManager::GetSoul(type1)),
 	stats(stats1),
 	behavior(NORMAL),
@@ -156,7 +160,7 @@ const Stats* Mob::GetStats() const
     return stats;
 }
 
-unsigned int Mob::GetXP() const
+unsigned int Mob::GetExp() const
 {
     return xpDrop;
 }

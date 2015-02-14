@@ -109,7 +109,7 @@ Nullam imperdiet ex purus, nec dictum lacus tempus in.");
 	delete level;
 	delete character;
 	delete inputController;
-
+	delete uicharacterstatus;
 	SoulManager::Free();
 
 	return 0;
