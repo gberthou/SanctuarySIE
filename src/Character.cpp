@@ -52,7 +52,7 @@ Character::Character():
 
 	SetHitbox(hb, sf::Vector2f(0, 0));	
 
-	updateStats(); // Remove me later
+	computeEffectiveStats(); // Remove me later
 }
 
 Character::~Character()
@@ -82,7 +82,7 @@ void Character::LvlUpStats()
     baseStats->ModifyStats(new Stats(1,(lvl %2 != 0) ? 1 : 0,1,1,1,1));
     maxHP += 12;
     maxMP = (unsigned int)(a_MANA*lvl*lvl + b_MANA*lvl + c_MANA);
-    updateStats();
+    computeEffectiveStats();
 }
 
 void Character::EarnExp(int amount)
@@ -287,99 +287,10 @@ void Character::ReleaseBlueSoul()
 
 void Character::UpdateStates()
 {
-	if(stateAttack != NOATTACK)
-	{
-		attackBehavior();
-		if(clAttack.getElapsedTime().asMilliseconds() > inventory->GetWeapon()->GetCooldown()) // Cooldown is over
-		{
-			if(stateAttack == ATTACK)
-				stateAttack = ATTACK_TIMEOUT;
-			else if(stateAttack == ATTACK_DEACTIVATED)
-				stateAttack = NOATTACK;
-		}
-	}
-	
-	if(stateAttack == NOATTACK || stateAttack == ATTACK_TIMEOUT)
-	{
-		delete attack;
-		attack = 0;
-	}
-
-	if(stateJump == JUMP || stateJump == JUMP_DEACTIVATED || stateJump == JUMP2 || stateJump == JUMP2_DEACTIVATED)
-	{
-		AddPosition(sf::Vector2f(0, -VVELOCITY));
-		if(clJumpTimeout.getElapsedTime().asMilliseconds() > JUMP_TIMEOUT)
-		{
-			if(stateJump == JUMP)
-				stateJump = FALL;
-			else if(stateJump == JUMP_DEACTIVATED)
-				stateJump = FALL_DEACTIVATED;
-		}
-
-		if(clJumpTimeout.getElapsedTime().asMilliseconds() > JUMP2_TIMEOUT)
-		{
-			if(stateJump == JUMP2)
-				stateJump = FALL2;
-			else if(stateJump == JUMP2_DEACTIVATED)
-				stateJump = FALL2_DEACTIVATED;	
-		}
-	}
-
-	if(onGround)
-	{
-		if(stateJump == FALL_DEACTIVATED || stateJump == FALL2_DEACTIVATED)
-		{
-			stateJump = NOJUMP;
-		}
-		else if(stateJump == FALL || stateJump == FALL2)
-		{
-			stateJump = FALL_WAIT_DEACTIVATION;
-		}
-	}
-	else if((stateWalk == IDLE || stateWalk == WALK) && stateJump == NOJUMP)
-		stateJump = FALL_DEACTIVATED;
-
-	if(stateWalk == WALK)
-	{
-		unsigned int frameCount = clWalk.GetElapsedFrames();
-		if(frameCount > 0)
-		{
-			clWalk.restart();
-		
-			AddPosition(sf::Vector2f((orientation == ORIENTATION_LEFT ? -HVELOCITY : HVELOCITY) * frameCount, 0));	
-		}
-	}
-	else if(stateWalk == BACKDASH || stateWalk == BACKDASH_DEACTIVATED)
-	{
-		unsigned int frameCount = clWalk.GetElapsedFrames();
-		if(frameCount > 0)
-		{
-			clWalk.restart();
-			
-			AddPosition(sf::Vector2f((orientation != ORIENTATION_LEFT ? -HVELOCITY_BACKDASH : HVELOCITY_BACKDASH) * frameCount, 0));
-		}
-	
-		if(clBackDashTimeout.getElapsedTime().asMilliseconds() > BDASH_TIMEOUT)
-		{
-			if(stateWalk == BACKDASH)
-				stateWalk = BACKDASH_TIMEOUT;
-			else if(stateWalk == BACKDASH_DEACTIVATED)
-				stateWalk = IDLE;
-		}
-	}
-
-	if(stateRedSoul == RSOUL)
-	{
-		if(clRedSoul.getElapsedTime().asMilliseconds() > soulSet->GetRedSoul()->GetCooldown()) // Cooldown is over
-		   stateRedSoul = NORSOUL;	
-	}
-
-	if(stateBlueSoul != NOBSOUL)
-	{
-		blueSoulBehavior();
-
-		// TODO : stop blue soul of there is no more mana
-	}
+	updateJump();
+	updateWalk();
+	updateAttack();
+	updateSoul();
 
 #ifdef DEBUG_CHARACTER_STATE
 	std::cout << "Attack: " << stateAttack << std::endl;
@@ -476,7 +387,7 @@ unsigned int Character::getPower() const
     return power;
 }
 
-void Character::updateStats()
+void Character::computeEffectiveStats()
 {
 	if(effectiveStats != 0)
 		delete effectiveStats;
@@ -500,6 +411,111 @@ unsigned int Character::dealDamage(unsigned int eDefense, Status eStatus) const
 
 // #### STATES METHODS ####
 
+void Character::updateJump(void)
+{
+	if(stateJump == JUMP || stateJump == JUMP_DEACTIVATED || stateJump == JUMP2 || stateJump == JUMP2_DEACTIVATED)
+	{
+		AddPosition(sf::Vector2f(0, -VVELOCITY));
+		if(clJumpTimeout.getElapsedTime().asMilliseconds() > JUMP_TIMEOUT)
+		{
+			if(stateJump == JUMP)
+				stateJump = FALL;
+			else if(stateJump == JUMP_DEACTIVATED)
+				stateJump = FALL_DEACTIVATED;
+		}
+
+		if(clJumpTimeout.getElapsedTime().asMilliseconds() > JUMP2_TIMEOUT)
+		{
+			if(stateJump == JUMP2)
+				stateJump = FALL2;
+			else if(stateJump == JUMP2_DEACTIVATED)
+				stateJump = FALL2_DEACTIVATED;	
+		}
+	}
+
+	if(onGround)
+	{
+		if(stateJump == FALL_DEACTIVATED || stateJump == FALL2_DEACTIVATED)
+		{
+			stateJump = NOJUMP;
+		}
+		else if(stateJump == FALL || stateJump == FALL2)
+		{
+			stateJump = FALL_WAIT_DEACTIVATION;
+		}
+	}
+	else if((stateWalk == IDLE || stateWalk == WALK) && stateJump == NOJUMP)
+		stateJump = FALL_DEACTIVATED;
+}
+
+void Character::updateWalk(void)
+{
+	if(stateWalk == WALK)
+	{
+		unsigned int frameCount = clWalk.GetElapsedFrames();
+		if(frameCount > 0)
+		{
+			clWalk.restart();
+		
+			AddPosition(sf::Vector2f((orientation == ORIENTATION_LEFT ? -HVELOCITY : HVELOCITY) * frameCount, 0));	
+		}
+	}
+	else if(stateWalk == BACKDASH || stateWalk == BACKDASH_DEACTIVATED)
+	{
+		unsigned int frameCount = clWalk.GetElapsedFrames();
+		if(frameCount > 0)
+		{
+			clWalk.restart();
+			
+			AddPosition(sf::Vector2f((orientation != ORIENTATION_LEFT ? -HVELOCITY_BACKDASH : HVELOCITY_BACKDASH) * frameCount, 0));
+		}
+	
+		if(clBackDashTimeout.getElapsedTime().asMilliseconds() > BDASH_TIMEOUT)
+		{
+			if(stateWalk == BACKDASH)
+				stateWalk = BACKDASH_TIMEOUT;
+			else if(stateWalk == BACKDASH_DEACTIVATED)
+				stateWalk = IDLE;
+		}
+	}
+}
+
+void Character::updateAttack(void)
+{
+	if(stateAttack != NOATTACK)
+	{
+		attackBehavior();
+		if(clAttack.getElapsedTime().asMilliseconds() > inventory->GetWeapon()->GetCooldown()) // Cooldown is over
+		{
+			if(stateAttack == ATTACK)
+				stateAttack = ATTACK_TIMEOUT;
+			else if(stateAttack == ATTACK_DEACTIVATED)
+				stateAttack = NOATTACK;
+		}
+	}
+	
+	if(stateAttack == NOATTACK || stateAttack == ATTACK_TIMEOUT)
+	{
+		delete attack;
+		attack = 0;
+	}
+}
+
+void Character::updateSoul(void)
+{
+	if(stateRedSoul == RSOUL)
+	{
+		if(clRedSoul.getElapsedTime().asMilliseconds() > soulSet->GetRedSoul()->GetCooldown()) // Cooldown is over
+		   stateRedSoul = NORSOUL;	
+	}
+
+	if(stateBlueSoul != NOBSOUL)
+	{
+		blueSoulBehavior();
+
+		// TODO : stop blue soul of there is no more mana
+	}
+}
 void Character::attackBehavior(void)
 {
 	if(attack != 0)

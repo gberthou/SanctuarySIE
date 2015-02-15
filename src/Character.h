@@ -65,10 +65,14 @@ class Character : public Entity
    	protected:
     private:
         unsigned int getPower() const;
-        void updateStats();
+        void computeEffectiveStats();
         unsigned int dealDamage(unsigned int eDefense, Status eStatus) const;
 
 		// State methods
+		void updateJump(void);
+		void updateWalk(void);
+		void updateAttack(void);
+		void updateSoul(void);
 		void attackBehavior(void);
 		void blueSoulBehavior(void);
 
