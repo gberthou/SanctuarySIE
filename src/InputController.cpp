@@ -66,7 +66,9 @@ void InputController::keyboardAction()
 		actionAReleased();
 	
 	if(sf::Keyboard::isKeyPressed(keys_mapping[KEY_B]))
-		actionB();
+		actionBPressed();
+	else
+		actionBReleased();
 
 	if(sf::Keyboard::isKeyPressed(keys_mapping[KEY_R]))
 		actionRPressed();
@@ -107,7 +109,9 @@ void InputController::joystickAction()
 			actionAReleased();
 		
 		if(sf::Joystick::isButtonPressed(joystickId, joystick_mapping[KEY_B]))
-			actionB();
+			actionBPressed();
+		else
+			actionBReleased();
 
 		if(sf::Joystick::isButtonPressed(joystickId, joystick_mapping[KEY_R]))
 			actionRPressed();
@@ -159,7 +163,7 @@ void InputController::actionAReleased()
 	character->ReleaseJump();
 }
 
-void InputController::actionB()
+void InputController::actionBPressed()
 {
 	if((eventSource == ES_KEYBOARD && sf::Keyboard::isKeyPressed(keys_mapping[KEY_UP]))
 	|| (eventSource == ES_JOYSTICK && sf::Joystick::getAxisPosition(joystickId, sf::Joystick::PovY) < -JOYSTICK_THRESHOLD))
@@ -168,6 +172,10 @@ void InputController::actionB()
 		character->Attack();
 }
 
+void InputController::actionBReleased()
+{
+	character->ReleaseAttack();
+}
 void InputController::actionRPressed()
 {
 	character->UseBlueSoul();

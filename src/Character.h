@@ -30,6 +30,7 @@ class Character : public Entity
 		bool HitMob(Mob *mob);
         
         void Attack();
+		void ReleaseAttack();
 		void Jump();
 		void ReleaseJump();
 		void Walk(Orientation orientation);

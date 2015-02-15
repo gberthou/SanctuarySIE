@@ -43,7 +43,8 @@ class InputController
         void actionDown();
         void actionAPressed();
 		void actionAReleased();
-        void actionB();
+        void actionBPressed();
+        void actionBReleased();
 		void actionRPressed();
 		void actionRReleased();
 		void actionLPressed();

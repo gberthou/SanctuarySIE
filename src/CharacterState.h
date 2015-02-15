@@ -27,7 +27,9 @@ enum CharacterStateWalk
 enum CharacterStateAttack
 {
 	NOATTACK,
-	ATTACK
+	ATTACK,
+	ATTACK_DEACTIVATED,
+	ATTACK_TIMEOUT
 };
 
 enum CharacterStateRedSoul

@@ -145,6 +145,14 @@ void Character::Attack()
 	}
 }
 
+void Character::ReleaseAttack()
+{
+	if(stateAttack == ATTACK)
+		stateAttack = ATTACK_DEACTIVATED;
+	else if(stateAttack == ATTACK_TIMEOUT)
+		stateAttack = NOATTACK;
+}
+
 void Character::Jump()
 {
 	if((stateWalk == IDLE || stateWalk == WALK) && stateAttack == NOATTACK && stateRedSoul == NORSOUL)
@@ -279,18 +287,22 @@ void Character::ReleaseBlueSoul()
 
 void Character::UpdateStates()
 {
-	if(stateAttack == ATTACK)
+	if(stateAttack != NOATTACK)
 	{
 		attackBehavior();
 		if(clAttack.getElapsedTime().asMilliseconds() > inventory->GetWeapon()->GetCooldown()) // Cooldown is over
 		{
-			if(attack != 0)
-			{
-				delete attack;
-				attack = 0;
-			}
-			stateAttack = NOATTACK;
+			if(stateAttack == ATTACK)
+				stateAttack = ATTACK_TIMEOUT;
+			else if(stateAttack == ATTACK_DEACTIVATED)
+				stateAttack = NOATTACK;
 		}
+	}
+	
+	if(stateAttack == NOATTACK || stateAttack == ATTACK_TIMEOUT)
+	{
+		delete attack;
+		attack = 0;
 	}
 
 	if(stateJump == JUMP || stateJump == JUMP_DEACTIVATED || stateJump == JUMP2 || stateJump == JUMP2_DEACTIVATED)
@@ -490,20 +502,6 @@ unsigned int Character::dealDamage(unsigned int eDefense, Status eStatus) const
 
 void Character::attackBehavior(void)
 {
-    // Collision -> get mob
-
-	/*
-    Mob* mob = new Mob();
-    updateStats();
-    unsigned int dmg = dealDamage(getPower(), status, mob->GetStats()->GetDef(), mob->GetStatus());
-    if(mob->Hurt(dmg))
-    {
-        // Mob is dead
-        mob->LootMob((unsigned int)effectiveStats->GetLck());
-        EarnExp(mob->GiveXP());
-    }
-	*/
-
 	if(attack != 0)
 	{
 		attack->Update();
