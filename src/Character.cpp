@@ -482,19 +482,18 @@ void Character::updateWalk(void)
 
 void Character::updateAttack(void)
 {
-	if(stateAttack != NOATTACK)
+	if(stateAttack == ATTACK || stateAttack == ATTACK_DEACTIVATED)
 	{
 		attackBehavior();
 		if(clAttack.getElapsedTime().asMilliseconds() > inventory->GetWeapon()->GetCooldown()) // Cooldown is over
 		{
 			if(stateAttack == ATTACK)
 				stateAttack = ATTACK_TIMEOUT;
-			else if(stateAttack == ATTACK_DEACTIVATED)
+			else // ATTACK_DEACTIVATED
 				stateAttack = NOATTACK;
 		}
 	}
-	
-	if(stateAttack == NOATTACK || stateAttack == ATTACK_TIMEOUT)
+	else
 	{
 		delete attack;
 		attack = 0;
