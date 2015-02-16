@@ -71,33 +71,6 @@ void Mob::DropSoul(unsigned int lck)
 	level->SpawnSoul(entity, p);
 }
 
-// #### IA METHODS ####
-
-void Mob::UpdateAI(void)
-{
-	const float EPSILON = 16; // Warning : may be capricious if the initial mob position is not adapted to the
-							 // collision map (ie. if the mob is a few pixels above the local floor)
-
-	if(behavior == NORMAL)
-	{
-		sf::Vector2f objective = path->GetNextPosition();
-		sf::Vector2f diff = objective - GetPos();
-
-		if(diff.x * diff.x + diff.y * diff.y < EPSILON)
-		{
-			path->PositionReached();
-		}
-		else if(diff.x > 0) // Objective is on the right
-		{
-			AddPosition(sf::Vector2f(1, 0));
-		}
-		else
-		{
-			AddPosition(sf::Vector2f(-1, 0));
-		}
-	}
-}
-
 // #### SETTERS ####
 
 void Mob::SetPath(Path *path1)
@@ -122,6 +95,30 @@ unsigned int Mob::GetExp() const
     return xpDrop;
 }
 
+// ---- PROTECTED ----
+
+void Mob::updateFighter()
+{
+	if(behavior == NORMAL)
+		normalBehavior();
+	else
+		attackBehavior();
+}
+
+unsigned int Mob::getPower() const
+{
+    return baseStats->GetAtt();
+}
+
+unsigned int Mob::dealDamage(const Fighter *other) const
+{
+    unsigned int damage = 0;
+    unsigned int power = getPower();
+	unsigned int eDefense = other->GetEffectiveStats()->GetDef();
+	damage = (power - eDefense/2)*(MAX_STAT - eDefense)/MAX_STAT;
+    return damage;
+}
+
 // ---- PRIVATE ----
 
 void Mob::buildSprite(void)
@@ -137,21 +134,32 @@ void Mob::buildSprite(void)
 	}
 }
 
+// ### AI METHODS ####
 
-// #### DAMAGE METHODS ####
-
-unsigned int Mob::getPower() const
+void Mob::normalBehavior(void)
 {
-    return baseStats->GetAtt();
+	const float EPSILON = 16; // Warning : may be capricious if the initial mob position is not adapted to the
+							 // collision map (ie. if the mob is a few pixels above the local floor)
+	
+	sf::Vector2f objective = path->GetNextPosition();
+	sf::Vector2f diff = objective - GetPos();
+
+	if(diff.x * diff.x + diff.y * diff.y < EPSILON)
+	{
+		path->PositionReached();
+	}
+	else if(diff.x > 0) // Objective is on the right
+	{
+		AddPosition(sf::Vector2f(1, 0));
+	}
+	else
+	{
+		AddPosition(sf::Vector2f(-1, 0));
+	}
 }
 
-unsigned int Mob::dealDamage(const Fighter *other) const
+void Mob::attackBehavior(void)
 {
-    unsigned int damage = 0;
-    unsigned int power = getPower();
-	unsigned int eDefense = other->GetEffectiveStats()->GetDef();
-	damage = (power - eDefense/2)*(MAX_STAT - eDefense)/MAX_STAT;
-    return damage;
 }
 
 // #### LOOT METHODS ####

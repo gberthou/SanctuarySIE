@@ -63,8 +63,6 @@ class Mob : public Fighter
 		void LootMob(unsigned int lck);
 		void DropSoul(unsigned int lck);
 
-        void UpdateAI(void);
-
 		void SetLevel(Level *level);
         void SetPath(Path *path);
 
@@ -75,11 +73,16 @@ class Mob : public Fighter
    
 	protected:
 		// Inherited
+		void updateFighter();
         unsigned int getPower() const;
         unsigned int dealDamage(const Fighter *other) const;
 	
 	private:
 		void buildSprite(void);
+		
+		// AI Methods
+		void normalBehavior(void);
+		void attackBehavior(void);
 
         void dropItems(const std::vector<ItemDesc> &itemsToDrop);
 
@@ -88,7 +91,7 @@ class Mob : public Fighter
         // "Apparent" attributes
 		MobType type;
 
-        unsigned int xpDrop;        // XP dropped
+        unsigned int xpDrop;       // XP dropped
         std::vector<Loot> loot;    // Loot
 
 		Soul *soul;

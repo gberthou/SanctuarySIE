@@ -13,12 +13,15 @@ class Fighter : public Entity
 		Fighter(Stats *baseStats, unsigned int maxHP, unsigned int maxMP);
 		virtual ~Fighter();
 
+		void UpdateBehavior();
 		bool Hurt(unsigned int damage);
-	
+
+		bool IsDead() const;	
 		Status GetStatus() const;
 		virtual const Stats *GetEffectiveStats() const = 0;
 
 	protected:
+		virtual void updateFighter() = 0;
 		virtual unsigned int getPower() const = 0;
 		virtual unsigned int dealDamage(const Fighter *other) const = 0;
 		

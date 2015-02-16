@@ -148,18 +148,18 @@ void Level::AddDoor(Level *target, unsigned int lx, unsigned int ly, DoorDirecti
 
 void Level::Update(unsigned int frameCount)
 {
-		checkItems();
-		updateSouls();	
+	checkItems();
+	updateSouls();	
 
-		for(unsigned int i = 0; i < mobs.size(); ++i)
-		{
-				mobs[i]->UpdateAI();
-		}
+	for(unsigned int i = 0; i < mobs.size(); ++i)
+	{
+		mobs[i]->UpdateBehavior();
+	}
 
-		character->UpdateStates();
-		checkCharacterAttacks();
+	character->UpdateBehavior();
+	checkCharacterAttacks();
 
-		physics->Update();
+	physics->Update();
 }
 
 void Level::draw(sf::RenderTarget &target, sf::RenderStates states) const
@@ -256,16 +256,19 @@ void Level::checkItems(void)
 
 void Level::checkCharacterAttacks(void)
 {
+	std::vector<Mob*>::iterator mobIt;
+	
 	// Check attacks against mobs
-	for(unsigned int i = 0; i < mobs.size(); ++i)
+	for(mobIt = mobs.begin(); mobIt !=  mobs.end(); ++mobIt)
 	{
-		if(character->HitMob(mobs[i])) // Mob is dead
+		Mob *mob = *mobIt;
+		if(!mob->IsDead() && character->HitMob(mob)) // Mob is dead
 		{
 			const Stats *stats = character->GetEffectiveStats();
 
-			character->EarnExp(mobs[i]->GetExp());
-			mobs[i]->LootMob(stats->GetLck());
-			mobs[i]->DropSoul(stats->GetLck());
+			character->EarnExp(mob->GetExp());
+			mob->LootMob(stats->GetLck());
+			mob->DropSoul(stats->GetLck());
 		}
 	}
 

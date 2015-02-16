@@ -264,24 +264,6 @@ void Character::ReleaseBlueSoul()
 		stateBlueSoul = NOBSOUL;
 }
 
-void Character::UpdateStates()
-{
-	updateJump();
-	updateWalk();
-	updateAttack();
-	updateSoul();
-
-#ifdef DEBUG_CHARACTER_STATE
-	std::cout << "Attack: " << stateAttack << std::endl;
-	std::cout << "Jump  : " << stateJump << std::endl;
-	std::cout << "Walk  : " << stateWalk << std::endl;
-	std::cout << "RSoul : " << stateRedSoul << std::endl;
-	std::cout << "BSoul : " << stateBlueSoul << std::endl;
-
-	std:: cout << std::endl;
-#endif
-}
-
 // #### GETTERS ####
 
 Inventory *Character::GetInventory() const
@@ -356,23 +338,29 @@ void Character::DrawAttack(sf::RenderTarget &target, sf::RenderStates states) co
 	}
 }
 
-// ---- PRIVATE ----
+// ---- PROTECTED ----
 
-// #### DAMAGE METHODS ####
+void Character::updateFighter()
+{
+	updateJump();
+	updateWalk();
+	updateAttack();
+	updateSoul();
+
+#ifdef DEBUG_CHARACTER_STATE
+	std::cout << "Attack: " << stateAttack << std::endl;
+	std::cout << "Jump  : " << stateJump << std::endl;
+	std::cout << "Walk  : " << stateWalk << std::endl;
+	std::cout << "RSoul : " << stateRedSoul << std::endl;
+	std::cout << "BSoul : " << stateBlueSoul << std::endl;
+
+	std:: cout << std::endl;
+#endif
+}
 
 unsigned int Character::getPower() const
 {
-    unsigned int power = effectiveStats->GetAtt();
-    return power;
-}
-
-void Character::computeEffectiveStats()
-{
-	if(effectiveStats != 0)
-		delete effectiveStats;
-
-    effectiveStats = new Stats(*baseStats);
-    effectiveStats->ModifyStats(inventory->GetAllStatsModifiers());
+    return effectiveStats->GetAtt();
 }
 
 unsigned int Character::dealDamage(const Fighter *other) const
@@ -389,6 +377,17 @@ unsigned int Character::dealDamage(const Fighter *other) const
 		damage = 1;
     return damage;
 }
+
+// ---- PRIVATE ----
+void Character::computeEffectiveStats()
+{
+	if(effectiveStats != 0)
+		delete effectiveStats;
+
+    effectiveStats = new Stats(*baseStats);
+    effectiveStats->ModifyStats(inventory->GetAllStatsModifiers());
+}
+
 
 // #### STATES METHODS ####
 

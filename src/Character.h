@@ -39,7 +39,6 @@ class Character : public Fighter
 		void UseRedSoul();
 		void UseBlueSoul();
 		void ReleaseBlueSoul();
-		void UpdateStates();
 
 		Inventory *GetInventory() const;
 		SoulSet *GetSoulSet() const;
@@ -63,6 +62,7 @@ class Character : public Fighter
 		void DrawAttack(sf::RenderTarget &target, sf::RenderStates states) const;
    	protected:
 		// Inherited
+		void updateFighter();
         virtual unsigned int getPower() const;
         virtual unsigned int dealDamage(const Fighter *other) const;
     

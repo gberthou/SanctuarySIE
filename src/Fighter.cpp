@@ -16,6 +16,15 @@ Fighter::~Fighter()
 	delete baseStats;
 }
 
+void Fighter::UpdateBehavior()
+{
+	if(hp != 0) // Still alive
+		updateFighter();
+	else        // Dead actually
+	{
+	}
+}
+
 bool Fighter::Hurt(unsigned int damage)
 {
 #ifdef DEBUG_FIGHTER_HURT
@@ -38,6 +47,11 @@ bool Fighter::Hurt(unsigned int damage)
 	std::cout << std::endl;
 #endif
 	return false;
+}
+
+bool Fighter::IsDead() const
+{
+	return hp == 0;
 }
 
 Status Fighter::GetStatus() const
