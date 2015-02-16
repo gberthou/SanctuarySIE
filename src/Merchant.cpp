@@ -1,7 +1,7 @@
 #include "Merchant.h"
 
 Merchant::Merchant():
-    Character()
+    Entity()
 {
     //ctor
 }

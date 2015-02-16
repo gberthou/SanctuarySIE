@@ -1,10 +1,9 @@
 #ifndef MERCHANT_H
 #define MERCHANT_H
 
-#include "Character.h"
+#include "Entity.h"
 
-
-class Merchant : public Character
+class Merchant : public Entity
 {
     public:
         Merchant();

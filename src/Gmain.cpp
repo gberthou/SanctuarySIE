@@ -44,7 +44,7 @@ int main(void)
 	SoulManager::Init();
 
 	level = LevelFactory::CreateLevel(CORRIDOR0);
-	character = new Character();
+	character = new Character(new Stats(10,6,10,12,11,9),320,(unsigned int)a_EXP + b_EXP + c_EXP);
 
     inputController = new InputController(character);
 	//inputController->SetEventSource(ES_JOYSTICK);

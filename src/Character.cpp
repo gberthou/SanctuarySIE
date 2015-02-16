@@ -24,8 +24,8 @@ const sf::Int32 JUMP2_TIMEOUT = 75;
 
 // ---- PUBLIC ----
 
-Character::Character():
-	Entity(),
+Character::Character(Stats *stats, unsigned int maxHP1, unsigned int maxMP1):
+	Fighter(stats, maxHP1, maxMP1),
 	attack(0),
 	clWalk(60)
 {
@@ -34,11 +34,6 @@ Character::Character():
     // Redefine this in
     sprite = sf::Sprite(Resources::texCharacter);
     lvl = 1;
-    baseStats = new Stats(10,6,10,12,11,9);
-    maxHP = 320;
-    hp = maxHP;
-    maxMP = (unsigned int)(a_EXP + b_EXP + c_EXP);
-    mp = maxMP;
 
 	effectiveStats = 0;
     inventory = new Inventory();
@@ -57,7 +52,6 @@ Character::Character():
 
 Character::~Character()
 {
-    delete baseStats;
     delete effectiveStats;
     delete inventory;
 }
@@ -99,27 +93,12 @@ void Character::EarnExp(int amount)
 
 // #### DAMAGE METHODS ####
 
-bool Character::Hurt(unsigned int damage)
-{
-    if(hp <= damage)
-    {
-        hp = 0;
-        return true;
-    }
-    else
-    {
-        hp -= damage;
-        return false;
-    }
-}
-
 bool Character::HitMob(Mob *mob)
 {
 	sf::Vector2f point;
 	if(GetActionPoint(point) && mob->CollidesWith(point))
 	{
-		const Stats *eStats = mob->GetStats();
-		unsigned int damage = dealDamage(eStats->GetDef(), mob->GetStatus());
+		unsigned int damage = dealDamage(mob);
 
 		return mob->Hurt(damage);
 	}
@@ -396,11 +375,13 @@ void Character::computeEffectiveStats()
     effectiveStats->ModifyStats(inventory->GetAllStatsModifiers());
 }
 
-unsigned int Character::dealDamage(unsigned int eDefense, Status eStatus) const
+unsigned int Character::dealDamage(const Fighter *other) const
 {
     unsigned int damage = 0;
 	unsigned int power = getPower();
-    
+	unsigned int eDefense = other->GetEffectiveStats()->GetDef();
+	Status eStatus = other->GetStatus();
+
 	damage = (power - eDefense/2)*(MAX_STAT - eDefense)/MAX_STAT;
     if(eStatus == PETRIFIED)
 		damage *= 2;

@@ -9,7 +9,7 @@
 #include "Status.h"
 #include "Stats.h"
 #include "Path.h"
-#include "Entity.h"
+#include "Fighter.h"
 #include "Item.h"
 #include "Gameplay.h"
 
@@ -51,13 +51,12 @@ struct Loot
 class Level;
 class Soul;
 
-class Mob : public Entity
+class Mob : public Fighter
 {
     public:
         Mob(MobType type, Stats *stats, unsigned int maxHP, unsigned int maxMP);
         virtual ~Mob();
 
-        bool Hurt(unsigned int damage);
 		void AddLoot(const Loot &lootItem);
 		
 		// Designed to be private
@@ -69,25 +68,25 @@ class Mob : public Entity
 		void SetLevel(Level *level);
         void SetPath(Path *path);
 
-		Status GetStatus() const;
-        const Stats* GetStats() const;
         unsigned int GetExp() const;
-    
+		
+		// Inherited
+		const Stats *GetEffectiveStats() const;
+   
+	protected:
+		// Inherited
+        unsigned int getPower() const;
+        unsigned int dealDamage(const Fighter *other) const;
+	
 	private:
 		void buildSprite(void);
 
-        unsigned int getPower() const;
-        unsigned int dealDamage(unsigned int eDefense, Status eStatus) const;
         void dropItems(const std::vector<ItemDesc> &itemsToDrop);
 
 		Level *level;
 
         // "Apparent" attributes
 		MobType type;
-       	unsigned int hp;            // Current HP
-       	unsigned int mp;            // Current MP
-        unsigned int maxHP;         // Max HP
-        unsigned int maxMP;         // Max MP
 
         unsigned int xpDrop;        // XP dropped
         std::vector<Loot> loot;    // Loot
@@ -95,8 +94,6 @@ class Mob : public Entity
 		Soul *soul;
 		unsigned int soulDropRate;
 
-        Status status;              // Status : buff or debuff
-        Stats *stats;               // Basic stats
         MobBehavior behavior;       // Behavior
         Path *path;                 // Predefined path
 };

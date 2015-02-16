@@ -8,8 +8,6 @@
 #include "SoulManager.h"
 #include "EntitySoul.h"
 
-#define DEBUG_MOB_HURT
-
 const sf::Vector2f INITIAL_SOUL_VELOCITY(500, 0);
 
 static inline float frand()
@@ -20,14 +18,10 @@ static inline float frand()
 // ---- PUBLIC ----
 
 Mob::Mob(MobType type1, Stats *stats1, unsigned int maxHP1, unsigned int maxMP1):
+	Fighter(stats1, maxHP1, maxMP1),
 	level(0),
 	type(type1),
-	hp(maxHP1),
-	mp(maxMP1),
-	maxHP(maxHP1),
-	maxMP(maxMP1),
 	soul(SoulManager::GetSoul(type1)),
-	stats(stats1),
 	behavior(NORMAL),
 	path(0)
 {
@@ -36,40 +30,8 @@ Mob::Mob(MobType type1, Stats *stats1, unsigned int maxHP1, unsigned int maxMP1)
 
 Mob::~Mob()
 {
-	if(stats != 0)
-		delete stats;
-
     if(path != 0)
 	    delete path;
-}
-
-// #### DAMAGE METHODS ####
-
-bool Mob::Hurt(unsigned int damage)
-{
-#ifdef DEBUG_MOB_HURT
-	std::cout << "Mob takes " << damage << " damage" << std::endl;
-#endif
-
-    if(hp <= damage)
-    {
-        hp = 0;
-#ifdef DEBUG_MOB_HURT
-	std::cout << "Mob dead" << std::endl;
-#endif
-        return true;
-    }
-    else
-    {
-        hp -= damage;
-#ifdef DEBUG_MOB_HURT
-	std::cout << "Mob hp left: " << hp << std::endl;
-#endif
-        return false;
-    }
-#ifdef DEBUG_MOB_HURT
-	std::cout << std::endl;
-#endif
 }
 
 // #### LOOT METHODS ####
@@ -150,14 +112,9 @@ void Mob::SetLevel(Level *level1)
 
 // #### GETTERS ####
 
-Status Mob::GetStatus() const
+const Stats *Mob::GetEffectiveStats() const
 {
-    return status;
-}
-
-const Stats* Mob::GetStats() const
-{
-    return stats;
+	return baseStats;
 }
 
 unsigned int Mob::GetExp() const
@@ -185,14 +142,14 @@ void Mob::buildSprite(void)
 
 unsigned int Mob::getPower() const
 {
-    unsigned int power = stats->GetAtt();
-    return power;
+    return baseStats->GetAtt();
 }
 
-unsigned int Mob::dealDamage(unsigned int eDefense, Status eStatus) const
+unsigned int Mob::dealDamage(const Fighter *other) const
 {
     unsigned int damage = 0;
     unsigned int power = getPower();
+	unsigned int eDefense = other->GetEffectiveStats()->GetDef();
 	damage = (power - eDefense/2)*(MAX_STAT - eDefense)/MAX_STAT;
     return damage;
 }

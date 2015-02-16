@@ -1,7 +1,7 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
-#include "Entity.h"
+#include "Fighter.h"
 #include "Inventory.h"
 #include "SoulSet.h"
 #include "Stats.h"
@@ -15,10 +15,10 @@
 
 class Item;
 
-class Character : public Entity
+class Character : public Fighter
 {
     public:
-        Character();
+        Character(Stats *baseStats, unsigned int maxHP, unsigned int maxMP);
         virtual ~Character();
         void AddGold(int amount);
         void AddMana(int amount);
@@ -26,7 +26,6 @@ class Character : public Entity
         virtual void LvlUpStats();
         void EarnExp(int amount);
         
-		bool Hurt(unsigned int damage);
 		bool HitMob(Mob *mob);
         
         void Attack();
@@ -58,15 +57,17 @@ class Character : public Entity
 		unsigned int GetExp() const;
 		unsigned int GetExpToNextLvl() const;
 
-		const Stats *GetEffectiveStats() const;
+		virtual const Stats *GetEffectiveStats() const;
 
 		// Debug purpose only
 		void DrawAttack(sf::RenderTarget &target, sf::RenderStates states) const;
    	protected:
-    private:
-        unsigned int getPower() const;
-        void computeEffectiveStats();
-        unsigned int dealDamage(unsigned int eDefense, Status eStatus) const;
+		// Inherited
+        virtual unsigned int getPower() const;
+        virtual unsigned int dealDamage(const Fighter *other) const;
+    
+	private:    
+		void computeEffectiveStats();
 
 		// State methods
 		void updateJump(void);
@@ -78,16 +79,9 @@ class Character : public Entity
 
         // "Gameplay" attributes
         unsigned int lvl;           // Level
-        unsigned int hp;            // Current HP
-        unsigned int mp;            // Current MP
         unsigned int exp;
-
-        unsigned int maxHP;         // Max HP
-        unsigned int maxMP;         // Max MP
         unsigned int expToNextLvl;  // Experience required to level up
 
-        Status status;              // Status : buff or debuff
-        Stats *baseStats;           // Basic stats
         Stats *effectiveStats;      // Effective stats
         Inventory *inventory;       // Inventory
         SoulSet *soulSet;           // SoulSet
