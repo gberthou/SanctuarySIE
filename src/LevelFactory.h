@@ -3,17 +3,10 @@
 
 #include "Level.h"
 
-enum TypeLevel
-{
-	CORRIDOR0,
-
-	LEVEL_NUMBER
-};
-
 class LevelFactory
 {
 	public:
-		static Level *CreateLevel(TypeLevel typeLevel);
+		static Level *CreateLevel(IdLevel idLevel);
 
 	private:
 		LevelFactory();

@@ -1,17 +1,19 @@
 #include "LevelFactory.h"
+#include "LevelDoor.h"
 
-Level *LevelFactory::CreateLevel(TypeLevel typeLevel)
+Level *LevelFactory::CreateLevel(IdLevel idLevel)
 {
 	Level *level = 0;
 
-	switch(typeLevel)
+	switch(idLevel)
 	{
 		case CORRIDOR0:
 		{
 			Path *path;
 			BgDesc bgDesc;
 
-			level = new Level(0, 0, 1600, 600);
+			level = new Level(10, 9, 3, 1);
+			level->AddDoor(new LevelDoor(CORRIDOR1, 0, 1, RIGHT));
 
 			// Backgrounds
 			bgDesc.names[0] = sf::String("img/levels/sample/layer0.png");

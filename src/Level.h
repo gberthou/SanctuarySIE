@@ -13,28 +13,14 @@
 
 class Level;
 
-enum DoorDirection
+enum IdLevel
 {
-	LEFT,
-	UP,
-	DOWN,
-	RIGHT
-};
+	CORRIDOR0,
+	CORRIDOR1,
+	CORRIDOR2,
+	CORRIDOR3,
 
-struct LevelDoor
-{
-	LevelDoor(Level *target1, unsigned int lx1, unsigned int ly1, DoorDirection dir):
-		target(target1),
-		lx(lx1),
-		ly(ly1),
-		direction(dir)
-	{
-	}
-
-	Level *target;
-	unsigned int lx;         // Local X position of the room unit (belongs to [0, w-1])
-	unsigned int ly;         // Local Y position of the room unit (belongs to [0, h-1])
-	DoorDirection direction; // Door direction (local position in the room unit space)
+	LEVEL_NUMBER
 };
 
 struct LevelItemDesc
@@ -52,6 +38,8 @@ struct LevelItemDesc
 	bool available;
 	sf::Vector2f position;
 };
+
+class LevelDoor;
 
 class Level : public sf::Drawable
 {
@@ -72,7 +60,7 @@ class Level : public sf::Drawable
 		void MakeReady(Character *character);
 		void Leave(void);
 
-		void AddDoor(Level *target, unsigned int lx, unsigned int ly, DoorDirection direction);
+		void AddDoor(LevelDoor *door);
 		
 		void Update(unsigned int frameCount);
 

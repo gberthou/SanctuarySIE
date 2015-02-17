@@ -3,6 +3,7 @@
 #include "Level.h"
 #include "MobFactory.h"
 #include "ItemFactory.h"
+#include "LevelDoor.h"
 
 #define DEBUG_PHYSICS
 #define DEBUG_CHARACTER_ATTACK
@@ -141,9 +142,9 @@ void Level::Leave(void)
 		delete physics;
 }
 
-void Level::AddDoor(Level *target, unsigned int lx, unsigned int ly, DoorDirection direction)
+void Level::AddDoor(LevelDoor *door)
 {
-	doors.push_back(new LevelDoor(target, lx, ly, direction));
+	doors.push_back(door);
 }
 
 void Level::Update(unsigned int frameCount)

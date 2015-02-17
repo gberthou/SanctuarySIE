@@ -2,6 +2,8 @@
 
 #include "Resources.h"
 #include "Map.h"
+#include "LevelFactory.h"
+#include "LevelDoor.h"
 
 const unsigned int BLOCK_SIZE = 32;
 
@@ -27,6 +29,10 @@ void Map::Load(void)
 		delete levels[i];
 	levels.clear();
 
+	for(unsigned int i = 0; i < LEVEL_NUMBER; ++i)
+		levels.push_back(LevelFactory::CreateLevel((IdLevel)i));
+
+	/*
 	// Hard-coded
 	levels.push_back(new Level(10,9,1,2));
 	levels.push_back(new Level(11,10,4,1));
@@ -41,6 +47,7 @@ void Map::Load(void)
 
 	levels[2]->AddDoor(levels[3], 0, 3, LEFT);
 	levels[3]->AddDoor(levels[2], 0, 0, RIGHT);
+	*/
 }
 
 void Map::draw(sf::RenderTarget &target, sf::RenderStates states) const
@@ -164,25 +171,25 @@ void Map::drawLevelDoors(Level *level, sf::RenderTarget &target, sf::RenderState
 	
 	for(unsigned int i = 0; i < doors.size(); ++i)
 	{
-		switch(doors[i]->direction)
+		switch(doors[i]->GetDirection())
 		{
 			case UP:
-				horizontalDoor.setPosition((x+doors[i]->lx) * BLOCK_SIZE, (y+doors[i]->ly) * BLOCK_SIZE);
+				horizontalDoor.setPosition((x+doors[i]->GetLocalX()) * BLOCK_SIZE, (y+doors[i]->GetLocalY()) * BLOCK_SIZE);
 				target.draw(horizontalDoor, states);
 				break;
 
 			case DOWN:
-				horizontalDoor.setPosition((x+doors[i]->lx) * BLOCK_SIZE, (y+doors[i]->ly+1) * BLOCK_SIZE - HDOOR_HEIGHT);
+				horizontalDoor.setPosition((x+doors[i]->GetLocalX()) * BLOCK_SIZE, (y+doors[i]->GetLocalY()+1) * BLOCK_SIZE - HDOOR_HEIGHT);
 				target.draw(horizontalDoor, states);
 				break;
 
 			case RIGHT:
-				verticalDoor.setPosition((x+doors[i]->lx+1) * BLOCK_SIZE - VDOOR_WIDTH, (y+doors[i]->ly) * BLOCK_SIZE);
+				verticalDoor.setPosition((x+doors[i]->GetLocalX()+1) * BLOCK_SIZE - VDOOR_WIDTH, (y+doors[i]->GetLocalY()) * BLOCK_SIZE);
 				target.draw(verticalDoor, states);
 				break;
 
 			default: // LEFT
-				verticalDoor.setPosition((x+doors[i]->lx) * BLOCK_SIZE, (y+doors[i]->ly) * BLOCK_SIZE);
+				verticalDoor.setPosition((x+doors[i]->GetLocalX()) * BLOCK_SIZE, (y+doors[i]->GetLocalY()) * BLOCK_SIZE);
 				target.draw(verticalDoor, states);
 				break;
 		}
