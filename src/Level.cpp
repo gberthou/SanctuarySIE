@@ -202,6 +202,17 @@ void Level::draw(sf::RenderTarget &target, sf::RenderStates states) const
 
 #ifdef DEBUG_CHARACTER_ATTACK
 	character->DrawAttack(target, states);
+	
+	// Draw doors
+	for(unsigned int i = 0; i < doors.size(); ++i)
+	{
+		AABB hb = doors[i]->GetHitbox();
+		sf::RectangleShape shape(hb.GetSize());
+
+		shape.setFillColor(sf::Color(0xFF, 0xFF, 0x00));
+		shape.setPosition(hb.GetPosition());
+		target.draw(shape, states);
+	}
 #endif
 }
 

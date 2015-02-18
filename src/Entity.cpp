@@ -86,6 +86,11 @@ void Entity::draw(sf::RenderTarget &target, sf::RenderStates states) const
     target.draw(sprite, states);
 }
 
+const AABB &Entity::GetHitbox() const
+{
+	return hitbox;
+}
+
 sf::Sprite const& Entity::GetSprite() const
 {
     return sprite;

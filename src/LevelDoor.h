@@ -3,6 +3,7 @@
 
 #include "AABB.h"
 #include "Level.h"
+#include "Entity.h"
 
 enum DoorDirection
 {
@@ -15,8 +16,13 @@ enum DoorDirection
 class LevelDoor
 {
 	public:
-		LevelDoor(IdLevel target, unsigned int lx, unsigned int ly, DoorDirection dir);
+		LevelDoor(IdLevel target, const AABB &hitbox, unsigned int lx, unsigned int ly, DoorDirection dir);
 		virtual ~LevelDoor();
+
+		bool CollidesWith(const Entity *entity) const;
+
+		// Debug purpose
+		const AABB &GetHitbox(void) const;
 
 		unsigned int GetLocalX(void) const;
 		unsigned int GetLocalY(void) const;

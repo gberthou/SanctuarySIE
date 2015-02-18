@@ -10,10 +10,15 @@ Level *LevelFactory::CreateLevel(IdLevel idLevel)
 		case CORRIDOR0:
 		{
 			Path *path;
+			AABB *doorHb;
 			BgDesc bgDesc;
 
 			level = new Level(10, 9, 3, 1);
-			level->AddDoor(new LevelDoor(CORRIDOR1, 0, 1, RIGHT));
+			
+			// Doors
+			doorHb = new AABB(sf::Vector2f(1600 - 3, 470 - 100), sf::Vector2f(3, 100));
+			level->AddDoor(new LevelDoor(CORRIDOR1, *doorHb, 0, 1, RIGHT));
+			delete doorHb;
 
 			// Backgrounds
 			bgDesc.names[0] = sf::String("img/levels/sample/layer0.png");

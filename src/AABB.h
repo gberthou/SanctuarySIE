@@ -9,6 +9,7 @@ class AABB
 		AABB();
 		AABB(const sf::Vector2f &size);
 		AABB(const sf::Vector2f &position, const sf::Vector2f &size);
+		AABB(const AABB &other);
 		virtual ~AABB();
 	
 		bool CollidesWith(const AABB &box) const;

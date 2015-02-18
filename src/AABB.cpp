@@ -15,6 +15,12 @@ AABB::AABB(const sf::Vector2f &position, const sf::Vector2f &size1):
 {
 }
 
+AABB::AABB(const AABB &other):
+	pos(other.pos),
+	size(other.size)
+{
+}
+
 AABB::~AABB()
 {
 }
