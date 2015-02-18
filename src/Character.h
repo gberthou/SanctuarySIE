@@ -1,6 +1,8 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
+#include <fstream>
+
 #include "Fighter.h"
 #include "Inventory.h"
 #include "SoulSet.h"
@@ -103,6 +105,10 @@ class Character : public Fighter
 		sf::Clock clJumpTimeout;
 		sf::Clock clBackDash;
 		sf::Clock clRedSoul;
+		
+    friend std::ostream &operator<<(std::ostream& out, const Character &c);
+    friend std::istream &operator>>(std::istream& out, Character &c);
+
 };
 
 #endif // CHARACTER_H
