@@ -9,6 +9,7 @@
 #include "RedSoul.h"
 #include "BlueSoul.h"
 #include "YellowSoul.h"
+#include "LevelDoor.h"
 
 //#define DEBUG_CHARACTER_STATE
 
@@ -283,6 +284,11 @@ bool Character::GetActionPoint(sf::Vector2f &point) const
 
 	point = GetCenter() + attack->GetCurrentPoint();
 	return true;
+}
+
+bool Character::CollidesWith(const LevelDoor *door) const
+{
+	return hitbox.CollidesWith(door->GetHitbox());
 }
 
 unsigned int Character::GetHP() const

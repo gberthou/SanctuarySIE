@@ -21,9 +21,8 @@ class LevelDoor
 
 		bool CollidesWith(const Entity *entity) const;
 
-		// Debug purpose
+		IdLevel GetTarget(void) const;
 		const AABB &GetHitbox(void) const;
-
 		unsigned int GetLocalX(void) const;
 		unsigned int GetLocalY(void) const;
 		DoorDirection GetDirection(void) const;

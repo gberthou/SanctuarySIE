@@ -5,6 +5,8 @@
 #include "LevelFactory.h"
 #include "LevelDoor.h"
 
+#define DEBUG_MAP_TRANSITIONS
+
 const unsigned int BLOCK_SIZE = 32;
 
 const unsigned int HDOOR_WIDTH = BLOCK_SIZE;
@@ -13,7 +15,8 @@ const unsigned int HDOOR_HEIGHT = 2;
 const unsigned int VDOOR_WIDTH = 2;
 const unsigned int VDOOR_HEIGHT = BLOCK_SIZE;
 
-Map::Map()
+Map::Map():
+	currentLevel(0)
 {
 }
 
@@ -48,6 +51,34 @@ void Map::Load(void)
 	levels[2]->AddDoor(levels[3], 0, 3, LEFT);
 	levels[3]->AddDoor(levels[2], 0, 0, RIGHT);
 	*/
+}
+
+void Map::SetCurrentLevel(IdLevel idLevel)
+{
+	currentLevel = levels[idLevel];
+}
+
+void Map::MakeCurrentLevelReady(Character *character)
+{
+	currentLevel->MakeReady(character);
+}
+
+bool Map::Update(unsigned int frameCount)
+{
+	IdLevel nextLevel;
+
+	currentLevel->Update(frameCount);
+	if(currentLevel->ChangeLevelRequired(nextLevel))
+	{
+		currentLevel->Leave();
+		SetCurrentLevel(nextLevel);
+
+#ifdef DEBUG_MAP_TRANSITIONS
+		std::cout << "Going to level #" << nextLevel << std::endl;
+#endif
+		return true;
+	}
+	return false;
 }
 
 void Map::draw(sf::RenderTarget &target, sf::RenderStates states) const
@@ -160,7 +191,12 @@ void Map::draw(sf::RenderTarget &target, sf::RenderStates states) const
 	}
 }
 
-void Map::drawLevelDoors(Level *level, sf::RenderTarget &target, sf::RenderStates states) const
+void Map::DrawCurrentLevel(sf::RenderTarget &target, sf::RenderStates states) const
+{
+	target.draw(*currentLevel, states);
+}
+
+void Map::drawLevelDoors(Level *level, sf::RenderTarget &target, sf::RenderStates states)
 {
 	const std::vector<LevelDoor*> &doors = level->GetDoors();
 	unsigned int x = level->GetX();
@@ -194,5 +230,10 @@ void Map::drawLevelDoors(Level *level, sf::RenderTarget &target, sf::RenderState
 				break;
 		}
 	}
+}
+
+Level *Map::GetCurrentLevel(void) const
+{
+	return currentLevel;
 }
 

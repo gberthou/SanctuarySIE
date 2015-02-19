@@ -13,7 +13,7 @@ class Camera : public sf::View
         Camera(const sf::FloatRect &rectangle);
         Camera(const sf::Vector2f &center, const sf::Vector2f &size);
         virtual ~Camera();
-        void Update(Level* level, Character* character);
+        void Update(Level* level, const Character* character);
     protected:
 	private:
 };

@@ -68,6 +68,11 @@ class Level : public sf::Drawable
         
         void SetPOV(sf::Vector2f);
 
+		// Returns whether or not the player goes through a door.
+		// id : reference to the variable that will contain the id of the room the player is
+		// going to.
+		bool ChangeLevelRequired(IdLevel &id) const;
+
 		unsigned int GetX(void) const;
 		unsigned int GetY(void) const;
 		unsigned int GetWidth(void) const;

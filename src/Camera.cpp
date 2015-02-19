@@ -23,7 +23,7 @@ Camera::~Camera()
     
 }
 
-void Camera::Update(Level* level, Character* character)
+void Camera::Update(Level* level, const Character* character)
 {
     
     unsigned int dx = getSize().x/2;

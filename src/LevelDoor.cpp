@@ -18,6 +18,11 @@ bool LevelDoor::CollidesWith(const Entity *entity) const
 	return hitbox.CollidesWith(entity->GetHitbox());
 }
 
+IdLevel LevelDoor::GetTarget(void) const
+{
+	return target;
+}
+
 const AABB &LevelDoor::GetHitbox(void) const
 {
 	return hitbox;

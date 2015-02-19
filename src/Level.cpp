@@ -36,7 +36,10 @@ Level::~Level()
 	for(unsigned int i = 0; i < souls.size(); ++i)
 		delete souls[i];
 
-	delete collisionMap;
+	if(collisionMap != 0)
+		delete collisionMap;
+	if(physics != 0)
+		delete physics;
 
 	for(unsigned int i = 0; i < doors.size(); ++i)
 		delete doors[i];
@@ -65,8 +68,6 @@ void Level::SetCollisionMap(const sf::String &filename)
 
 void Level::MakeReady(Character *character1)
 {
-	Leave();
-	
 	collisionMap = new sf::Image();
 	collisionMap->loadFromFile(collisionMapFilename);
 	
@@ -103,6 +104,30 @@ void Level::MakeReady(Character *character1)
 	}
 }
 
+void Level::Leave(void)
+{
+	for(unsigned int i = 0; i < mobs.size(); ++i)
+		delete mobs[i];
+	mobs.clear();
+	
+	if(bg != 0)
+	{
+		delete bg;
+		bg = 0;
+	}
+
+	if(collisionMap != 0)
+	{
+		delete collisionMap;
+		collisionMap = 0;
+	}
+
+	if(physics != 0)
+	{
+		delete physics;
+		physics = 0;
+	}
+}
 void Level::SpawnEntity(Entity *entity, const sf::Vector2f &position)
 {
 	entity->SetPosition(position);
@@ -126,21 +151,6 @@ void Level::SpawnSoul(EntitySoul *entity, const sf::Vector2f &position)
 	SpawnEntity(entity, position);
 }
 
-void Level::Leave(void)
-{
-	for(unsigned int i = 0; i < mobs.size(); ++i)
-		delete mobs[i];
-	mobs.clear();
-	
-	if(bg != 0)
-		delete bg;
-	
-	if(collisionMap != 0)
-		delete collisionMap;
-
-	if(physics != 0)
-		delete physics;
-}
 
 void Level::AddDoor(LevelDoor *door)
 {
@@ -149,18 +159,21 @@ void Level::AddDoor(LevelDoor *door)
 
 void Level::Update(unsigned int frameCount)
 {
-	checkItems();
-	updateSouls();	
-
-	for(unsigned int i = 0; i < mobs.size(); ++i)
+	for(unsigned int j = 0; j < frameCount; ++j)
 	{
-		mobs[i]->UpdateBehavior();
+		checkItems();
+		updateSouls();	
+
+		for(unsigned int i = 0; i < mobs.size(); ++i)
+		{
+			mobs[i]->UpdateBehavior();
+		}
+
+		character->UpdateBehavior();
+		checkCharacterAttacks();
+
+		physics->Update();
 	}
-
-	character->UpdateBehavior();
-	checkCharacterAttacks();
-
-	physics->Update();
 }
 
 void Level::draw(sf::RenderTarget &target, sf::RenderStates states) const
@@ -219,6 +232,19 @@ void Level::draw(sf::RenderTarget &target, sf::RenderStates states) const
 void Level::SetPOV(sf::Vector2f pov)
 {
     bg->SetOffset(pov);
+}
+
+bool Level::ChangeLevelRequired(IdLevel &id) const
+{
+	for(unsigned int i = 0; i < doors.size(); ++i)
+	{
+		if(character->CollidesWith(doors[i]))
+		{
+			id = doors[i]->GetTarget();
+			return true;
+		}
+	}
+	return false;
 }
 
 unsigned int Level::GetX(void) const
