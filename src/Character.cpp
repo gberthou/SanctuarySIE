@@ -516,3 +516,18 @@ void Character::blueSoulBehavior(void)
 		soul->Use();
 }
 
+std::ostream &operator<<(std::ostream& out, const Character &c)
+{
+	out <<c.lvl<<c.exp<<c.expToNextLvl;
+	return out;
+}
+
+std::istream &operator>>(std::istream& in, Character &c)
+{
+	in  >>c.lvl>>c.exp>>c.expToNextLvl;
+	for(unsigned int i=0;i<c.lvl;++i)
+	{
+		c.LvlUpStats();
+	}
+	return in;
+}
