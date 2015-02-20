@@ -224,7 +224,7 @@ void Level::draw(sf::RenderTarget &target, sf::RenderStates states) const
 	// Draw doors
 	for(unsigned int i = 0; i < doors.size(); ++i)
 	{
-		AABB hb = doors[i]->GetHitbox();
+		const AABB hb = doors[i]->GetHitbox();
 		sf::RectangleShape shape(hb.GetSize());
 
 		shape.setFillColor(sf::Color(0xFF, 0xFF, 0x00));

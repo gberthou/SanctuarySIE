@@ -106,8 +106,9 @@ void LevelFactory::CreateDoors(void)
 	doors.insert(std::pair<unsigned int, LevelDoor*>(
 				doorId(CORRIDOR0, 0),
 				new LevelDoor(CORRIDOR0,
-							  AABB(sf::Vector2f(1600 - 3, 470 - 100), sf::Vector2f(3, 100)),
-							  0, 1, RIGHT)
+							  //AABB(sf::Vector2f(1600 - 3, 470 - 100), sf::Vector2f(3, 100)),
+							  AABB(sf::Vector2f(800 - 3, 470 - 100), sf::Vector2f(3, 100)),
+							  1, 0, RIGHT)
 				));
 
 	// CORRIDOR1
@@ -115,7 +116,7 @@ void LevelFactory::CreateDoors(void)
 				doorId(CORRIDOR1, 0),
 				new LevelDoor(CORRIDOR1,
 							  AABB(sf::Vector2f(0, 0), sf::Vector2f(3, 100)),
-							  0, 1, LEFT)
+							  0, 0, LEFT)
 				));
 
 	// ## Doors association ##
