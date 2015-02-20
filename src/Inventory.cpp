@@ -277,6 +277,9 @@ std::ostream &operator<<(std::ostream& out, const Inventory &inv)
     out.write((char*)&inv.gold,sizeof(inv.gold));
     serializeStuff(out,inv.armors);
     serializeStuff(out,inv.weapons);
+    
+    // TODO : continue with accessories, consumables, permanents ...
+    
     return out;
 }
  
@@ -320,6 +323,9 @@ std::istream &operator>>(std::istream& in, Inventory &inv)
             inv.weapons.push_back(ItemFactory::CreateWeapon(itemsubtype.weapon));
         }
     }
+    
+    // TODO : continue with accessories, consumables, permanents ...
+    
     return in;
 }
 

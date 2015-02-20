@@ -91,11 +91,11 @@ void MenuSelectSave::draw(sf::RenderTarget &target, sf::RenderStates states) con
 {
     for(unsigned int i=0;i<NB_SAVE;++i)
     {
-        target.draw(buttonsNbSave[i]);
+        target.draw(buttonsNbSave[i], states);
     }
     for(unsigned int i=0;i<NB_ACTION;++i)
     {
-        target.draw(buttonsAction[i]);
+        target.draw(buttonsAction[i], states);
     }
 }
 

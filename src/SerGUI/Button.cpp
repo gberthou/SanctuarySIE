@@ -12,8 +12,8 @@ void Button::SetPosition(float x, float y)
 
 void Button::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
-    target.draw(background);
-    target.draw(text);
+    target.draw(background, states);
+    target.draw(text, states);
 }
 
 void Button::SetTextureDefault(sf::Texture* texture)

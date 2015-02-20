@@ -17,8 +17,8 @@ class Tradable : public Item
         sf::String name;
         sf::String description;
         bool trade;
-        unsigned int buyPrice;
         unsigned int sellPrice;
+        unsigned int buyPrice;
     private:
 
 };

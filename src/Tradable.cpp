@@ -3,7 +3,9 @@
 #include "Tradable.h"
 
 Tradable::Tradable(sf::String name1, sf::String description1, bool trade1, unsigned int sellPrice1, unsigned int buyPrice1):
-    Item()
+    Item(),
+    name(name1), description(description1), trade(trade1), sellPrice(sellPrice1),
+    buyPrice(buyPrice1)
 {
 //    type = TRADABLE;
 }
