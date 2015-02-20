@@ -40,9 +40,6 @@ Level::~Level()
 		delete collisionMap;
 	if(physics != 0)
 		delete physics;
-
-	for(unsigned int i = 0; i < doors.size(); ++i)
-		delete doors[i];
 }
 
 void Level::SetBgDesc(const BgDesc &desc)
@@ -109,6 +106,14 @@ void Level::Leave(void)
 	for(unsigned int i = 0; i < mobs.size(); ++i)
 		delete mobs[i];
 	mobs.clear();
+
+	for(unsigned int i = 0; i < items.size(); ++i)
+		delete items[i];
+	items.clear();
+
+	for(unsigned int i = 0; i < souls.size(); ++i)
+		delete souls[i];
+	souls.clear();
 	
 	if(bg != 0)
 	{
@@ -234,13 +239,16 @@ void Level::SetPOV(sf::Vector2f pov)
     bg->SetOffset(pov);
 }
 
-bool Level::ChangeLevelRequired(IdLevel &id) const
+bool Level::ChangeLevelRequired(IdLevel &id, sf::Vector2f &deltaPosition) const
 {
 	for(unsigned int i = 0; i < doors.size(); ++i)
 	{
 		if(character->CollidesWith(doors[i]))
 		{
-			id = doors[i]->GetTarget();
+			const LevelDoor *otherDoor = doors[i]->GetTarget();
+			
+			id = otherDoor->GetIdLevel();
+			deltaPosition = otherDoor->GetHitbox().GetPosition() - doors[i]->GetHitbox().GetPosition();
 			return true;
 		}
 	}

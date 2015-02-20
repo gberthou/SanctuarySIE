@@ -1,7 +1,8 @@
 #include "LevelDoor.h"
 
-LevelDoor::LevelDoor(IdLevel target1, const AABB &hitbox1, unsigned int lx1, unsigned int ly1, DoorDirection dir):
-	target(target1),
+LevelDoor::LevelDoor(IdLevel idLevel1, const AABB &hitbox1, unsigned int lx1, unsigned int ly1, DoorDirection dir):
+	idLevel(idLevel1),
+	target(0),
 	hitbox(hitbox1),
 	lx(lx1),
 	ly(ly1),
@@ -13,12 +14,22 @@ LevelDoor::~LevelDoor()
 {
 }
 
+void LevelDoor::SetTarget(const LevelDoor *target1)
+{
+	target = target1;
+}
+
 bool LevelDoor::CollidesWith(const Entity *entity) const
 {
 	return hitbox.CollidesWith(entity->GetHitbox());
 }
 
-IdLevel LevelDoor::GetTarget(void) const
+IdLevel LevelDoor::GetIdLevel(void) const
+{
+	return idLevel;
+}
+
+const LevelDoor *LevelDoor::GetTarget(void) const
 {
 	return target;
 }

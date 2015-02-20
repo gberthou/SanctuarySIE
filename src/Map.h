@@ -27,10 +27,9 @@ class Map : public sf::Drawable
 	
 		void Load(void);
 		void SetCurrentLevel(IdLevel idLevel);
-		void MakeCurrentLevelReady(Character *character);
 
-		// Returns whether or not a level change is required.
-		bool Update(unsigned int frameCount);
+		void MakeCurrentLevelReady(Character *character);
+		void Update(Character *character, unsigned int frameCount);
 
 		virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 		void DrawCurrentLevel(sf::RenderTarget &target, sf::RenderStates states) const;

@@ -41,6 +41,7 @@ int main(void)
 		// :(
 	}
 	
+	LevelFactory::CreateDoors();
 	SoulManager::Init();
 
 	map = new Map();
@@ -119,10 +120,7 @@ Nullam imperdiet ex purus, nec dictum lacus tempus in.");
             camera.Update(map->GetCurrentLevel(), character);
             SerGUI::window.setView(camera);
             
-			if(map->Update(frameCount))
-			{
-				map->MakeCurrentLevelReady(character);
-			}
+			map->Update(character, frameCount);
 		}
 	}
 
@@ -131,6 +129,7 @@ Nullam imperdiet ex purus, nec dictum lacus tempus in.");
 	delete inputController;
 	delete uicharacterstatus;
 	SoulManager::Free();
+	LevelFactory::FreeDoors();
 
 	return 0;
 }

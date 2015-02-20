@@ -63,12 +63,13 @@ void Map::MakeCurrentLevelReady(Character *character)
 	currentLevel->MakeReady(character);
 }
 
-bool Map::Update(unsigned int frameCount)
+void Map::Update(Character *character, unsigned int frameCount)
 {
 	IdLevel nextLevel;
+	sf::Vector2f deltaPosition;
 
 	currentLevel->Update(frameCount);
-	if(currentLevel->ChangeLevelRequired(nextLevel))
+	if(currentLevel->ChangeLevelRequired(nextLevel, deltaPosition))
 	{
 		currentLevel->Leave();
 		SetCurrentLevel(nextLevel);
@@ -76,9 +77,11 @@ bool Map::Update(unsigned int frameCount)
 #ifdef DEBUG_MAP_TRANSITIONS
 		std::cout << "Going to level #" << nextLevel << std::endl;
 #endif
-		return true;
+	
+		character->AddPosition(deltaPosition);
+
+		MakeCurrentLevelReady(character);
 	}
-	return false;
 }
 
 void Map::draw(sf::RenderTarget &target, sf::RenderStates states) const
