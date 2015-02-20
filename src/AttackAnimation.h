@@ -36,8 +36,6 @@ class AttackAnimation : public Animation
 		AttackAnimation(AttackType type);
 		virtual ~AttackAnimation();
 
-		bool HitsEntity(Entity *entity);
-
 		sf::Vector2f GetCurrentPoint(void) const;
 	private:
 		void initAnimation(void);

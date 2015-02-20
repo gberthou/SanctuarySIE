@@ -29,7 +29,7 @@ InputController::InputController(Character* c):
 {
 }
 
-void InputController::Update(sf::Event const& event)
+void InputController::Update()
 {
 	if(eventSource == ES_KEYBOARD)
 		keyboardAction();

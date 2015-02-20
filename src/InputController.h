@@ -27,7 +27,7 @@ class InputController
 {
     public:
         InputController(Character* c);
-        void Update(sf::Event const& event);
+        void Update();
 
 		void SetEventSource(EventSource source, unsigned int joystickId = 0);
 

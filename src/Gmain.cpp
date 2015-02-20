@@ -98,7 +98,7 @@ Nullam imperdiet ex purus, nec dictum lacus tempus in.");
 			if(event.type == sf::Event::Closed)
 				SerGUI::window.close();
 
-			inputController->Update(event);
+			inputController->Update();
 		}
 
 		frameCount = clock.GetElapsedFrames();

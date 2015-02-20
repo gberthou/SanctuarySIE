@@ -13,11 +13,6 @@ AttackAnimation::~AttackAnimation()
 {
 }
 
-bool AttackAnimation::HitsEntity(Entity *entity)
-{
-	return false;
-}
-
 sf::Vector2f AttackAnimation::GetCurrentPoint(void) const
 {
 	unsigned int frame = GetFrame();
