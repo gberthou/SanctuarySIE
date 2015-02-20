@@ -32,6 +32,16 @@ AttackAnimation *Weapon::GetAttackAnimation(void) const
 	}
 }
 
+WeaponType Weapon::GetWeaponType() const
+{
+	return weaponType;
+}
+
+ItemSubtype Weapon::GetSubtype() const
+{
+	return (ItemSubtype){weaponType};
+}
+
 void Weapon::buildSprite(void)
 {
 	switch(weaponType)

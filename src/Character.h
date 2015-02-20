@@ -106,8 +106,8 @@ class Character : public Fighter
 		sf::Clock clBackDash;
 		sf::Clock clRedSoul;
 		
-    friend std::ostream &operator<<(std::ostream& out, const Character &c);
-    friend std::istream &operator>>(std::istream& out, Character &c);
+    friend std::ostream &operator<<(std::ostream& output, const Character &c);
+    friend std::istream &operator>>(std::istream& input, Character &c);
 
 };
 

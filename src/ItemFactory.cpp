@@ -48,7 +48,7 @@ Accessory* ItemFactory::CreateAccessory(AccessoryType type)
         case BATFANG:
         {
             Stats *stats = new Stats(0,0,20,0,0,10);
-            return new Accessory(stats,sf::String("Bat Fang"),sf::String("This is the fang of a ferocious giant bat you killed and scavenged."),true,500,600);
+            return new Accessory(type,stats,sf::String("Bat Fang"),sf::String("This is the fang of a ferocious giant bat you killed and scavenged."),true,500,600);
         }
         default:
             return 0;

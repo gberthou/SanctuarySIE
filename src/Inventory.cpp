@@ -7,6 +7,7 @@
 #include "Consumable.h"
 #include "Permanent.h"
 #include "Tradable.h"
+#include "ItemFactory.h"
 
 #define DEBUG_INVENTORY
 
@@ -269,6 +270,57 @@ bool Inventory::buyItem(Tradable *toBuy)
         gold -= price;
         return true;
     }
+}
+
+std::ostream &operator<<(std::ostream& out, const Inventory &inv)
+{
+    out.write((char*)&inv.gold,sizeof(inv.gold));
+    serializeStuff(out,inv.armors);
+    serializeStuff(out,inv.weapons);
+    return out;
+}
+ 
+std::istream &operator>>(std::istream& in, Inventory &inv)
+{
+    in.read((char*)&inv.gold,sizeof(inv.gold));
+    
+    unsigned int sizeVec;
+    
+    // armors
+    in.read((char*)&sizeVec,sizeof(sizeVec));
+    inv.armors.resize(sizeVec);
+    for(unsigned int i=0;i<sizeVec;++i)
+    {
+        int id;
+        int nb;
+        in.read((char*)&id,sizeof(id));
+        in.read((char*)&nb,sizeof(nb));
+        for(; nb>0; --nb)
+        {
+            in.read((char*)&nb,sizeof(nb));
+            ItemSubtype itemsubtype;
+            itemsubtype.id = id;
+            inv.armors.push_back(ItemFactory::CreateArmor(itemsubtype.armor));
+        }
+    }
+    
+    // weapons
+    in.read((char*)&sizeVec,sizeof(sizeVec));
+    inv.weapons.resize(sizeVec);
+    for(unsigned int i=0;i<sizeVec;++i)
+    {
+        int id;
+        int nb;
+        in.read((char*)&id,sizeof(id));
+        in.read((char*)&nb,sizeof(nb));
+        for(; nb>0; --nb)
+        {
+            ItemSubtype itemsubtype;
+            itemsubtype.id = id;
+            inv.weapons.push_back(ItemFactory::CreateWeapon(itemsubtype.weapon));
+        }
+    }
+    return in;
 }
 
 

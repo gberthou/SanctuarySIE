@@ -512,16 +512,22 @@ void Character::blueSoulBehavior(void)
 
 std::ostream &operator<<(std::ostream& out, const Character &c)
 {
-	out <<c.lvl<<c.exp<<c.expToNextLvl;
+	out.write((char*)&c.lvl,sizeof(c.lvl));
+	out.write((char*)&c.exp,sizeof(c.exp));
+	out.write((char*)&c.expToNextLvl,sizeof(c.expToNextLvl));
+	out<<*c.inventory;
 	return out;
 }
 
 std::istream &operator>>(std::istream& in, Character &c)
 {
-	in  >>c.lvl>>c.exp>>c.expToNextLvl;
+	in.read((char*)&c.lvl,sizeof(c.lvl));
+	in.read((char*)&c.exp,sizeof(c.exp));
+	in.read((char*)&c.expToNextLvl,sizeof(c.expToNextLvl));
+	in>>*(c.inventory);
 	for(unsigned int i=0;i<c.lvl;++i)
 	{
-		c.LvlUpStats();
+		//c.LvlUpStats();
 	}
 	return in;
 }

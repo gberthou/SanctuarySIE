@@ -46,4 +46,13 @@ struct ItemDesc
 	};
 };
 
+union ItemSubtype
+{
+    int id;
+    WeaponType weapon;
+    ArmorType armor;
+    AccessoryType accessory;
+    PickUpType pickup;
+};
+
 #endif // ITEMTYPE_H

@@ -14,3 +14,7 @@ ItemType Item::GetType()
     return type;
 }
 
+ItemSubtype Item::GetSubtype() const
+{
+    return (ItemSubtype){-1};
+}

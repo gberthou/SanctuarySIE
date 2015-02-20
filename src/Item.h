@@ -15,8 +15,11 @@ class Item : public Entity
         virtual void PickUp(Character *character) = 0;
 
         ItemType GetType();
+        virtual ItemSubtype GetSubtype() const;
+        
     protected:
         ItemType type;
+        
     private:
 };
 

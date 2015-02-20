@@ -4,6 +4,7 @@
 #include <SFML/System.hpp>
 
 #include "Stuff.h"
+#include "ItemType.h"
 #include "Stats.h"
 #include "Character.h"
 #include "AttackAnimation.h"
@@ -17,6 +18,9 @@ class Weapon : public Stuff
 		sf::Int32 GetCooldown(void) const;
 	
 		AttackAnimation *GetAttackAnimation(void) const;
+        WeaponType GetWeaponType() const;
+		virtual ItemSubtype GetSubtype() const;
+
 	private:
 		void buildSprite(void);
 
