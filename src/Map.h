@@ -26,12 +26,21 @@ class Map : public sf::Drawable
 		virtual ~Map();
 	
 		void Load(void);
+		void SetCurrentLevel(IdLevel idLevel);
+
+		void MakeCurrentLevelReady(Character *character);
+		void Update(Character *character, unsigned int frameCount);
 
 		virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+		void DrawCurrentLevel(sf::RenderTarget &target, sf::RenderStates states) const;
+
+		Level *GetCurrentLevel(void) const;
+
 	private:
-		void drawLevelDoors(Level *level, sf::RenderTarget &target, sf::RenderStates states) const;
+		static void drawLevelDoors(Level *level, sf::RenderTarget &target, sf::RenderStates states);
 
 		std::vector<Level*> levels;
+		Level *currentLevel;
 };
 
 #endif

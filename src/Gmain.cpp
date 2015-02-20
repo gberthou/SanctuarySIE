@@ -23,7 +23,7 @@
 int main(void)
 {
 	FPSClock clock(60);
-	Level *level;
+	Map *map;
 	Character *character;
 	Inventory *inventory;
 	SoulSet *soulSet;
@@ -41,9 +41,12 @@ int main(void)
 		// :(
 	}
 	
+	LevelFactory::CreateDoors();
 	SoulManager::Init();
 
-	level = LevelFactory::CreateLevel(CORRIDOR0);
+	map = new Map();
+	map->Load();
+
 	character = new Character(new Stats(10,6,10,12,11,9),320,(unsigned int)a_EXP + b_EXP + c_EXP);
 
     inputController = new InputController(character);
@@ -55,11 +58,12 @@ int main(void)
 	{
 		// :(
 	}
-	
-	//uicharacterstatus->SetCharacter(character);
 
-	// Simulate the arrival of the player in the level
-	level->MakeReady(character);
+	// Simulate save loading
+	map->SetCurrentLevel(CORRIDOR0);
+
+	// Simulate the arrival of the player in the map
+	map->MakeCurrentLevelReady(character);
 
 	inventory = character->GetInventory();
 	inventory->LootItem(dagger);
@@ -104,7 +108,7 @@ Nullam imperdiet ex purus, nec dictum lacus tempus in.");
 
 			SerGUI::window.clear(sf::Color::Black);
 
-			SerGUI::window.draw(*level);
+			map->DrawCurrentLevel(SerGUI::window, sf::RenderStates());
 			
 			SerGUI::window.setView(SerGUI::window.getDefaultView());
 			SerGUI::window.draw(box);
@@ -113,19 +117,19 @@ Nullam imperdiet ex purus, nec dictum lacus tempus in.");
 			SerGUI::window.display();
             
             // View management
-            camera.Update(level, character);
+            camera.Update(map->GetCurrentLevel(), character);
             SerGUI::window.setView(camera);
             
-
-			level->Update(frameCount);
+			map->Update(character, frameCount);
 		}
 	}
 
-	delete level;
+	delete map;
 	delete character;
 	delete inputController;
 	delete uicharacterstatus;
 	SoulManager::Free();
+	LevelFactory::FreeDoors();
 
 	return 0;
 }

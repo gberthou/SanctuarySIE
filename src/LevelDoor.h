@@ -16,20 +16,23 @@ enum DoorDirection
 class LevelDoor
 {
 	public:
-		LevelDoor(IdLevel target, const AABB &hitbox, unsigned int lx, unsigned int ly, DoorDirection dir);
+		LevelDoor(IdLevel idLevel, const AABB &hitbox, unsigned int lx, unsigned int ly, DoorDirection dir);
 		virtual ~LevelDoor();
+
+		void SetTarget(const LevelDoor *target);
 
 		bool CollidesWith(const Entity *entity) const;
 
-		// Debug purpose
+		IdLevel GetIdLevel(void) const;
+		const LevelDoor *GetTarget(void) const;
 		const AABB &GetHitbox(void) const;
-
 		unsigned int GetLocalX(void) const;
 		unsigned int GetLocalY(void) const;
 		DoorDirection GetDirection(void) const;
 
 	private:
-		IdLevel target;
+		IdLevel idLevel;
+		const LevelDoor *target;
 		AABB hitbox;
 	
 		// Map display purpose

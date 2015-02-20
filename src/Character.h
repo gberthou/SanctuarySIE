@@ -16,6 +16,7 @@
 #include "AttackAnimation.h"
 
 class Item;
+class LevelDoor;
 
 class Character : public Fighter
 {
@@ -49,7 +50,9 @@ class Character : public Fighter
 		// Return true if there is an attack animation, returns false
 		// otherwise.
 		bool GetActionPoint(sf::Vector2f &point) const;
-		
+
+		bool CollidesWith(const LevelDoor *door) const;
+
 		unsigned int GetHP() const;
 		unsigned int GetMaxHP() const;
 		unsigned int GetMP() const;
