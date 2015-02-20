@@ -19,6 +19,7 @@ class AABB
 		void SetSize(const sf::Vector2f &size);
 
 		sf::Vector2f GetPosition(void) const;
+		sf::Vector2f GetCenter(void) const;
 		sf::Vector2f GetSize(void) const;
 
 	protected:

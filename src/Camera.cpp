@@ -45,10 +45,10 @@ void Camera::Update(Level* level, const Character* character)
     yView = character->GetPos().y;
     
     // Computing the the borders camera bounds
-    viewLeftLimit = level->GetX() + dx;
-    viewRightLimit = level->GetX() + level->GetWidth() - 1 - dx;
-    viewTopLimit = level->GetY() + dy;
-    viewBottomLimit = level->GetY() + level->GetHeight() - 1 - dy;
+    viewLeftLimit = dx;
+    viewRightLimit = level->GetWidth() - 1 - dx;
+    viewTopLimit = dy;
+    viewBottomLimit = level->GetHeight() - 1 - dy;
     
     // Center the camera correctly (x-axis)
     if      (viewLeftLimit > viewRightLimit)

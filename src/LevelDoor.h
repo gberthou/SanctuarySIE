@@ -29,6 +29,7 @@ class LevelDoor
 		unsigned int GetLocalX(void) const;
 		unsigned int GetLocalY(void) const;
 		DoorDirection GetDirection(void) const;
+		sf::Vector2f GetSymmetricalPoint(const Entity *entity) const;
 
 	private:
 		IdLevel idLevel;

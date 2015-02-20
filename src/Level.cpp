@@ -22,8 +22,11 @@ Level::Level(unsigned int x1, unsigned int y1, unsigned int width1, unsigned int
 Level::~Level()
 {
 	for(unsigned int i = 0; i < mobDescs.size(); ++i)
+	{
+		delete mobDescs[i]->path;
 		delete mobDescs[i];
-	
+	}
+
 	for(unsigned int i = 0; i < mobs.size(); ++i)
 		delete mobs[i];
 
@@ -224,7 +227,7 @@ void Level::draw(sf::RenderTarget &target, sf::RenderStates states) const
 	// Draw doors
 	for(unsigned int i = 0; i < doors.size(); ++i)
 	{
-		AABB hb = doors[i]->GetHitbox();
+		const AABB hb = doors[i]->GetHitbox();
 		sf::RectangleShape shape(hb.GetSize());
 
 		shape.setFillColor(sf::Color(0xFF, 0xFF, 0x00));
@@ -248,7 +251,7 @@ bool Level::ChangeLevelRequired(IdLevel &id, sf::Vector2f &deltaPosition) const
 			const LevelDoor *otherDoor = doors[i]->GetTarget();
 			
 			id = otherDoor->GetIdLevel();
-			deltaPosition = otherDoor->GetHitbox().GetPosition() - doors[i]->GetHitbox().GetPosition();
+			deltaPosition = doors[i]->GetSymmetricalPoint(character) - character->GetCenter() + otherDoor->GetHitbox().GetPosition() - doors[i]->GetHitbox().GetPosition();
 			return true;
 		}
 	}
