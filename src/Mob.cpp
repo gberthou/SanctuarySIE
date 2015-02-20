@@ -30,8 +30,6 @@ Mob::Mob(MobType type1, Stats *stats1, unsigned int maxHP1, unsigned int maxMP1)
 
 Mob::~Mob()
 {
-    if(path != 0)
-	    delete path;
 }
 
 // #### LOOT METHODS ####

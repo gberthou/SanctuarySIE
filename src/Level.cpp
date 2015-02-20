@@ -22,8 +22,11 @@ Level::Level(unsigned int x1, unsigned int y1, unsigned int width1, unsigned int
 Level::~Level()
 {
 	for(unsigned int i = 0; i < mobDescs.size(); ++i)
+	{
+		delete mobDescs[i]->path;
 		delete mobDescs[i];
-	
+	}
+
 	for(unsigned int i = 0; i < mobs.size(); ++i)
 		delete mobs[i];
 
