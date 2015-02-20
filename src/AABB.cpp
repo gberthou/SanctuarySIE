@@ -56,6 +56,11 @@ sf::Vector2f AABB::GetPosition(void) const
 	return pos;
 }
 
+sf::Vector2f AABB::GetCenter(void) const
+{
+	return pos + size / 2.f;
+}
+
 sf::Vector2f AABB::GetSize(void) const
 {
 	return size;

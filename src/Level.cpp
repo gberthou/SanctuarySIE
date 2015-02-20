@@ -251,7 +251,7 @@ bool Level::ChangeLevelRequired(IdLevel &id, sf::Vector2f &deltaPosition) const
 			const LevelDoor *otherDoor = doors[i]->GetTarget();
 			
 			id = otherDoor->GetIdLevel();
-			deltaPosition = otherDoor->GetHitbox().GetPosition() - doors[i]->GetHitbox().GetPosition();
+			deltaPosition = doors[i]->GetSymmetricalPoint(character) - character->GetCenter() + otherDoor->GetHitbox().GetPosition() - doors[i]->GetHitbox().GetPosition();
 			return true;
 		}
 	}

@@ -1,5 +1,15 @@
 #include "LevelDoor.h"
 
+static inline float dotProduct(const sf::Vector2f &u, const sf::Vector2f &v)
+{
+	return u.x * v.x + u.y * v.y;
+}
+
+static inline float fabs(float x)
+{
+	return x < 0 ? -x : x;
+}
+
 LevelDoor::LevelDoor(IdLevel idLevel1, const AABB &hitbox1, unsigned int lx1, unsigned int ly1, DoorDirection dir):
 	idLevel(idLevel1),
 	target(0),
@@ -52,5 +62,23 @@ unsigned int LevelDoor::GetLocalY(void) const
 DoorDirection LevelDoor::GetDirection(void) const
 {
 	return direction;
+}
+
+sf::Vector2f LevelDoor::GetSymmetricalPoint(const Entity *entity) const
+{
+	// U[i] : unit normal "through" the door
+	const sf::Vector2f U[4] = {sf::Vector2f(-1, 0), sf::Vector2f(0, -1), sf::Vector2f(0, 1), sf::Vector2f(1, 0)};
+	
+	// V[i] : arbitrary unit vector orthogonal to the normal vector (the corresponding U[i])
+	const sf::Vector2f V[4] = {sf::Vector2f(0, 1), sf::Vector2f(1, 0), sf::Vector2f(1, 0), sf::Vector2f(0, 1)};
+	
+	const float SAFE_OFFSET = 2.f; // Unit : pixels
+
+	sf::Vector2f O = hitbox.GetCenter();
+	sf::Vector2f PO = entity->GetCenter() - O;
+	sf::Vector2f H = O - V[direction] * dotProduct(PO, V[direction]);
+	sf::Vector2f ret = H + U[direction] * (fabs(dotProduct(hitbox.GetSize() + entity->GetHitbox().GetSize(), U[direction]) / 2.f) + SAFE_OFFSET);
+
+	return ret;
 }
 
