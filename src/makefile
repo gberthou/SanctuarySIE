@@ -12,7 +12,7 @@ DEBUG=debug
 RELEASE=release
 
 GPP=g++
-CFLAGS=-Wall
+CFLAGS=-Wall -Wextra -Wmissing-braces
 INCLUDE=-I"./" -I"./SerGUI/"
 
 MAINFILE=Gmain.cpp
