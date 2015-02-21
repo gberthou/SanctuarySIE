@@ -39,7 +39,8 @@ WeaponType Weapon::GetWeaponType() const
 
 ItemSubtype Weapon::GetSubtype() const
 {
-	return (ItemSubtype){weaponType};
+	ItemSubtype ret = {weaponType};
+	return ret;
 }
 
 void Weapon::buildSprite(void)

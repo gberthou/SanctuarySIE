@@ -1,5 +1,7 @@
 #include "LevelDoor.h"
 
+//#define DEBUG_SYMMETRY
+
 static inline float dotProduct(const sf::Vector2f &u, const sf::Vector2f &v)
 {
 	return u.x * v.x + u.y * v.y;
@@ -79,11 +81,13 @@ sf::Vector2f LevelDoor::GetSymmetricalPoint(const Entity *entity) const
 	sf::Vector2f H = O - V[direction] * dotProduct(PO, V[direction]);
 	sf::Vector2f ret = H + U[direction] * (fabs(dotProduct(hitbox.GetSize() + entity->GetHitbox().GetSize(), U[direction]) / 2.f) + SAFE_OFFSET);
 
+#ifdef DEBUG_SYMMETRY
 	std::cout << "in:  (" << entity->GetCenter().x << ", " << entity->GetCenter().y << ")" << std::endl;
 	std::cout << "O:   (" << O.x << ", " << O.y << ")" << std::endl;
 	std::cout << "H:   (" << H.x << ", " << H.y << ")" << std::endl;
 	std::cout << "out: (" << ret.x << ", " << ret.y << ")" << std::endl;
 	std::cout << std::endl;
+#endif
 
 	return ret;
 }

@@ -15,7 +15,7 @@ class Item : public Entity
         virtual void PickUp(Character *character) = 0;
 
         ItemType GetType();
-        virtual ItemSubtype GetSubtype() const;
+        virtual ItemSubtype GetSubtype() const = 0;
         
     protected:
         ItemType type;

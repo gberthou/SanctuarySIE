@@ -66,7 +66,9 @@ void Mob::DropSoul(unsigned int lck)
 	entity->SetHitbox(hitbox, sf::Vector2f(0, 0));
 	entity->SetMapCollisionEnabled(false);
 	entity->SetVelocity(INITIAL_SOUL_VELOCITY);
-	level->SpawnSoul(entity, p);
+	
+	if(lck) // TODO: Apply luck
+		level->SpawnSoul(entity, p);
 }
 
 // #### SETTERS ####

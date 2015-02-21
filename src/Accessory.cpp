@@ -19,5 +19,6 @@ AccessoryType Accessory::GetAccessoryType() const
 
 ItemSubtype Accessory::GetSubtype() const
 {
-    return (ItemSubtype){accessoryType};
+	ItemSubtype ret = {accessoryType};
+    return ret;
 }

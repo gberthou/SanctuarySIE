@@ -19,5 +19,6 @@ ArmorType Armor::GetArmorType() const
 
 ItemSubtype Armor::GetSubtype() const
 {
-    return (ItemSubtype){armorType};
+	ItemSubtype ret = {armorType};
+    return ret;
 }
