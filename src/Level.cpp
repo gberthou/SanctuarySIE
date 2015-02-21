@@ -7,6 +7,7 @@
 
 #define DEBUG_PHYSICS
 #define DEBUG_CHARACTER_ATTACK
+#define DEBUG_DOORS
 
 Level::Level(unsigned int x1, unsigned int y1, unsigned int width1, unsigned int height1):
 	x(x1),
@@ -223,8 +224,9 @@ void Level::draw(sf::RenderTarget &target, sf::RenderStates states) const
 
 #ifdef DEBUG_CHARACTER_ATTACK
 	character->DrawAttack(target, states);
-	
-	// Draw doors
+#endif
+
+#ifdef DEBUG_DOORS
 	for(unsigned int i = 0; i < doors.size(); ++i)
 	{
 		const AABB hb = doors[i]->GetHitbox();
@@ -251,7 +253,7 @@ bool Level::ChangeLevelRequired(IdLevel &id, sf::Vector2f &deltaPosition) const
 			const LevelDoor *otherDoor = doors[i]->GetTarget();
 			
 			id = otherDoor->GetIdLevel();
-			deltaPosition = doors[i]->GetSymmetricalPoint(character) - character->GetCenter() + otherDoor->GetHitbox().GetPosition() - doors[i]->GetHitbox().GetPosition();
+			deltaPosition = doors[i]->GetSymmetricalPoint(character) - character->GetCenter() + otherDoor->GetHitbox().GetCenter() - doors[i]->GetHitbox().GetCenter();
 			return true;
 		}
 	}

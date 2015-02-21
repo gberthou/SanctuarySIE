@@ -73,12 +73,14 @@ void Map::Update(Character *character, unsigned int frameCount)
 	{
 		currentLevel->Leave();
 		SetCurrentLevel(nextLevel);
+		
+		character->AddPosition(deltaPosition);
 
 #ifdef DEBUG_MAP_TRANSITIONS
 		std::cout << "Going to level #" << nextLevel << std::endl;
+		std::cout << "Spawning at : (" << character->GetCenter().x << ", " << character->GetCenter().y << ")" << std::endl;
+		std::cout << std::endl;
 #endif
-	
-		character->AddPosition(deltaPosition);
 
 		MakeCurrentLevelReady(character);
 	}
