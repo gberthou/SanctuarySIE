@@ -4,6 +4,10 @@ from PyQt5.QtGui import *
 
 import sys
 
+import Map
+import Level
+import MapController
+
 class MapEditor(QWidget):
     def __init__(self, parent = None):
         QWidget.__init__(self, parent)
@@ -14,8 +18,14 @@ class MapEditor(QWidget):
         self.actionNewLevel = toolbar.addAction("New Level")
         self.actionAddMob = toolbar.addAction("Add Mob")
         self.actionAddItem = toolbar.addAction("Add Item")
+        self.actionAddDoor = toolbar.addAction("Add Door")
 
-        self.projectTree = QTreeView()
+        self.projectTree = QTreeWidget()
+        self.projectTree.setColumnCount(1)
+        self.projectTree.setHeaderLabels(["Project view"])
+
+        self.rootItem = QTreeWidgetItem(self.projectTree, ["Map"])
+        self.projectTree.addTopLevelItem(self.rootItem)
 
         self.displayArea = QWidget()
         
@@ -26,8 +36,6 @@ class MapEditor(QWidget):
         layout.addWidget(self.projectTree)
         layout.addWidget(self.displayArea)
 
-        #self.submitButton.clicked.connect(self.submitContact)
-
         mainLayout = QVBoxLayout()
         mainLayout.addLayout(toolbarLayout)
         mainLayout.addLayout(layout)
@@ -37,6 +45,16 @@ class MapEditor(QWidget):
         self.resize(800, 600)
 
         self.displayArea.resize(600, 400)
+
+        self.actionNewLevel.triggered.connect(self.newLevel)
+
+        self.map = Map.Map()
+        self.controller = MapController.MapController(self.map, self.rootItem)
+
+    def newLevel(self):
+        level = Level.Level("Sample", (0, 0), (1, 1))
+        self.controller.AddLevel(level)
+        self.rootItem.setExpanded(True)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
