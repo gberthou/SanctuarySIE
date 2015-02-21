@@ -55,6 +55,7 @@ void Map::Load(void)
 
 void Map::SetCurrentLevel(IdLevel idLevel)
 {
+	currentLevelId = idLevel;
 	currentLevel = levels[idLevel];
 }
 
@@ -240,5 +241,10 @@ void Map::drawLevelDoors(Level *level, sf::RenderTarget &target, sf::RenderState
 Level *Map::GetCurrentLevel(void) const
 {
 	return currentLevel;
+}
+
+IdLevel Map::GetCurrentLevelId(void) const
+{
+	return currentLevelId;
 }
 

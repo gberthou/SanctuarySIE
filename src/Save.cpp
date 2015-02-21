@@ -3,14 +3,13 @@
 #include <iostream>
 #include <fstream>
 #include "Utils.h"
-#include "LevelFactory.h"
 
 using namespace std;
 
 static const char* S_FILENAME="savefile";
 
-Save::Save(int id, Level** nlevel, Character** ncharacter):
-    idSave(id), level(nlevel), character(ncharacter)
+Save::Save(int id, Map** nmap, Character** ncharacter):
+    idSave(id), map(nmap), character(ncharacter)
 {
     
 }
@@ -23,11 +22,17 @@ bool Save::LoadFromFile()
     if(!file)
     {
         // if the save isn't found
-        beginGame(level, character);
+        beginGame(map, character);
         return false;
     }
-
-    beginGame(level, character);
+  
+    // read the current level
+    unionLevel idLevel;
+    file.read((char*)&idLevel.id,sizeof(idLevel.id));
+    
+    beginGame(map, character, idLevel.level);
+    
+    // read the character infos
     file>>**character;
     
     file.close();
@@ -41,7 +46,11 @@ bool Save::SaveToFile()
 
     if(!file)
        return false;
-
+       
+    // write the level id
+    unionLevel idLevel = {(**map).GetCurrentLevelId()};
+    file.write((char*)&idLevel,sizeof(idLevel));
+    // then the character infos
     file<<**character;
     
     file.close();
@@ -49,8 +58,8 @@ bool Save::SaveToFile()
 }
 
 // (static function)
-void Save::beginGame(Level** lvl, Character** c)
+void Save::beginGame(Map** map, Character** c, IdLevel level)
 {
-	*lvl = LevelFactory::CreateLevel(CORRIDOR0);
+    (*map)->SetCurrentLevel(level);
 	*c = new Character(new Stats(10,6,10,12,11,9),320,(unsigned int)a_EXP + b_EXP + c_EXP);
 }

@@ -64,6 +64,24 @@ PickUp* ItemFactory::CreatePickUp(PickUpType type)
 	}
 }
 
+Consumable* ItemFactory::CreateConsumable(ConsumableType type)
+{
+	switch(type)
+	{
+		default:
+			return 0;
+	}
+}
+
+Permanent* ItemFactory::CreatePermanent(PermanentType type)
+{
+	switch(type)
+	{
+		default:
+			return 0;
+	}
+}
+
 Item* ItemFactory::CreateItem(const ItemDesc &desc)
 {
 	switch(desc.type)

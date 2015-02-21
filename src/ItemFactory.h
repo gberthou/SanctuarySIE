@@ -17,6 +17,8 @@ class ItemFactory
         static Armor* CreateArmor(ArmorType type);
         static Accessory* CreateAccessory(AccessoryType type);
         static PickUp* CreatePickUp(PickUpType type);
+        static Consumable* CreateConsumable(ConsumableType type);
+        static Permanent* CreatePermanent(PermanentType type);
         static Item* CreateItem(const ItemDesc &desc);
     protected:
     private:

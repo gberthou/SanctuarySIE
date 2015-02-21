@@ -1,21 +1,28 @@
 #ifndef SAVE_H_INCLUDED
 #define SAVE_H_INCLUDED
 
-#include "Level.h"
+#include "Map.h"
 #include "Character.h"
 
 class Save
 {
     public:
-        Save(int idsave, Level** nlevel, Character** ncharacter);
+        Save(int idsave, Map** nmap, Character** ncharacter);
         bool LoadFromFile();
         bool SaveToFile();
         
+        union unionLevel
+        {
+            int id;
+            IdLevel level;
+        };
+        
     protected:
-        static void beginGame(Level** level, Character** c);
+        static void beginGame(Map** nmap, Character** c, IdLevel level = CORRIDOR0);
+        static void initCharacter(Character** c);
         int idSave;
         
-        Level **level;
+        Map **map;
         Character **character;
         
 };

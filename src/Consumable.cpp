@@ -10,3 +10,9 @@ Consumable::~Consumable()
 {
     //dtor
 }
+
+ItemSubtype Consumable::GetSubtype() const
+{
+    ItemSubtype ret = {consumableType};
+    return ret;
+}

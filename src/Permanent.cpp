@@ -10,3 +10,9 @@ Permanent::~Permanent()
 {
     //dtor
 }
+
+ItemSubtype Permanent::GetSubtype() const
+{
+	ItemSubtype ret = {permanentType};
+    return ret;
+}
