@@ -277,8 +277,9 @@ std::ostream &operator<<(std::ostream& out, const Inventory &inv)
     out.write((char*)&inv.gold,sizeof(inv.gold));
     serializeStuff(out,inv.armors);
     serializeStuff(out,inv.weapons);
-    
-    // TODO : continue with accessories, consumables, permanents ...
+    serializeStuff(out,inv.accessories);
+    serializeItem(out,inv.consumables);
+    serializeItem(out,inv.permanents);
     
     return out;
 }
@@ -289,42 +290,70 @@ std::istream &operator>>(std::istream& in, Inventory &inv)
     
     unsigned int sizeVec;
     
-    // armors
-    in.read((char*)&sizeVec,sizeof(sizeVec));
-    inv.armors.resize(sizeVec);
-    for(unsigned int i=0;i<sizeVec;++i)
+    for(int itemType=0;itemType<3;++itemType)
     {
-        int id;
-        int nb;
-        in.read((char*)&id,sizeof(id));
-        in.read((char*)&nb,sizeof(nb));
-        for(; nb>0; --nb)
+        in.read((char*)&sizeVec,sizeof(sizeVec));
+
+        switch(itemType)
         {
+            case 0:
+                inv.armors.resize(sizeVec);
+                break;
+            case 1:
+                inv.weapons.resize(sizeVec);
+                break;
+            case 2:
+                inv.accessories.resize(sizeVec);
+                break;
+            case 3:
+                inv.consumables.resize(sizeVec);
+                break;
+            case 4:
+                inv.permanents.resize(sizeVec);
+                break;
+            default :
+                break;
+        }
+       
+        for(unsigned int i=0;i<sizeVec;++i)
+        {
+            int id;
+            int nb;
+            in.read((char*)&id,sizeof(id));
             in.read((char*)&nb,sizeof(nb));
-            ItemSubtype itemsubtype;
-            itemsubtype.id = id;
-            inv.armors.push_back(ItemFactory::CreateArmor(itemsubtype.armor));
+            for(; nb>0; --nb)
+            {
+                in.read((char*)&nb,sizeof(nb));
+                ItemSubtype itemsubtype = {id};
+                switch(itemType)
+                {
+                    case 0:
+                        inv.armors.push_back(ItemFactory::CreateArmor(itemsubtype.armor));
+                        break;
+                    case 1:
+                        inv.weapons.push_back(ItemFactory::CreateWeapon(itemsubtype.weapon));
+                        break;
+                    case 2:
+                        inv.accessories.push_back(ItemFactory::CreateAccessory(itemsubtype.accessory));
+                        break;
+                    case 3:
+                        inv.consumables.push_back(ItemFactory::CreateConsumable(itemsubtype.consumable));
+                        break;
+                    case 4:
+                        inv.permanents.push_back(ItemFactory::CreatePermanent(itemsubtype.permanent));
+                        break;
+                    default :
+                        break;
+                }
+            }
         }
-    }
-    
-    // weapons
-    in.read((char*)&sizeVec,sizeof(sizeVec));
-    inv.weapons.resize(sizeVec);
-    for(unsigned int i=0;i<sizeVec;++i)
-    {
-        int id;
-        int nb;
-        in.read((char*)&id,sizeof(id));
-        in.read((char*)&nb,sizeof(nb));
-        for(; nb>0; --nb)
+        if(itemType<3)
         {
-            ItemSubtype itemsubtype;
-            itemsubtype.id = id;
-            inv.weapons.push_back(ItemFactory::CreateWeapon(itemsubtype.weapon));
+            // TODO : manage enchantment 
         }
+        
     }
     
-    // TODO : continue with accessories, consumables, permanents ...
     
     return in;
 }

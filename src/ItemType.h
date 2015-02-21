@@ -34,6 +34,16 @@ enum PickUpType
     MANA
 };
 
+enum ConsumableType
+{
+    
+};
+
+enum PermanentType
+{
+    
+};
+
 struct ItemDesc
 {
 	ItemType type;
@@ -43,6 +53,8 @@ struct ItemDesc
 		ArmorType armor;
 		AccessoryType accessory;
 		PickUpType pickup;
+        ConsumableType consumable;
+        PermanentType permanent;
 	};
 };
 
@@ -53,6 +65,8 @@ union ItemSubtype
     ArmorType armor;
     AccessoryType accessory;
     PickUpType pickup;
+    ConsumableType consumable;
+    PermanentType permanent;
 };
 
 #endif // ITEMTYPE_H
