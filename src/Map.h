@@ -35,12 +35,14 @@ class Map : public sf::Drawable
 		void DrawCurrentLevel(sf::RenderTarget &target, sf::RenderStates states) const;
 
 		Level *GetCurrentLevel(void) const;
+		IdLevel GetCurrentLevelId(void) const;
 
 	private:
 		static void drawLevelDoors(Level *level, sf::RenderTarget &target, sf::RenderStates states);
 
 		std::vector<Level*> levels;
 		Level *currentLevel;
+		IdLevel currentLevelId;
 };
 
 #endif
