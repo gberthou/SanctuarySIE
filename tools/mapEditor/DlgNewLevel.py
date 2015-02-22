@@ -10,6 +10,9 @@ class DlgNewLevel(QDialog):
         self.ui = Ui_DlgNewLevel()
         self.ui.setupUi(self)
 
+    def GetName(self):
+        return self.ui.leLevelName.text()
+
     def GetValueWidth(self):
         return self.ui.sboxWidth.value()
 
