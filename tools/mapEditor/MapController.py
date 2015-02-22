@@ -10,5 +10,26 @@ class MapController:
         self.map.AddLevel(level)
 
         # Update view
-        self.rootItem.addChild(QTreeWidgetItem([level.name]))
+        item = QTreeWidgetItem([level.name])
+        itemPos = QTreeWidgetItem([level.GetPosText()])
+        itemSize = QTreeWidgetItem([level.GetSizeText()])
+        itemBgs = QTreeWidgetItem(["Backgrounds"])
+        itemCollision = QTreeWidgetItem([level.GetCollisionMapText()])
+        itemMobs = QTreeWidgetItem(["Mobs"])
+        itemItems = QTreeWidgetItem(["Items"])
+        itemDoors = QTreeWidgetItem(["Doors"])
+
+        for i,bg in enumerate(level.backgrounds):
+            it = QTreeWidgetItem(["[%d] %s"%(i, bg if bg != None else "Null")])
+            itemBgs.addChild(it)
+
+        item.addChild(itemPos)
+        item.addChild(itemSize)
+        item.addChild(itemBgs)
+        item.addChild(itemCollision)
+        item.addChild(itemMobs)
+        item.addChild(itemItems)
+        item.addChild(itemDoors)
+
+        self.rootItem.addChild(item)
 

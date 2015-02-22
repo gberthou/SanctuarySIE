@@ -8,6 +8,8 @@ import Map
 import Level
 import MapController
 
+import DlgNewLevel
+
 class MapEditor(QWidget):
     def __init__(self, parent = None):
         QWidget.__init__(self, parent)
@@ -52,9 +54,13 @@ class MapEditor(QWidget):
         self.controller = MapController.MapController(self.map, self.rootItem)
 
     def newLevel(self):
-        level = Level.Level("Sample", (0, 0), (1, 1))
-        self.controller.AddLevel(level)
-        self.rootItem.setExpanded(True)
+        dlg = DlgNewLevel.DlgNewLevel(self)
+        code = dlg.exec()
+
+        if code == 1: # "Ok" has been pressed
+            level = Level.Level("Sample", (0, 0), (dlg.GetValueWidth(), dlg.GetValueHeight()))
+            self.controller.AddLevel(level)
+            self.rootItem.setExpanded(True)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
