@@ -7,8 +7,9 @@ import sys
 import Map
 import Level
 import MapController
+from TreeItemContextual import *
 
-import DlgNewLevel
+from DlgNewLevel import *
 
 class MapEditor(QWidget):
     def __init__(self, parent = None):
@@ -28,7 +29,7 @@ class MapEditor(QWidget):
         self.projectTree.setContextMenuPolicy(Qt.CustomContextMenu)
         self.projectTree.setHeaderLabels(["Project view"])
 
-        self.rootItem = QTreeWidgetItem(self.projectTree, ["Map"])
+        self.rootItem = TreeItemContextual(self.projectTree, ["Map"])
         self.projectTree.addTopLevelItem(self.rootItem)
 
         self.projectTree.addAction(QAction("Sample", self.projectTree))
@@ -49,6 +50,7 @@ class MapEditor(QWidget):
         layout = QHBoxLayout()
         layout.addWidget(self.projectTree)
         layout.addWidget(self.tabView)
+        
 
         mainLayout = QVBoxLayout()
         mainLayout.addLayout(toolbarLayout)
@@ -61,22 +63,26 @@ class MapEditor(QWidget):
         self.actionNewLevel.triggered.connect(self.newLevel)
 
         self.map = Map.Map()
-        self.controller = MapController.MapController(self.map, self.rootItem)
+        self.controller = MapController.MapController(self, self.map, self.rootItem)
 
-    def onProjectCMenu(self):
+    def onProjectCMenu(self, pos):
         item = self.projectTree.currentItem()
+        if item.menu != None:
+            item.menu.exec(self.projectTree.mapToGlobal(pos))
 
     def onProjetCurrentItemChanged(self, current, previous):
         self.tabView.setTabEnabled(1, current != self.rootItem)
+        current.setExpanded(not current.isExpanded())
 
     def newLevel(self):
-        dlg = DlgNewLevel.DlgNewLevel(self)
+        dlg = DlgNewLevel(self)
         code = dlg.exec()
 
         if code == 1: # "Ok" has been pressed
             level = Level.Level(dlg.GetName(), (0, 0), (dlg.GetValueWidth(), dlg.GetValueHeight()))
             self.controller.AddLevel(level)
             self.rootItem.setExpanded(True)
+        
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

@@ -1,7 +1,12 @@
 from PyQt5.QtWidgets import *
 
+from DlgSetBg import *
+
+from TreeItemContextual import *
+
 class MapController:
-    def __init__(self, amap, rootItem):
+    def __init__(self, uiParent, amap, rootItem):
+        self.uiParent = uiParent
         self.map = amap
         self.rootItem = rootItem
 
@@ -10,26 +15,29 @@ class MapController:
         self.map.AddLevel(level)
 
         # Update view
-        item = QTreeWidgetItem([level.name])
-        itemPos = QTreeWidgetItem([level.GetPosText()])
-        itemSize = QTreeWidgetItem([level.GetSizeText()])
-        itemBgs = QTreeWidgetItem(["Backgrounds"])
-        itemCollision = QTreeWidgetItem([level.GetCollisionMapText()])
-        itemMobs = QTreeWidgetItem(["Mobs"])
-        itemItems = QTreeWidgetItem(["Items"])
-        itemDoors = QTreeWidgetItem(["Doors"])
+        item = LevelItem(self.rootItem, [level.name], level)
+        itemPos = TreeItemContextual(item, [level.GetPosText()])
+        itemSize = TreeItemContextual(item, [level.GetSizeText()])
+        itemBgs = TreeItemContextual(item, ["Backgrounds"])
+        itemCollision = TreeItemContextual(item, [level.GetCollisionMapText()])
+        itemMobs = TreeItemContextual(item, ["Mobs"])
+        itemItems = TreeItemContextual(item, ["Items"])
+        itemDoors = TreeItemContextual(item, ["Doors"])
 
         for i,bg in enumerate(level.backgrounds):
-            it = QTreeWidgetItem(["[%d] %s"%(i, bg if bg != None else "Null")])
-            itemBgs.addChild(it)
+            it = TreeItemContextual(itemBgs, ["[%d] %s"%(i, bg if bg != None else "Null")])
 
-        item.addChild(itemPos)
-        item.addChild(itemSize)
-        item.addChild(itemBgs)
-        item.addChild(itemCollision)
-        item.addChild(itemMobs)
-        item.addChild(itemItems)
-        item.addChild(itemDoors)
+        itemMenu = QMenu(self.uiParent)
+        actionSetBg = itemMenu.addAction("Set backgrounds")
 
-        self.rootItem.addChild(item)
+        item.SetMenu(itemMenu)
+
+        actionSetBg.triggered.connect(lambda: self.SetBgs(level))
+
+    def SetBgs(self, level):
+        dlg = DlgSetBg(self.uiParent)  
+        code = dlg.exec()
+
+        if code == 1: # "Ok" has been pressed
+            pass
 
