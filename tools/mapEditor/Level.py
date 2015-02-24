@@ -9,6 +9,9 @@ class Level:
         self.items = []
         self.doors = []
 
+    def SetBgs(self, bgs):
+        self.backgrounds = bgs
+
     def GetPosText(self):
         return "Pos: (%d, %d)" % self.pos
     def GetSizeText(self):

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file './ui/newlevel.ui'
 #
-# Created: Mon Feb 23 21:55:52 2015
+# Created: Tue Feb 24 19:47:14 2015
 #      by: PyQt5 UI code generator 5.4
 #
 # WARNING! All changes made in this file will be lost!

@@ -49,7 +49,11 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="leBg0"/>
+       <widget class="QLineEdit" name="leBg0">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QPushButton" name="btnBrowse0">
@@ -70,7 +74,11 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="leBg1"/>
+       <widget class="QLineEdit" name="leBg1">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QPushButton" name="btnBrowse1">
@@ -91,7 +99,11 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="leBg2"/>
+       <widget class="QLineEdit" name="leBg2">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QPushButton" name="btnBrowse2">
@@ -112,7 +124,11 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="leBg3"/>
+       <widget class="QLineEdit" name="leBg3">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QPushButton" name="btnBrowse3">

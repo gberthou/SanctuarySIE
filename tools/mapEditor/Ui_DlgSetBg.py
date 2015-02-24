@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file './ui/setbg.ui'
 #
-# Created: Mon Feb 23 21:55:52 2015
+# Created: Tue Feb 24 19:47:14 2015
 #      by: PyQt5 UI code generator 5.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -30,6 +30,7 @@ class Ui_DlgSetBg(object):
         self.label.setObjectName("label")
         self.horizontalLayout.addWidget(self.label)
         self.leBg0 = QtWidgets.QLineEdit(self.verticalLayoutWidget)
+        self.leBg0.setReadOnly(True)
         self.leBg0.setObjectName("leBg0")
         self.horizontalLayout.addWidget(self.leBg0)
         self.btnBrowse0 = QtWidgets.QPushButton(self.verticalLayoutWidget)
@@ -42,6 +43,7 @@ class Ui_DlgSetBg(object):
         self.label_2.setObjectName("label_2")
         self.horizontalLayout_2.addWidget(self.label_2)
         self.leBg1 = QtWidgets.QLineEdit(self.verticalLayoutWidget)
+        self.leBg1.setReadOnly(True)
         self.leBg1.setObjectName("leBg1")
         self.horizontalLayout_2.addWidget(self.leBg1)
         self.btnBrowse1 = QtWidgets.QPushButton(self.verticalLayoutWidget)
@@ -54,6 +56,7 @@ class Ui_DlgSetBg(object):
         self.label_3.setObjectName("label_3")
         self.horizontalLayout_3.addWidget(self.label_3)
         self.leBg2 = QtWidgets.QLineEdit(self.verticalLayoutWidget)
+        self.leBg2.setReadOnly(True)
         self.leBg2.setObjectName("leBg2")
         self.horizontalLayout_3.addWidget(self.leBg2)
         self.btnBrowse2 = QtWidgets.QPushButton(self.verticalLayoutWidget)
@@ -66,6 +69,7 @@ class Ui_DlgSetBg(object):
         self.label_4.setObjectName("label_4")
         self.horizontalLayout_4.addWidget(self.label_4)
         self.leBg3 = QtWidgets.QLineEdit(self.verticalLayoutWidget)
+        self.leBg3.setReadOnly(True)
         self.leBg3.setObjectName("leBg3")
         self.horizontalLayout_4.addWidget(self.leBg3)
         self.btnBrowse3 = QtWidgets.QPushButton(self.verticalLayoutWidget)
