@@ -3,11 +3,13 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 
 import sys
+import pickle # Object serialization
 
 import Map
 import Level
 import MapController
 from TreeItemContextual import *
+from MapView import *
 
 from DlgNewLevel import *
 
@@ -36,7 +38,7 @@ class MapEditor(QWidget):
         self.projectTree.customContextMenuRequested.connect(self.onProjectCMenu)
         self.projectTree.currentItemChanged.connect(self.onProjetCurrentItemChanged)
 
-        self.displayMapArea = QWidget()
+        self.displayMapArea = MapView()
         self.displayLevelArea = QWidget()
 
         self.tabView = QTabWidget()

@@ -1,3 +1,11 @@
 This folder contains the map editor.
 It was designed for Python 3.4.2 and uses PyQt5.
 
+How to rebuild the python code associated to the UI files?
+Simply run ./buildUi.sh
+
+How to run the editor?
+Simply run python main.py
+Make sure that python is bound to Python 3.4.2, otherwise you'll have to
+search for the right python binary.
+

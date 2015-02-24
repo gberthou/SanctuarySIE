@@ -1,6 +1,10 @@
 class Level:
     def __init__(self, name, pos, size):
+        # Editor attributes        
         self.name = name
+        self.id = 0
+
+        # Core attributes
         self.pos = pos
         self.size = size
         self.backgrounds = [None] * 4
@@ -8,6 +12,9 @@ class Level:
         self.mobs = []
         self.items = []
         self.doors = []
+
+    def SetId(self, id):
+        self.id = id
 
     def SetBgs(self, bgs):
         self.backgrounds = bgs

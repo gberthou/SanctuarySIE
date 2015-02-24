@@ -35,7 +35,7 @@ class LevelItem(TreeItemContextual):
         self.level = level
 
     def setBgs(self):
-        dlg = DlgSetBg()  
+        dlg = DlgSetBg(None, self.level.backgrounds)  
         code = dlg.exec()
 
         if code == 1: # "Ok" has been pressed
