@@ -13,8 +13,8 @@ class TreeItemContextual(QTreeWidgetItem):
         self.menu = menu
 
 class LevelItem(TreeItemContextual):
-    def __init__(self, parent, strings, level):
-        TreeItemContextual.__init__(self, parent, strings)
+    def __init__(self, parent, level):
+        TreeItemContextual.__init__(self, parent, ["%d - %s"%(level.id, level.name)])
         self.level = level
         self.itemPos = TreeItemContextual(self, [level.GetPosText()])
         self.itemSize = TreeItemContextual(self, [level.GetSizeText()])

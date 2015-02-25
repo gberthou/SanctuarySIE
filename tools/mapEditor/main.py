@@ -17,6 +17,8 @@ class MapEditor(QWidget):
     def __init__(self, parent = None):
         QWidget.__init__(self, parent)
 
+        self.map = Map.Map()
+
         toolbar = QToolBar()
         self.actionNewMap = toolbar.addAction("New Map")
         self.actionOpenMap = toolbar.addAction("Open Map")
@@ -38,7 +40,7 @@ class MapEditor(QWidget):
         self.projectTree.customContextMenuRequested.connect(self.onProjectCMenu)
         self.projectTree.currentItemChanged.connect(self.onProjetCurrentItemChanged)
 
-        self.displayMapArea = MapView()
+        self.displayMapArea = MapView(self.map)
         self.displayLevelArea = QWidget()
 
         self.tabView = QTabWidget()
@@ -64,7 +66,6 @@ class MapEditor(QWidget):
 
         self.actionNewLevel.triggered.connect(self.newLevel)
 
-        self.map = Map.Map()
         self.controller = MapController.MapController(self, self.map, self.rootItem)
 
     def onProjectCMenu(self, pos):
@@ -84,6 +85,9 @@ class MapEditor(QWidget):
             level = Level.Level(dlg.GetName(), (0, 0), (dlg.GetValueWidth(), dlg.GetValueHeight()))
             self.controller.AddLevel(level)
             self.rootItem.setExpanded(True)
+
+            self.displayMapArea.SetSelectedLevel(level)
+            self.displayMapArea.Update()
         
 
 if __name__ == '__main__':

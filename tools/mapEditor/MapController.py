@@ -13,7 +13,7 @@ class MapController:
         self.map.AddLevel(level)
 
         # Update view
-        item = LevelItem(self.rootItem, [level.name], level)
+        item = LevelItem(self.rootItem, level)
 
         
             

@@ -19,6 +19,9 @@ class Level:
     def SetBgs(self, bgs):
         self.backgrounds = bgs
 
+    def SetPos(self, pos):
+        self.pos = pos
+
     def GetPosText(self):
         return "Pos: (%d, %d)" % self.pos
     def GetSizeText(self):
