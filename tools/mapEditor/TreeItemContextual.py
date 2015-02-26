@@ -34,6 +34,10 @@ class LevelItem(TreeItemContextual):
     def SetLevel(self, menu):
         self.level = level
 
+    def SetPos(self, pos):
+        self.level.SetPos(pos)
+        self.itemPos.setText(0, self.level.GetPosText())
+
     def setBgs(self):
         dlg = DlgSetBg(None, self.level.backgrounds)  
         code = dlg.exec()

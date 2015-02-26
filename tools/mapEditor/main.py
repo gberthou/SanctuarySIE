@@ -40,7 +40,9 @@ class MapEditor(QWidget):
         self.projectTree.customContextMenuRequested.connect(self.onProjectCMenu)
         self.projectTree.currentItemChanged.connect(self.onProjetCurrentItemChanged)
 
-        self.displayMapArea = MapView(self.map)
+        self.controller = MapController.MapController(self, self.map, self.rootItem)
+
+        self.displayMapArea = MapView(self.controller)
         self.displayLevelArea = QWidget()
 
         self.tabView = QTabWidget()
@@ -65,8 +67,6 @@ class MapEditor(QWidget):
         self.resize(800, 600)
 
         self.actionNewLevel.triggered.connect(self.newLevel)
-
-        self.controller = MapController.MapController(self, self.map, self.rootItem)
 
     def onProjectCMenu(self, pos):
         item = self.projectTree.currentItem()

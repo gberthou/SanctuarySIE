@@ -12,10 +12,10 @@ class LevelCell(QTableWidgetItem):
         self.level = level
 
 class MapView(QWidget):
-    def __init__(self, amap, parent = None):
+    def __init__(self, mapController, parent = None):
         QWidget.__init__(self, parent)
 
-        self.map = amap
+        self.mapController = mapController
         self.selectedLevel = None
 
         self.lblSelected = QLabel();
@@ -52,7 +52,7 @@ class MapView(QWidget):
 
         # Update table
         self.table.clearContents()
-        for level in self.map.levels:
+        for level in self.mapController.map.levels:
             for x in range(level.size[0]):
                 for y in range(level.size[1]):
                     px = level.pos[0] + x
@@ -69,7 +69,7 @@ class MapView(QWidget):
     def onCellClicked(self, row, column):
         # If a level is selected, move it
         if self.selectedLevel != None:
-            self.selectedLevel.SetPos((column, row))
+            self.mapController.SetPos(self.selectedLevel.id, (column, row))
             self.selectedLevel = None
             self.Update()
         # Else, select the level in the cell

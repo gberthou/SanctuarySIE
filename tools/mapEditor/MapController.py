@@ -7,14 +7,18 @@ class MapController:
         self.uiParent = uiParent
         self.map = amap
         self.rootItem = rootItem
+        self.items = {}
 
     def AddLevel(self, level):
         # Update model
         self.map.AddLevel(level)
 
         # Update view
-        item = LevelItem(self.rootItem, level)
+        self.items[level.id] = LevelItem(self.rootItem, level)
 
-        
-            
+    def SetPos(self, levelId, pos):
+        try:
+            self.items[levelId].SetPos(pos)
+        except KeyError:
+            pass
 
