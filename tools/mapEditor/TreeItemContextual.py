@@ -13,9 +13,10 @@ class TreeItemContextual(QTreeWidgetItem):
         self.menu = menu
 
 class LevelItem(TreeItemContextual):
-    def __init__(self, parent, level):
+    def __init__(self, parent, level, options):
         TreeItemContextual.__init__(self, parent, ["%d - %s"%(level.id, level.name)])
         self.level = level
+        self.options = options
         self.itemPos = TreeItemContextual(self, [level.GetPosText()])
         self.itemSize = TreeItemContextual(self, [level.GetSizeText()])
         self.itemBgs = BackgroundsItem(self, ["Backgrounds"], level)
@@ -39,7 +40,7 @@ class LevelItem(TreeItemContextual):
         self.itemPos.setText(0, self.level.GetPosText())
 
     def setBgs(self):
-        dlg = DlgSetBg(None, self.level.backgrounds)  
+        dlg = DlgSetBg(None, self.level.backgrounds, self.options.resourceRoot)  
         code = dlg.exec()
 
         if code == 1: # "Ok" has been pressed

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file './ui/setbg.ui'
 #
-# Created: Tue Feb 24 19:47:14 2015
+# Created: Fri Feb 27 09:52:07 2015
 #      by: PyQt5 UI code generator 5.4
 #
 # WARNING! All changes made in this file will be lost!

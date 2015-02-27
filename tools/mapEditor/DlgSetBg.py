@@ -1,11 +1,30 @@
+import pathlib
+
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 
 from Ui_DlgSetBg import *
 
+"""
+def getRelativePath(a, b):
+    parentsA = a.parents
+    parentsB = b.parents
+
+    for i in range(min(len(parentsA), len(parentsB))):
+        if parentsA[i] == parentsB[i]:
+            ret = pathlib.PurePath("./") if i == 0 else pathlib.PurePath(("../")*i)
+            j = len(b.parts) - 1 - i
+            print(j)
+            print(len(b.parts))
+            while j < len(b.parts):
+                ret = ret.joinpath(b.parts[j])
+                j += 1
+            return ret
+"""
+
 class DlgSetBg(QDialog):
-    def __init__(self, parent, bgs):
+    def __init__(self, parent, bgs, resourcePath):
         QDialog.__init__(self, parent)
         self.ui = Ui_DlgSetBg()
         self.ui.setupUi(self)
@@ -15,6 +34,8 @@ class DlgSetBg(QDialog):
         self.bgs=bgs
         for i in range(4):
             self.fields[i].setText("" if bgs[i] == None else bgs[i])
+
+        self.resourcePath = resourcePath
 
     def bindEvents(self):
         self.ui.btnBrowse0.clicked.connect(lambda: self.browseBg(0))
@@ -27,8 +48,15 @@ class DlgSetBg(QDialog):
         code = dlg.exec()
 
         if code == 1: # "Ok" has been pressed
-            self.bgs[i] = dlg.selectedFiles()[0]
-            self.fields[i].setText(self.bgs[i])
+            absPath = pathlib.PurePath(dlg.selectedFiles()[0])
+            """absResourcePath = pathlib.PurePath(self.resourcePath)
+            print(getRelativePath(absPath, absResourcePath))"""
+            try:
+                path = absPath.relative_to(self.resourcePath)
+                self.bgs[i] = str(path)
+                self.fields[i].setText(self.bgs[i])
+            except ValueError:
+                print("The resource must be child of the given resource root path.\nCheck your options.")
 
     def GetBgs(self):
         return self.bgs

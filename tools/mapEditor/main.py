@@ -4,6 +4,9 @@ from PyQt5.QtGui import *
 
 import sys
 import pickle # Object serialization
+import copy
+
+from Options import *
 
 import Map
 import Level
@@ -12,10 +15,16 @@ from TreeItemContextual import *
 from MapView import *
 
 from DlgNewLevel import *
+from DlgOptions import *
+
+CONFIG_FILE = "config.ini"
 
 class MapEditor(QWidget):
     def __init__(self, parent = None):
         QWidget.__init__(self, parent)
+
+        self.options = Options()
+        self.options.Load(CONFIG_FILE)
 
         self.map = Map.Map()
 
@@ -27,6 +36,7 @@ class MapEditor(QWidget):
         self.actionAddMob = toolbar.addAction("Add Mob")
         self.actionAddItem = toolbar.addAction("Add Item")
         self.actionAddDoor = toolbar.addAction("Add Door")
+        self.actionOptions = toolbar.addAction("Options")
 
         self.projectTree = QTreeWidget()
         self.projectTree.setColumnCount(1)
@@ -40,7 +50,7 @@ class MapEditor(QWidget):
         self.projectTree.customContextMenuRequested.connect(self.onProjectCMenu)
         self.projectTree.currentItemChanged.connect(self.onProjetCurrentItemChanged)
 
-        self.controller = MapController.MapController(self, self.map, self.rootItem)
+        self.controller = MapController.MapController(self, self.options, self.map, self.rootItem)
 
         self.displayMapArea = MapView(self.controller)
         self.displayLevelArea = QWidget()
@@ -67,6 +77,7 @@ class MapEditor(QWidget):
         self.resize(800, 600)
 
         self.actionNewLevel.triggered.connect(self.newLevel)
+        self.actionOptions.triggered.connect(self.optionMenu)
 
     def onProjectCMenu(self, pos):
         item = self.projectTree.currentItem()
@@ -88,7 +99,15 @@ class MapEditor(QWidget):
 
             self.displayMapArea.SetSelectedLevel(level)
             self.displayMapArea.Update()
-        
+
+    def optionMenu(self):
+        newOptions = copy.copy(self.options)
+        dlg = DlgOptions(self, newOptions)
+        code = dlg.exec()
+
+        if code == 1: # "Ok" has been pressed
+            self.options = newOptions
+            self.options.Save(CONFIG_FILE)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
