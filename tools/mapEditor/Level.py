@@ -19,6 +19,9 @@ class Level:
     def SetBgs(self, bgs):
         self.backgrounds = bgs
 
+    def SetCollisionMap(self, colmap):
+        self.collisionMap = colmap
+
     def SetPos(self, pos):
         self.pos = pos
 

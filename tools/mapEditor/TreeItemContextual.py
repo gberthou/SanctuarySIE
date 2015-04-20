@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 
 from DlgSetBg import *
+from DlgSetColMap import *
 
 class TreeItemContextual(QTreeWidgetItem):
     def __init__(self, parent, strings):
@@ -27,10 +28,12 @@ class LevelItem(TreeItemContextual):
 
         itemMenu = QMenu()
         actionSetBg = itemMenu.addAction("Set backgrounds")
+        actionSetColMap = itemMenu.addAction("Set collision map")
 
         self.SetMenu(itemMenu)
 
         actionSetBg.triggered.connect(self.setBgs)
+        actionSetColMap.triggered.connect(self.setColMap)
 
     def SetLevel(self, menu):
         self.level = level
@@ -46,6 +49,14 @@ class LevelItem(TreeItemContextual):
         if code == 1: # "Ok" has been pressed
             self.level.SetBgs(dlg.GetBgs())
             self.itemBgs.updateItems()
+
+    def setColMap(self):
+        dlg = DlgSetColMap(None, self.level.collisionMap, self.options.resourceRoot)  
+        code = dlg.exec()
+
+        if code == 1: # "Ok" has been pressed
+            self.level.SetCollisionMap(dlg.GetColmap())
+            self.itemCollision.setText(0, self.level.GetCollisionMapText())
 
 class BackgroundsItem(TreeItemContextual):
     def __init__(self, parent, strings, level):

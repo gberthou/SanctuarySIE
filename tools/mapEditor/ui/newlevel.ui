@@ -98,9 +98,6 @@
     </item>
    </layout>
   </widget>
-  <zorder></zorder>
-  <zorder>verticalLayoutWidget_2</zorder>
-  <zorder>verticalLayoutWidget</zorder>
  </widget>
  <resources/>
  <connections>

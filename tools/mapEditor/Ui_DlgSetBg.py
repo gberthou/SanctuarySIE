@@ -2,8 +2,7 @@
 
 # Form implementation generated from reading ui file './ui/setbg.ui'
 #
-# Created: Fri Feb 27 09:52:07 2015
-#      by: PyQt5 UI code generator 5.4
+# Created by: PyQt5 UI code generator 5.4.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -84,7 +83,7 @@ class Ui_DlgSetBg(object):
 
     def retranslateUi(self, DlgSetBg):
         _translate = QtCore.QCoreApplication.translate
-        DlgSetBg.setWindowTitle(_translate("DlgSetBg", "Dialog"))
+        DlgSetBg.setWindowTitle(_translate("DlgSetBg", "Set backgrounds"))
         self.label.setText(_translate("DlgSetBg", "Background[0]:"))
         self.btnBrowse0.setText(_translate("DlgSetBg", "Browse..."))
         self.label_2.setText(_translate("DlgSetBg", "Background[1]:"))
